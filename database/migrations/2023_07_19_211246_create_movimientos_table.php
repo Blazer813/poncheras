@@ -19,8 +19,8 @@ return new class extends Migration
             $table->integer('valordeuda')->comment('Valor de la Deuda');
             $table->integer('valorabono')->comment('Valor del Abono');
             $table->date('fcpago')->comment('Fecha del Pago');
-            $table->text('detanulacion')->comment('Detalle de la Anulacion');
-            $table->date('fcanulacion')->comment('Fecha de la anulacion');
+            $table->text('detanulacion')->nullable()->comment('Detalle de la Anulacion');
+            $table->date('fcanulacion')->nullable()->comment('Fecha de la anulacion');
             $table->timestamps();
         });
 
