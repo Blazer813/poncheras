@@ -7,6 +7,11 @@
     <title>Document</title>
 </head>
 <body>
-    <example-component></example-component>
+    <div id="app">
+        <example-component></example-component>
+    </div>
+    
+
+    @vite('resources/js/app.js')
 </body>
 </html>

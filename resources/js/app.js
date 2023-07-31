@@ -18,6 +18,10 @@ const app = createApp({});
 import ExampleComponent from './components/ExampleComponent.vue';
 app.component('example-component', ExampleComponent);
 
+
+
+import ExampleComponent2 from './components/ExampleComponent2.vue';
+app.component('example-component2', ExampleComponent2);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
