@@ -17,6 +17,11 @@
     },
     "dependencies": {
         "@vitejs/plugin-vue": "^4.2.3",
+        "datatables.net-autofill-bs4": "^2.6.0",
+        "datatables.net-bs4": "^1.13.6",
+        "datatables.net-buttons-bs4": "^2.4.1",
+        "jszip": "^3.10.1",
+        "pdfmake": "^0.2.7",
         "vue": "^3.2.36",
         "vue-loader": "^17.0.1"
     }

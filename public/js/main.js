@@ -1,3 +1,5 @@
+alert('Aca estoy entrando');
+
 (function () {
 	"use strict";
 
