@@ -146,7 +146,7 @@
           </div>
         </div>
       </div>
-      @vite('resources/js/app.js');
+      @vite('resources/js/app.js')
     </main>
     <!-- Essential javascripts for application to work-->
     <script src="js/jquery-3.7.0.min.js"></script>
