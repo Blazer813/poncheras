@@ -17,8 +17,11 @@
                 </div>
                 <div class="row mb-2">
                   <div class="col">
-                    <label class="form-label">Tipo de ponchera</label>
-                    <input class="form-control" v-model="data.idponches" type="" placeholder="Seleccione el tipo de ponchera">
+                    <label class="form-label">Tipo Ponchera</label>
+                    <select class="form-select" v-model="data.idponches" id="floatingSelect" aria-label="Floating label select example">
+                      <option selected value="">Seleccione un tipo de ponchera</option>
+                      <option v-for="Tponches in all.tponches" :value="Tponches.idponches" :key="Tponches.idponches">{{ Tponches.nombreponche }}</option>
+                    </select>
                   </div>
                   <div class="col">
                     <label class="form-label">Descripción</label>
@@ -51,6 +54,7 @@
                       <option v-for="estado in all.estados" :value="estado.idestado" :key="estado.id">{{ estado.nomestado }}</option>
                     </select>
                   </div>
+                 
                 </div>
                 <div v-if="data.idestado == 2 " class="row mb-2" >
                   <div class="col">
@@ -121,6 +125,7 @@ export default{
   },
 
   created(){
+    this.consultaTPonches();
     this.consultaEstados();
     this.consultaMovimiento(this.idmovimiento);
   },
@@ -132,6 +137,15 @@ export default{
         .then(response => {
             response = response.data;
             this.all.estados = response;
+        });
+    },
+
+    consultaTPonches(){
+      axios
+        .get('/v1/tiposPoncheras/@')
+        .then(response => {
+            response = response.data;
+            this.all.tponches = response;
         });
     },
     consultaMovimiento(id){

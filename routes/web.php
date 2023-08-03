@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MovimientosController as Movimientos_v1;
 use App\Http\Controllers\VistasController as Vistas_v1;
 use App\Http\Controllers\EstadosController as Estados_v1;
+use App\Http\Controllers\TipoPonchesController as Tponches_v1; 
 
 
 /*
@@ -31,7 +32,9 @@ Route::middleware('auth')->group(function () {
 Route::prefix('v1')->group(function(){
     Route::apiResources([
         'movimientos' => Movimientos_v1::class,
-        'estados' => Estados_v1::class
+        'estados' => Estados_v1::class,
+        'tiposPoncheras' => Tponches_v1::class,
+        
     ]);
 });
 
