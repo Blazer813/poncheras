@@ -9,6 +9,24 @@ class movimiento extends Model
 {
     use HasFactory;
 
+    protected $table = 'movimientos';
+    protected $primaryKey = 'idmovimiento';
+    protected $fillable = [
+        'fcmovimiento',
+        'idcolaborador',
+        'id',
+        'descripcion',
+        'evidencia',
+        'idponches',
+        'valordeuda',
+        'valorabono',
+        'idestadopago',
+        'fcpago',
+        'idestado',
+        'detanulacion',
+        'fcanulacion',
+    ]; 
+    
     /**
  * Get the user that owns the phone.
  */

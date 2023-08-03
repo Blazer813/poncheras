@@ -29,12 +29,13 @@ class MovimientosController extends Controller
      */
     public function store(Request $request)
     {
+        $user = auth()->user();
         $response = [];
         try {
             $nuevoMovimiento = new movimiento();
             $nuevoMovimiento->fcmovimiento = $request->fcmovimiento;
             $nuevoMovimiento->idcolaborador = $request->idcolaborador;
-            $nuevoMovimiento->id = $request->id;
+            $nuevoMovimiento->id = $user->id;
             $nuevoMovimiento->descripcion = $request->descripcion;
             $nuevoMovimiento->evidencia = $request->evidencia;
             $nuevoMovimiento->idponches = $request->idponches;
@@ -69,7 +70,6 @@ class MovimientosController extends Controller
     public function show(string $id)
     {
         $response = [];
-        
         $selectCampos = [
             'idmovimiento',
             'fcmovimiento',
@@ -128,7 +128,6 @@ class MovimientosController extends Controller
                 $movimientos = movimiento::select($selectCampos)->where('idmovimiento', $id)->with($relacionMovimientos)->first();
                 $coleccionMovimientos = collect([
                     [
-                        
                         'idmovimiento' => $movimientos->idmovimiento,
                         'fcmovimiento' => $movimientos->fcmovimiento,
                         'colaborador' => $movimientos->colaborador,
@@ -163,7 +162,37 @@ class MovimientosController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $response = [];
+        try {
+            $actualizarMovimiento = movimiento::findOrFail($id);
+            $actualizarMovimiento->fcmovimiento = $request->fcmovimiento;
+            $actualizarMovimiento->idcolaborador = $request->idcolaborador;
+            $actualizarMovimiento->id = $request->id;
+            $actualizarMovimiento->descripcion = $request->descripcion;
+            $actualizarMovimiento->evidencia = $request->evidencia;
+            $actualizarMovimiento->idponches = $request->idponches;
+            $actualizarMovimiento->valordeuda = $request->valordeuda;
+            $actualizarMovimiento->valorabono = $request->valorabono;
+            $actualizarMovimiento->idestadopago = $request->idestadopago;
+            $actualizarMovimiento->fcpago = $request->fcpago;
+            $actualizarMovimiento->idestado = $request->idestado;
+            $actualizarMovimiento->detanulacion = $request->detanulacion;
+            $actualizarMovimiento->fcanulacion = $request->fcanulacion;
+
+            if(!$actualizarMovimiento->update()){
+                throw new Exception("Error al actualizar el movimiento", 101);
+            }
+            $response['type'] = 'Success';
+            $response['title'] = 'Actualización del movimiento';
+            $response['msg'] = 'Se actualizo el movimiento con exito';
+        } catch (Exception $e) {
+            $response['Linea'] = $e->getLine();
+            $response['archivo'] = $e->getFile();
+            $response['type'] = 'error';
+            $response['title'] = 'Error al actualizar el movimiento';
+            $response['error_code'] = $e->getCode();
+            $response['msg'] = $e->getMessage();
+        }
     }
 
     /**
@@ -171,6 +200,22 @@ class MovimientosController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $response = [];
+        try {
+            $movimiento = movimiento::findOrFail($id);
+            if(!$movimiento->delete()){
+                throw new Exception("Error al eliminar el movimiento", 101);
+            };
+            $response['type'] = 'Success';
+            $response['title'] = 'ELiminar movimiento';
+            $response['msg'] = 'Se elimino el movimiento con exito';
+        } catch (Exception $e) {
+            $response['Linea'] = $e->getLine();
+            $response['archivo'] = $e->getFile();
+            $response['type'] = 'error';
+            $response['title'] = 'Error al eliminar el movimiento';
+            $response['error_code'] = $e->getCode();
+            $response['msg'] = $e->getMessage();
+        }
     }
 }

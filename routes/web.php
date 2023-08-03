@@ -3,6 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MovimientosController as Movimientos_v1;
+use App\Http\Controllers\VistasController as Vistas_v1;
+use App\Http\Controllers\EstadosController as Estados_v1;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,14 +17,6 @@ use App\Http\Controllers\MovimientosController as Movimientos_v1;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/prueba', function () {
-    return view('prueba');
-});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -35,8 +30,14 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('v1')->group(function(){
     Route::apiResources([
-        'movimientos' => Movimientos_v1::class
+        'movimientos' => Movimientos_v1::class,
+        'estados' => Estados_v1::class
     ]);
+});
+
+Route::prefix('movimiento')->group(function(){
+    Route::view('/','poncheras.movimientos.listar');
+    Route::get('/{event}/{id?}', [Vistas_v1::class, 'viewMovimiento']);
 });
 
 require __DIR__.'/auth.php';

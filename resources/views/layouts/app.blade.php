@@ -18,9 +18,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Main CSS-->
-    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    @yield('styles')
   </head>
   <body class="app sidebar-mini">
     <!-- Navbar-->
@@ -116,9 +117,7 @@
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="blank-page.html"><i class="icon bi bi-circle-fill"></i> Blank Page</a></li>
             <li><a class="treeview-item" href="page-login.html"><i class="icon bi bi-circle-fill"></i> Login Page</a></li>
-            <li><a class="treeview-item" href="page-lockscreen.html"><i class="icon bi bi-circle-fill"></i> Lockscreen Page</a></li>
-            <li><a class="treeview-item" href="page-user.html"><i class="icon bi bi-circle-fill"></i> User Page</a></li>
-            <li><a class="treeview-item" href="page-invoice.html"><i class="icon bi bi-circle-fill"></i> Invoice Page</a></li>
+            <li><a class="treedashboardeview-item" href="page-invoice.html"><i class="icon bi bi-circle-fill"></i> Invoice Page</a></li>
             <li><a class="treeview-item" href="page-mailbox.html"><i class="icon bi bi-circle-fill"></i> Mailbox</a></li>
             <li><a class="treeview-item" href="page-error.html"><i class="icon bi bi-circle-fill"></i> Error Page</a></li>
           </ul>
@@ -149,11 +148,11 @@
       @vite('resources/js/app.js')
     </main>
     <!-- Essential javascripts for application to work-->
-    <script src="js/jquery-3.7.0.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="{{ asset('js/jquery-3.7.0.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
     <!-- Page specific javascripts-->
-    <script type="text/javascript" src="js/plugins/chart.js"></script>
+    <script type="text/javascript" src="{{ asset('js/plugins/chart.js') }}"></script>
     <script type="text/javascript">
       const salesData = {
       	type: "line",
@@ -214,5 +213,6 @@
       	ga('send', 'pageview');
       }
     </script>
+    @yield('js')
   </body>
 </html>
