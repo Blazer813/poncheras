@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class estadoPago extends Model
 {
     use HasFactory;
+
+    protected $table = 'estado_pagos';
+    protected $primaryKey = 'idestadopago';
+    protected $fillable = [
+        'nomestado',
+    ]; 
 }

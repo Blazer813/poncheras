@@ -12,4 +12,16 @@ class vistasController extends Controller
             'evento' => $event
         ]);
     }
+    public function viewColaborador($event, $id = ''){
+        return view('poncheras.colaborador.nuevo', [
+            'idcolaborador' => $id,
+            'evento' => $event
+        ]);
+    }
+    public function viewEstadoPago($event, $id = ''){
+        return view('poncheras.estadopago.nuevo', [
+            'idestadopago' => $id,
+            'evento' => $event
+        ]);
+    }
 }

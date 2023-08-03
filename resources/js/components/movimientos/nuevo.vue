@@ -12,7 +12,9 @@
                   </div>
                   <div class="col">
                     <label class="form-label">Colaborador</label>
-                    <input class="form-control" v-model="data.idcolaborador" type="" placeholder="Ingrese el colaborador">
+                    <select class="form-select" v-model="data.idcolaborador" id="floatingSelect" aria-label="Floating label select example">
+                      <option v-for="colaborador in all.colaboradores" :value="colaborador.idcolaborador" :key="colaborador.id">{{ colaborador.nombrecompleto }}</option>
+                    </select>
                   </div>
                 </div>
                 <div class="row mb-2">
@@ -64,8 +66,10 @@
                 </div>
                 <div class="row mb-2">
                   <div class="col">
-                    <label class="form-label">Estado del pago</label>
-                    <input class="form-control" v-mode="data.idestadopago" type="select" placeholder="Seleccione el estado del pago">
+                    <label class="form-label">Estado Pago</label>
+                    <select class="form-select" v-model="data.idestadopago" id="floatingSelect" aria-label="Floating label select example">
+                      <option v-for="estadopago in all.estadospago" :value="estadopago.idestadopago" :key="estadopago.id">{{ estadopago.nomestado }}</option>
+                    </select>
                   </div>
                 </div>
               </form>
@@ -91,7 +95,7 @@ export default{
         idponches:'',
         valordeuda:'',
         valorabono:'',
-        idestadopago:'',
+        idestadopago: 2,
         fcpago:'',
         idestado:'',
         detanulacion:'',
@@ -123,6 +127,8 @@ export default{
   created(){
     this.consultaEstados();
     this.consultaMovimiento(this.idmovimiento);
+    this.consultaColaborador();
+    this.consultaEstadoPago();
   },
 
   methods: {
@@ -141,6 +147,7 @@ export default{
         .then(response => {
             response = response.data[0];
             this.data.fcmovimiento = response.fcmovimiento;
+            this.data.idcolaborador = response.colaborador.idcolaborador;
             this.data.descripcion = response.descripcion;
             this.data.valordeuda = response.valordeuda;
             this.data.valorabono = response.valorabono;
@@ -148,11 +155,28 @@ export default{
             this.data.idestado = response.estado.idestado;
             this.data.fcanulacion = response.fcanulacion;
             this.data.detanulacion = response.detanulacion;
-            this.data.idestadopago = response.idestadopago;
+            this.data.idestadopago = response.estadopago.idestadopago;
         });
 
       }
+    },
+    consultaColaborador(){
+      axios
+        .get('/v1/colaborador/@')
+        .then(response => {
+            response = response.data;
+            this.all.colaboradores = response;
+        });
+    },
+    consultaEstadoPago(){
+      axios
+        .get('/v1/estadopago/@')
+        .then(response => {
+            response = response.data;
+            this.all.estadospago = response;
+        });
     }
+    
   }
 }
     

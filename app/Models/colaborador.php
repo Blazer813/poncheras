@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class colaborador extends Model
 {
     use HasFactory;
+
+    protected $table = 'colaboradors';
+    protected $primaryKey = 'idcolaborador';
+    protected $fillable = [
+        'nombrecompleto',
+        'telefono',
+        'correo',
+        'fcnacimiento',
+    ]; 
 }
