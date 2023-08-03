@@ -7,6 +7,7 @@ use App\Http\Controllers\VistasController as Vistas_v1;
 use App\Http\Controllers\EstadosController as Estados_v1;
 use App\Http\Controllers\ColaboradoresController as Colaborador_v1;
 use App\Http\Controllers\EstadoPagosController as EstadoPago_v1;
+use App\Http\Controllers\TipoPonchesController as Tponches_v1; 
 
 
 /*
@@ -36,6 +37,8 @@ Route::prefix('v1')->group(function(){
         'estados' => Estados_v1::class,
         'colaborador' => Colaborador_v1::class,
         'estadopago' => EstadoPago_v1::class,
+        'tiposPoncheras' => Tponches_v1::class,
+        
     ]);
 });
 
