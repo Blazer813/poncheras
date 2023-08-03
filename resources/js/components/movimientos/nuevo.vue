@@ -95,7 +95,7 @@ export default{
         fcmovimiento: '',
         idcolaborador:'',
         descripcion:'',
-        evidencia:'',
+        evidencia: null,
         idponches:'',
         valordeuda:'',
         valorabono:'',
@@ -154,6 +154,7 @@ export default{
             this.all.tponches = response;
         });
     },
+
     consultaMovimiento(id){
       if(id != ''){
         axios
@@ -174,6 +175,7 @@ export default{
 
       }
     },
+
     consultaColaborador(){
       axios
         .get('/v1/colaborador/@')
@@ -182,6 +184,7 @@ export default{
             this.all.colaboradores = response;
         });
     },
+
     consultaEstadoPago(){
       axios
         .get('/v1/estadopago/@')
@@ -189,8 +192,36 @@ export default{
             response = response.data;
             this.all.estadospago = response;
         });
+    },
+
+    funcFormData(data){
+      const formData = new formData();
+      if(this.idmovimiento != ''){
+        formData.append('_method', 'put')
+      }
+      formData.append("fcmovimiento", data.fcmovimiento)
+      formData.append("idcolaborador", data.idcolaborador)
+      formData.append("descripcion", data.descripcion)
+      if(data.evidencia != null){
+        formData.append("evidencia", data.evidencia)
+      }
+      formData.append("idponches", data.idponches)
+      formData.append("valordeuda", data.valordeuda)
+      formData.append("valorabono", data.valorabono)
+      formData.append("idestadopago", data.idestadopago)
+      formData.append("fcpago", data.fcpago)
+      formData.append("idestado", data.idestado)
+      formData.append("detanulacion", data.detanulacion)
+      formData.append("fcanulacion", data.fcanulacion)
+      
+      return formData;
+    }, 
+
+    guardarDatos(){
+      let movimiento = this.funcFormData(this.data)
+      axios
+        .post("/v1/movimientos", movimiento,{ headers: { "Content-Type": "multipart/form-data", }, } )
     }
-    
   }
 }
     
