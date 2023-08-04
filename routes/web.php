@@ -57,4 +57,10 @@ Route::prefix('estadopago')->group(function(){
     Route::get('/{event}/{id?}', [Vistas_v1::class, 'vieEstadoPago']);
 });
 
+Route::prefix('estados')->group(function(){
+    Route::view('/','poncheras.estados.listar');
+    Route::get('/{event}/{id?}',[vistas_v1::class, 'viewEstado']);
+
+});
+
 require __DIR__.'/auth.php';

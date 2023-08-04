@@ -24,4 +24,10 @@ class vistasController extends Controller
             'evento' => $event
         ]);
     }
-}
+    public function viewEstado($event, $id = ''){
+        return view('poncheras.estados.nuevo', [
+            'idestado' => $id,
+            'evento' => $event
+        ]);
+    }
+}            
