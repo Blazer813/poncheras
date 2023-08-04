@@ -23,6 +23,9 @@ app.component('example-component', ExampleComponent);
 import NuevoMovimiento from './components/movimientos/nuevo.vue';
 app.component('nuevo-movimiento-comoponent', NuevoMovimiento);
 
+import ListarMovimiento from './components/movimientos/listar.vue';
+app.component('listar-movimiento-component', ListarMovimiento);
+
 
 
 

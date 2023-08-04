@@ -24,12 +24,12 @@ return new class extends Migration
             $table->integer('idestadopago')->after('valorabono')->comment('Llave Forane de Estado de Pago');
             $table->foreign('idestadopago')->references('idestadopago')->on('estado_pagos');
 
-            $table->integer('iduser')->after('idcolaborador')->comment('Llave Foranea del Causante');
-            $table->foreign('iduser')->references('iduser')->on('users');
+            $table->integer('id')->after('idcolaborador')->comment('Llave Foranea del Causante');
+            $table->foreign('id')->references('id')->on('users');
         });
 
         Schema::table('users', function (Blueprint $table){
-            $table->integer('idcolaborador')->nullable()->after('iduser')->comment('Llave Foranea de Colaborador');
+            $table->integer('idcolaborador')->nullable()->after('id')->comment('Llave Foranea de Colaborador');
             $table->foreign('idcolaborador')->references('idcolaborador')->on('colaboradors');
         });
     }
