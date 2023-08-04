@@ -37,7 +37,7 @@ class MovimientosController extends Controller
             $nuevoMovimiento->idcolaborador = $request->idcolaborador;
             $nuevoMovimiento->id = $user->id;
             $nuevoMovimiento->descripcion = $request->descripcion;
-            $nuevoMovimiento->evidencia = $request->evidencia;
+
             $nuevoMovimiento->idponches = $request->idponches;
             $nuevoMovimiento->valordeuda = $request->valordeuda;
             $nuevoMovimiento->valorabono = $request->valorabono;

@@ -29,6 +29,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::prefix('movimiento')->group(function(){
+        Route::view('/','poncheras.movimientos.listar');
+        Route::get('/{event}/{id?}', [Vistas_v1::class, 'viewMovimiento']);
+    });
+
+    Route::prefix('colaborador')->group(function(){
+        Route::view('/','poncheras.colaborador.listar');
+        Route::get('/{event}/{id?}', [Vistas_v1::class, 'viewColaborador']);
+    });
+    
+    Route::prefix('estadopago')->group(function(){
+        Route::view('/','poncheras.estadopago.listar');
+        Route::get('/{event}/{id?}', [Vistas_v1::class, 'vieEstadoPago']);
+    });
+    
 });
 
 Route::prefix('v1')->group(function(){
@@ -42,20 +57,8 @@ Route::prefix('v1')->group(function(){
     ]);
 });
 
-Route::prefix('movimiento')->group(function(){
-    Route::view('/','poncheras.movimientos.listar');
-    Route::get('/{event}/{id?}', [Vistas_v1::class, 'viewMovimiento']);
-});
 
-Route::prefix('colaborador')->group(function(){
-    Route::view('/','poncheras.colaborador.listar');
-    Route::get('/{event}/{id?}', [Vistas_v1::class, 'viewColaborador']);
-});
 
-Route::prefix('estadopago')->group(function(){
-    Route::view('/','poncheras.estadopago.listar');
-    Route::get('/{event}/{id?}', [Vistas_v1::class, 'vieEstadoPago']);
-});
 
 Route::prefix('estados')->group(function(){
     Route::view('/','poncheras.estados.listar');

@@ -79,7 +79,7 @@
               </form>
             </div>
             <div class="tile-footer">
-              <button class="btn btn-primary" type="button"><i class="bi bi-check-circle-fill me-2"></i>Confirmar</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="#"><i class="bi bi-x-circle-fill me-2"></i>Cancelar</a>
+              <button class="btn btn-primary" @click="guardarDatos" type="button"><i class="bi bi-check-circle-fill me-2"></i>Confirmar</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="#"><i class="bi bi-x-circle-fill me-2"></i>Cancelar</a>
             </div>
           </div>
         </div>
@@ -95,7 +95,7 @@ export default{
         fcmovimiento: '',
         idcolaborador:'',
         descripcion:'',
-        evidencia:'',
+        evidencia: null,
         idponches:'',
         valordeuda:'',
         valorabono:'',
@@ -110,7 +110,13 @@ export default{
         tponches:[],
         estadospago:[],
         estados:[],
-      }
+      },
+      validacion: {
+        texto: '',
+        icon: 'warning',
+        boolean: true,
+        title: '',
+      },
     }
   },
   props:{
@@ -154,6 +160,7 @@ export default{
             this.all.tponches = response;
         });
     },
+
     consultaMovimiento(id){
       if(id != ''){
         axios
@@ -174,6 +181,7 @@ export default{
 
       }
     },
+
     consultaColaborador(){
       axios
         .get('/v1/colaborador/@')
@@ -182,6 +190,7 @@ export default{
             this.all.colaboradores = response;
         });
     },
+
     consultaEstadoPago(){
       axios
         .get('/v1/estadopago/@')
@@ -189,8 +198,92 @@ export default{
             response = response.data;
             this.all.estadospago = response;
         });
+    },
+
+    funcFormData(data){
+      const formData = new FormData();
+      if(this.idmovimiento != ''){
+        formData.append('_method', 'put')
+      }
+      formData.append("fcmovimiento", data.fcmovimiento)
+      formData.append("idcolaborador", data.idcolaborador)
+      formData.append("descripcion", data.descripcion)
+      if(data.evidencia != null){
+        formData.append("evidencia", data.evidencia)
+      }
+      formData.append("idponches", data.idponches)
+      formData.append("valordeuda", data.valordeuda)
+      formData.append("valorabono", data.valorabono)
+      formData.append("idestadopago", data.idestadopago)
+      formData.append("fcpago", data.fcpago)
+      formData.append("idestado", data.idestado)
+      formData.append("detanulacion", data.detanulacion)
+      formData.append("fcanulacion", data.fcanulacion)
+      
+      return formData;
+    }, 
+
+    guardarDatos(){
+      this.validacion.boolean = true;
+      this.validation();
+      if(this.validacion.boolean){
+        let movimiento = this.funcFormData(this.data);
+        axios
+          .post("/v1/movimientos", movimiento,{ headers: { "Content-Type": "multipart/form-data", }, } )
+          .then(response => {
+            response = response.data;
+            if (response.type == 'success') {
+                swal.fire({
+                        title: response.title,
+                        html: response.msg,
+                        icon: response.type,
+                        confirmButtonColor: '#3085d6',
+                        // cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Continuar',
+                        // cancelButtonText: 'Cancelar',
+                        allowOutsideClick: false
+                    })
+                    // .then((result) => {
+                    //     if(result.isConfirmed) {
+                    //         if (this.event == 'duplicate') {
+                    //             this.salirAlumno()
+                    //         } else {
+                    //             this.vaciarform()
+                    //         }
+                    //     }
+                    // })
+            }
+            if (response.type == 'error') {
+            this.data.foto1 = null;
+            this.imgVieja = null;
+            toast.fire({
+                title: response.title,
+                text: response.msg,
+                icon: 'warning',
+                timer: 5000,
+            });
+            }
+        })
+      }
+
+    },
+    validation(){
+      if (this.data.fcmovimiento == '' || this.data.fcmovimiento == null) {
+            this.validacion.title = "Fecha movimiento";
+            this.validacion.texto = "No se ha asignado una fecha a este campo";
+            this.validacion.boolean = false;
+        }
+      if (this.validacion.boolean == false) {
+            toast.fire({
+                title: this.validacion.title,
+                text: this.validacion.texto,
+                icon: this.validacion.icon,
+                timer: 5000
+            })
+            this.loading = false;
+            return;
+        }
     }
-    
   }
 }
     
