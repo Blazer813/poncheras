@@ -87,7 +87,6 @@
 </template>
 
 <script>
-
 export default{
   data() {
     return {
@@ -150,6 +149,11 @@ export default{
             response = response.data;
             this.all.estados = response;
         });
+    },
+
+
+    showToast() {
+    
     },
 
     consultaTPonches(){
@@ -223,7 +227,7 @@ export default{
       
       return formData;
     }, 
-
+    
     guardarDatos(){
       this.validacion.boolean = true;
       this.validation();
@@ -288,12 +292,17 @@ export default{
             this.validacion.boolean = false;
         }
       if (this.data.idponches == '' || this.data.idponches == null) {
-          this.validacion.title = "Fecha movimiento";
-          this.validacion.texto = "No se ha asignado una fecha a este campo";
+          this.validacion.title = "Tipo de ponchera";
+          this.validacion.texto = "No se ha asignado un tipo de ponchera";
           this.validacion.boolean = false;
         }
+      if (this.data.descripcion == '' || this.data.descripcion == null) {
+        this.validacion.title = "Descripción";
+        this.validacion.texto = "Agregue una descripción";
+        this.validacion.boolean = false;
+        }
       if (this.validacion.boolean == false) {
-            toast.fire({
+            this.Toast.fire({
                 title: this.validacion.title,
                 text: this.validacion.texto,
                 icon: this.validacion.icon,

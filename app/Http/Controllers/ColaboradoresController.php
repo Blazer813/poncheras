@@ -41,7 +41,7 @@ class ColaboradoresController extends Controller
             if(!$nuevocolaborador->save()){
                 throw new Exception("Error al crear el colaborador", 101);
             }
-            $response['type'] = 'Success';
+            $response['type'] = 'success';
             $response['title'] = 'Creacion del colaborador';
             $response['msg'] = 'Se creo el colaborador con exito';
         } catch (\Throwable $th) {

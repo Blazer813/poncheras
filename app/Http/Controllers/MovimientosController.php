@@ -50,7 +50,7 @@ class MovimientosController extends Controller
             if (!$nuevoMovimiento->save()) {
                 throw new Exception("Error al crear el movimiento", 101);
             }
-            $response['type'] = 'Success';
+            $response['type'] = 'success';
             $response['title'] = 'Creacion de movimiento';
             $response['msg'] = 'Se creo el movimiento con exito';
         } catch (Exception $e) {
