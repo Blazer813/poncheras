@@ -149,6 +149,41 @@ class MovimientosController extends Controller
         return response()->json($coleccionMovimientos);
     }
 
+
+    public function list(){
+
+        $selectCampos = [
+            'idmovimiento',
+            'fcmovimiento',
+            'idcolaborador',
+            'id',
+            'descripcion',
+            'evidencia',
+            'idponches',
+            'valordeuda',
+            'valorabono',
+            'idestadopago',
+            'fcpago',
+            'idestado',
+            'detanulacion',
+            'fcanulacion',
+        ];
+        $relacionMovimientos = [
+            'colaborador:idcolaborador,nombrecompleto',
+            'User:id,name',
+            'tipoPonchera:idponches,nombreponche,valor',
+            'estadoPago',
+            'estado',
+        ];
+
+        $movimientos = movimiento::select($selectCampos)->with($relacionMovimientos)->paginate(2);
+        
+
+        return response()->json($movimientos);
+    }
+
+
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -217,5 +252,7 @@ class MovimientosController extends Controller
             $response['error_code'] = $e->getCode();
             $response['msg'] = $e->getMessage();
         }
+
+        return response()->json($response);
     }
 }
