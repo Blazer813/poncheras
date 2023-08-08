@@ -26,6 +26,13 @@ app.component('nuevo-movimiento-comoponent', NuevoMovimiento);
 import ListarMovimiento from './components/movimientos/listar.vue';
 app.component('listar-movimiento-component', ListarMovimiento);
 
+import NuevoEstado from './components/estados/nuevo.vue';
+app.component('nuevo-estado-comoponent', NuevoEstado);
+
+import ListarEstado from './components/estados/listar.vue';
+app.component('listar-estado-component', ListarEstado);
+
+
 
 
 

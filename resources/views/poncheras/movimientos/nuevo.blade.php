@@ -2,10 +2,10 @@
 
 @section('contenido')
 
-<nuevo-movimiento-comoponent
+<nuevo-estado-comoponent
     idmovimiento = "{{ $idmovimiento }}"
     evento = "{{ $evento }}"
 > 
-</nuevo-movimiento-comoponent>
+</nuevo-estado-comoponent>
 
 @endsection
