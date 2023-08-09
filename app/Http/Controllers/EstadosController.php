@@ -40,6 +40,17 @@ class EstadosController extends Controller
         return $estados;
     }
 
+    public function list(){
+        $selectCampos =[
+         'idestado',
+         'nomestado',
+        ];
+
+        $estados = estado::select($selectCampos)->paginate(2);
+
+        return response()->json($estados);
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

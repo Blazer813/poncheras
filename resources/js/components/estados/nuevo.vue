@@ -8,7 +8,7 @@
                 <div class="row mb-2">
                   <div class="col">
                     <label class="form-label">Nombre estado</label>
-                    <input   class="form-control" v-model="data.idestado" type="text" placeholder="Ingrese el nombre del Estado">
+                    <input   class="form-control" v-model="data.nomestado" type="text" placeholder="Ingrese el nombre del Estado">
                    
                   </div>
 
@@ -64,39 +64,27 @@ import { toValidAssetId } from '@vue/compiler-core'
     }  
   },
   created (){
-    this.consultadEstados();
+    // this.consultadEstados();
   },
 
     methods: {
-      consultadEstados(){
-        axios
-          .get('/v1/estados/@')
-          .then(response =>{
-              response = response.data;
-              this.all.estados = response;
-          });
-      },
+      // consultadEstados(){
+      //   axios
+      //     .get('/v1/estados/@')
+      //     .then(response =>{
+      //         response = response.data;
+      //         this.all.estados = response;
+      //     });
+      // },
 
-      funcFormData(data){
-        const formData = new FormData();
-        if(this.idestado != ''){
-          formData.append('_method', 'put')
-
-        }
-
-        formData.append("idestado", data.idestado)
-
-        return formData;
-      },
 
       guardarDatos(){
         this.validacion.boolean = true;
         this.validation();
         if (this.validacion.boolean){
-          let estados = this.funcFormData(this.data);
           axios
-          .post("/v1/estados/", estados,{
-            headers: {"content-type": "multipart/form-data", }, })
+          .post("/v1/estados/", this.data)
+                   
             .then(response => {
               response = response.data;
               // if (response.type == 'success'){
@@ -114,14 +102,14 @@ import { toValidAssetId } from '@vue/compiler-core'
         }
       },
       validation(){
-        if (this.data.idestado == '' || this.data.idestado == null){
-          this.validacion.title = "estado";
-          this.validacion.texto = "no se ha asignado un estado a este campo";
+        if (this.data.nomestado == '' || this.data.nomestado == null){
+          this.validacion.title = "Nombre estado";
+          this.validacion.texto = "No se ha asignado un nombre al estado";
           this.validacion.boolean = false;
 
         }
       if (this.validacion.boolean == false){
-        toast.fire({
+        this.Toast.fire({
           title: this.validacion.title,
           text: this.validacion.texto,
           icon: this.validacion.icon,

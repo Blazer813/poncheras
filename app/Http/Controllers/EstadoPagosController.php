@@ -40,7 +40,7 @@ class EstadoPagosController extends Controller
             $response['type'] = 'success';
             $response['title'] = 'Creacion del colaborador';
             $response['msg'] = 'Se creo el colaborador con exito';
-        } catch (\Throwable $th) {
+        } catch (Exception $e) {
             $response['Linea'] = $e->getLine();
             $response['archivo'] = $e->getFile();
             $response['type'] = 'error';

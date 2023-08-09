@@ -55,6 +55,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('estados')->group(function(){
         Route::view('/','poncheras.estados.listar');
+        Route::get('/list', [Estados_v1::class, 'list']);
         Route::get('/{event}/{id?}',[vistas_v1::class, 'viewEstado']);
     
     });
