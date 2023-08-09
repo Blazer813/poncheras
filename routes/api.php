@@ -16,13 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => [ 'auth:sanctum'], 'prefix' => 'api'], function() {
+Route::group([ 'prefix' => 'api'], function() {
 
 });
 
 
 
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+

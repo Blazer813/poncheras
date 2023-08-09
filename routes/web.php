@@ -25,13 +25,22 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+Route::get('/emergente', function () {
+    return view('layouts.emergente');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
     Route::prefix('movimiento')->group(function(){
         Route::view('/','poncheras.movimientos.listar');
+        Route::get('/list', [Movimientos_v1::class, 'list']);
         Route::get('/{event}/{id?}', [Vistas_v1::class, 'viewMovimiento']);
+       
     });
 
     Route::prefix('colaborador')->group(function(){
@@ -43,27 +52,31 @@ Route::middleware('auth')->group(function () {
         Route::view('/','poncheras.estadopago.listar');
         Route::get('/{event}/{id?}', [Vistas_v1::class, 'vieEstadoPago']);
     });
+
+    Route::prefix('estados')->group(function(){
+        Route::view('/','poncheras.estados.listar');
+        Route::get('/{event}/{id?}',[vistas_v1::class, 'viewEstado']);
     
-});
+    });
 
-Route::prefix('v1')->group(function(){
-    Route::apiResources([
-        'movimientos' => Movimientos_v1::class,
-        'estados' => Estados_v1::class,
-        'colaborador' => Colaborador_v1::class,
-        'estadopago' => EstadoPago_v1::class,
-        'tiposPoncheras' => Tponches_v1::class,
+
+    Route::prefix('v1')->group(function(){
+        Route::apiResources([
+            'movimientos' => Movimientos_v1::class,
+            'estados' => Estados_v1::class,
+            'colaborador' => Colaborador_v1::class,
+            'estadopago' => EstadoPago_v1::class,
+            'tiposPoncheras' => Tponches_v1::class,
+        ]);
+       
         
-    ]);
+    });
+      
 });
 
 
 
 
-Route::prefix('estados')->group(function(){
-    Route::view('/','poncheras.estados.listar');
-    Route::get('/{event}/{id?}',[vistas_v1::class, 'viewEstado']);
 
-});
 
 require __DIR__.'/auth.php';

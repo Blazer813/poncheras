@@ -2,13 +2,13 @@
     <div>
         <div class="col-md-12">
           <div class="tile">
-            <h3 class="tile-title">Formulario de Registro</h3>
+            <h3 class="tile-title">Formulario de Creación de Ponchera</h3>
             <div class="tile-body">
               <form>
                 <div class="row mb-2">
                   <div class="col">
                     <label class="form-label">Fecha del movimiento</label>
-                    <input class="form-control" v-model="data.fcmovimiento" type="date" placeholder="Seleccione la fecha">
+                    <input class="form-control" v-model="data.fcmovimiento" readonly type="date" placeholder="Seleccione la fecha">
                   </div>
                   <div class="col">
                     <label class="form-label">Colaborador</label>
@@ -36,16 +36,16 @@
                 </div>
                 <div class="row mb-2">
                   <div class="col">
-                    <label class="form-label">Deuda Total</label>
-                    <input class="form-control" v-model="data.valordeuda" type="number" placeholder="Ingrese el monto de la deuda">
+                    <label class="form-label">Valor a pagar</label>
+                    <input class="form-control" v-model="data.valordeuda" type="number" placeholder="Ingrese el monto">
                   </div>
                   <div class="col">
                     <label class="form-label">Abono a la deuda</label>
                     <input class="form-control" v-model="data.valorabono" type="number" placeholder="Abono a la deuda">
                   </div>
                 </div>
-                <div class="row mb-2">
-                  <div class="col">
+                <div  class="row mb-2">
+                  <div v-if="data.valorabono != 0 && data.valorabono != 0 " class="col">
                     <label class="form-label">Fecha del pago</label>
                     <input class="form-control" v-model="data.fcpago" type="date" placeholder="Ingrese la fecha del pago">
                   </div>
@@ -87,21 +87,20 @@
 </template>
 
 <script>
-
 export default{
   data() {
     return {
       data:{
-        fcmovimiento: '',
+        fcmovimiento: new Date().toISOString().substr(0, 10),
         idcolaborador:'',
         descripcion:'',
         evidencia: null,
         idponches:'',
-        valordeuda:'',
+        valordeuda: 2500,
         valorabono:'',
         idestadopago: 2,
         fcpago:'',
-        idestado:'',
+        idestado: 1,
         detanulacion:'',
         fcanulacion:'',
       },
@@ -152,6 +151,11 @@ export default{
         });
     },
 
+
+    showToast() {
+    
+    },
+
     consultaTPonches(){
       axios
         .get('/v1/tiposPoncheras/@')
@@ -167,6 +171,7 @@ export default{
         .get('/v1/movimientos/' + id)
         .then(response => {
             response = response.data[0];
+            console.log(response);
             this.data.fcmovimiento = response.fcmovimiento;
             this.data.idcolaborador = response.colaborador.idcolaborador;
             this.data.descripcion = response.descripcion;
@@ -222,11 +227,12 @@ export default{
       
       return formData;
     }, 
-
+    
     guardarDatos(){
       this.validacion.boolean = true;
       this.validation();
       if(this.validacion.boolean){
+        console.log('Guardando')
         let movimiento = this.funcFormData(this.data);
         axios
           .post("/v1/movimientos", movimiento,{ headers: { "Content-Type": "multipart/form-data", }, } )
@@ -267,14 +273,36 @@ export default{
       }
 
     },
+    vaciarForm(){
+      this.data.fcmovimiento = ''; 
+      this.data.idcolaborador = '';
+      this.data.descripcion = '';
+      this.data.valordeuda = '';
+      this.data.valorabono = '';
+      this.data.fcpago = '';
+      this.data.idestado = '';
+      this.data.fcanulacion = '';
+      this.data.detanulacion = '';
+      this.data.idestadopago = ''; 
+    },
     validation(){
-      if (this.data.fcmovimiento == '' || this.data.fcmovimiento == null) {
-            this.validacion.title = "Fecha movimiento";
-            this.validacion.texto = "No se ha asignado una fecha a este campo";
+      if (this.data.idcolaborador == '' || this.data.idcolaborador == null) {
+            this.validacion.title = "Colaborador";
+            this.validacion.texto = "No se ha asignado un colaborador";
             this.validacion.boolean = false;
         }
+      if (this.data.idponches == '' || this.data.idponches == null) {
+          this.validacion.title = "Tipo de ponchera";
+          this.validacion.texto = "No se ha asignado un tipo de ponchera";
+          this.validacion.boolean = false;
+        }
+      if (this.data.descripcion == '' || this.data.descripcion == null) {
+        this.validacion.title = "Descripción";
+        this.validacion.texto = "Agregue una descripción";
+        this.validacion.boolean = false;
+        }
       if (this.validacion.boolean == false) {
-            toast.fire({
+            this.Toast.fire({
                 title: this.validacion.title,
                 text: this.validacion.texto,
                 icon: this.validacion.icon,
