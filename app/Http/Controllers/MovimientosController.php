@@ -176,7 +176,7 @@ class MovimientosController extends Controller
             'estado',
         ];
 
-        $movimientos = movimiento::select($selectCampos)->with($relacionMovimientos)->paginate(2);
+        $movimientos = movimiento::select($selectCampos)->with($relacionMovimientos)->paginate(8);
         
 
         return response()->json($movimientos);
@@ -202,7 +202,6 @@ class MovimientosController extends Controller
             $actualizarMovimiento = movimiento::findOrFail($id);
             $actualizarMovimiento->fcmovimiento = $request->fcmovimiento;
             $actualizarMovimiento->idcolaborador = $request->idcolaborador;
-            $actualizarMovimiento->id = $request->id;
             $actualizarMovimiento->descripcion = $request->descripcion;
             $actualizarMovimiento->evidencia = $request->evidencia;
             $actualizarMovimiento->idponches = $request->idponches;
@@ -228,6 +227,8 @@ class MovimientosController extends Controller
             $response['error_code'] = $e->getCode();
             $response['msg'] = $e->getMessage();
         }
+
+        return response()->json($response);
     }
 
     /**

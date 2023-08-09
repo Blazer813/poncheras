@@ -36,6 +36,7 @@
                     </td>
                 </tr>
             </tbody>
+            <button type="button" @click="nuevoMovimiento" class="btn btn-primary">Nuevo</button>
             <!-- Agregar los enlaces de paginación -->
             <div class="d-flex justify-content-center">
                 <nav aria-label="Page navigation">
@@ -94,6 +95,9 @@
             editMovimiento(id) {
                 let edit = window.open(`/movimiento/edit/${id}`, `emergente`, `width=${screen.width},height=800`);
                 // edit.onbeforeunload = this.windowClose;
+            },
+            nuevoMovimiento(){
+                let nuevo = window.open(`/movimiento/nuevo`, `emergente`, `width=${screen.width},height=800`);
             },
         },
     }
