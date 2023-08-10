@@ -119,7 +119,28 @@ class ColaboradoresController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $response = [];
+        try {
+            $actualizarColaborador = colaborador::findOrFail($id);
+            $actualizarColaborador->nombrecompleto = $request->nombrecompleto;
+            $actualizarColaborador->telefono = $request->telefono;
+            $actualizarColaborador->correo = $request->correo;
+            $actualizarColaborador->fcnacimiento = $request->fcnacimiento;
+
+            if(!$actualizarColaborador->update()){
+                throw new Exception("Error al actualizar el colaborador", 101);
+            }
+            $response['type'] = 'Success';
+            $response['title'] = 'Actualización del colaborador';
+            $response['msg'] = 'Se actualizo el colaborador con exito';
+        } catch (Exception $e) {
+            $response['Linea'] = $e->getLine();
+            $response['archivo'] = $e->getFile();
+            $response['type'] = 'error';
+            $response['title'] = 'Error al actualizar el colaborador';
+            $response['error_code'] = $e->getCode();
+            $response['msg'] = $e->getMessage();
+        }
     }
 
     /**
@@ -127,6 +148,22 @@ class ColaboradoresController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $response = [];
+        try {
+            $colaborador = colaborador::findOrFail($id);
+            if(!$colaborador->delete()){
+                throw new Exception("Error al eliminar el colaborador", 101);
+            }
+            $response['type'] = 'Success';
+            $response['title'] = 'ELiminar colaborador';
+            $response['msg'] = 'Se elimino el colaborador con exito';
+        } catch (Exception $e) {
+            $response['Linea'] = $e->getLine();
+            $response['archivo'] = $e->getFile();
+            $response['type'] = 'error';
+            $response['title'] = 'Error al eliminar el colaborador';
+            $response['error_code'] = $e->getCode();
+            $response['msg'] = $e->getMessage();
+        }
     }
 }

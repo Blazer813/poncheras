@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { toValidAssetId } from '@vue/compiler-core'
+
 
  export default {
       data() {
