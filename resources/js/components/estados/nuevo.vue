@@ -39,13 +39,12 @@ import { toValidAssetId } from '@vue/compiler-core'
         boolean: true,
         title: '',
       },
+      btn:{
+        crear: 1,
+        actualizar: 0,
+      }
 
 
-
-
-        mounted() {
-            console.log('Component mounted.')
-        }
     }
 
   },
@@ -64,18 +63,18 @@ import { toValidAssetId } from '@vue/compiler-core'
     }  
   },
   created (){
-    // this.consultadEstados();
+     this.consultadEstados();
   },
 
     methods: {
-      // consultadEstados(){
-      //   axios
-      //     .get('/v1/estados/@')
-      //     .then(response =>{
-      //         response = response.data;
-      //         this.all.estados = response;
-      //     });
-      // },
+      consultadEstados(){
+        axios
+          .get('/v1/estados/@')
+          .then(response =>{
+              response = response.data;
+              this.all.estados = response;
+          });
+      },
 
 
       guardarDatos(){
@@ -87,17 +86,26 @@ import { toValidAssetId } from '@vue/compiler-core'
                    
             .then(response => {
               response = response.data;
-              // if (response.type == 'success'){
-              //   swal.fire({
-              //     title: response.title,
-              //     html: response.msg,
-              //     icon: response.type,
-              //     confirmButtonColor:'#3085d6',
-              //     confirmButtonText: 'Continuar',
-              //     allowOutsideClick: false
-              //   })
-              // }
-              // if (response)
+              if (response.type == 'success'){
+                swal.fire({
+                  title: response.title,
+                  html: response.msg,
+                  icon: response.type,
+                  confirmButtonColor:'#3085d6',
+                  confirmButtonText: 'Continuar',
+                  allowOutsideClick: false
+                })
+              }
+              if (response.type == 'Error') {
+                this.data.foto1 = null;
+                this.data.imgVieja = null;
+                toast.fire({
+                  title: response.title,
+                  text: response.msg,
+                  icon: 'warning',
+                  time:5000,
+                })
+              }
             })
         }
       },

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\estado;
-
+use Exception;
 class EstadosController extends Controller
 {
     /**
@@ -28,10 +28,34 @@ class EstadosController extends Controller
      */
     public function store(Request $request)
     {
-        
-    }
+        $response = [];
 
-    /**
+        try {
+            $nuevoestado = new estado();
+            $nuevoestado->nomestado = $request->nomestado;
+
+            if (!$nuevoestado->save()) {
+                throw new Exception("error al crear estado", 101);
+            }
+            $response['type'] = 'success';
+            $response['title'] = 'Creacion del estado';
+            $response['msg'] = 'se creo el colaborador con exito';
+
+        } catch (Exception $e) {
+            $response['Linea'] = $e->getLine();
+            $response['Archivo'] = $e->getFile();
+            $response['type'] = 'Error';
+            $response['title'] = 'Error al crear colaborador'; 
+            $response['error_code'] = $e->getCode();
+            $response['msg'] = $e->getMessage();
+
+        }
+        return response()->json($response);
+    
+    }
+    
+    
+        /**
      * Display the specified resource.
      */
     public function show(string $id)
@@ -46,7 +70,7 @@ class EstadosController extends Controller
          'nomestado',
         ];
 
-        $estados = estado::select($selectCampos)->paginate(2);
+        $estados = estado::select($selectCampos)->paginate(8);
 
         return response()->json($estados);
     }
@@ -64,7 +88,30 @@ class EstadosController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+        $response = [];
+        try {
+            $actualizarEstado = estado::findOrFail($id);
+            $actualizarEstado->nomestado = $request->nomestado;
+
+            if(!$actualizarEstado->update()){
+                throw new Exception("Error al actualizar estado", 101);
+
+                }
+
+            $response['type'] = 'success';
+            $response['title'] = 'Actualizacion del estado';
+            $response['msg'] = 'Se actualizado el estado con exito';
+        } catch (Exception $e) {
+            $response['type'] = $e->getLine();
+            $response['Archivo'] = $e->getFile();
+            $response['type'] = 'Error';
+            $response['title'] = 'Error al actualizar el estado';
+            $response['error_code'] = $e->getCode();
+            $response['msg'] = $e->getMessage();
+
+        }
+        return response()->json($response);
     }
 
     /**
@@ -72,6 +119,26 @@ class EstadosController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+      $response = [];
+      try{
+        $estado = estado::findOrFail($id);
+      if(!$estado->delete()){
+        throw new Exception("Error al eliminar el estado", 101);
+      };
+      $response['type'] = 'success';
+      $response['title'] = 'Eliminar Estado';
+      $response['msg'] = 'se elimino el estado con exito';
+      
+      
+        }catch(Exception $e) {
+            $response['Linea'] = $e->getLine();
+            $response['Archivo'] = $e->getFile();
+            $response['type'] = 'error';
+            $response['title'] = 'error al actualizar estado';
+            $response['error_code'] = $e->getCode();
+            $response['msg'] = $e->getMessage();
+            }
+
+            return response()->json($response);
     }
 }

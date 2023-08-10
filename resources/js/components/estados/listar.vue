@@ -13,11 +13,13 @@
           <tr v-for="estado in estados" :key="estado.idestado">
             <td class="col-8">{{ estado.nomestado }}</td>
             <td class="col-2">
-              <button type="button" @click="editMovimiento(estado.idestado)" class="btn btn-primary">Editar</button>
+              <button type="button" @click="editEstados(estado.idestado)" class="btn btn-primary">Editar</button>
               <button type="button" class="btn btn-danger">Eliminar</button>
             </td>
           </tr>
         </tbody>
+
+        <button type="button" @click="nuevoEstado" class="btn btn-primary">Nuevo</button>
          <!-- Agregar los enlaces de paginación -->
          <div class="d-flex justify-content-center">
                 <nav aria-label="Page navigation">
@@ -74,6 +76,10 @@
       editEstados(id){
         let edit =window.open(`/estados/edit/${id}`,`emergente`,`widht=${screen.width},height=800`);
       },
+
+      nuevoEstado(){
+        let nuevo = window.open(`/estados/nuevo`, `emergente`,`widht=${screen.width},height=800`);
+      }
     },
 
   }
