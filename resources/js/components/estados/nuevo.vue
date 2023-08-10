@@ -76,11 +76,20 @@ import { toValidAssetId } from '@vue/compiler-core'
           });
       },
 
+      funFormData(data){
+        const formData = new formData();
+        
+        if(this.idestado != ''){
+          formData.append('_method', 'put')
+        }
+      },
+
 
       guardarDatos(){
         this.validacion.boolean = true;
         this.validation();
         if (this.validacion.boolean){
+          let estado = this.vali
           axios
           .post("/v1/estados/", this.data)
                    
@@ -108,6 +117,12 @@ import { toValidAssetId } from '@vue/compiler-core'
               }
             })
         }
+      },
+
+      actualizarEstado(){
+
+
+        let estado = this.f
       },
       validation(){
         if (this.data.nomestado == '' || this.data.nomestado == null){
