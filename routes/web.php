@@ -37,26 +37,27 @@ Route::middleware('auth')->group(function () {
 
 
     Route::prefix('movimiento')->group(function(){
-        Route::view('/','poncheras.movimientos.listar');
+        Route::view('/','poncheras.movimientos.listar')->name('MovimientoListar');
         Route::get('/list', [Movimientos_v1::class, 'list']);
-        Route::get('/{event}/{id?}', [Vistas_v1::class, 'viewMovimiento']);
+        Route::get('/{event}/{id?}', [Vistas_v1::class, 'viewMovimiento'])->name('MovimientoNuevo');
        
     });
 
     Route::prefix('colaborador')->group(function(){
-        Route::view('/','poncheras.colaborador.listar');
-        Route::get('/{event}/{id?}', [Vistas_v1::class, 'viewColaborador']);
+        Route::view('/','poncheras.colaboradores.listar')->name('ColaboradorListar');
+        Route::get('/list', [Colaborador_v1::class, 'list']);
+        Route::get('/{event}/{id?}', [Vistas_v1::class, 'viewColaborador'])->name('ColaboradorNuevo');
     });
     
     Route::prefix('estadopago')->group(function(){
         Route::view('/','poncheras.estadopago.listar');
-        Route::get('/{event}/{id?}', [Vistas_v1::class, 'vieEstadoPago']);
+        Route::get('/{event}/{id?}', [Vistas_v1::class, 'viewEstadoPago']);
     });
 
     Route::prefix('estados')->group(function(){
-        Route::view('/','poncheras.estados.listar');
+        Route::view('/','poncheras.estados.listar')->name('EstadosListar');
         Route::get('/list', [Estados_v1::class, 'list']);
-        Route::get('/{event}/{id?}',[vistas_v1::class, 'viewEstado']);
+        Route::get('/{event}/{id?}',[vistas_v1::class, 'viewEstado'])->name('EstadosNuevo');
     
     });
 

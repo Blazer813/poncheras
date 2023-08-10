@@ -46,6 +46,12 @@ app.component('nuevo-estado-comoponent', NuevoEstado);
 import ListarEstado from './components/estados/listar.vue';
 app.component('listar-estado-component', ListarEstado);
 
+import NuevoColaborador from './components/colaboradores/nuevo.vue';
+app.component('nuevo-colaborador-component', NuevoColaborador);
+
+import ListarColaborador from './components/colaboradores/listar.vue';
+app.component('listar-colaborador-component', ListarColaborador);
+
 
 
 
