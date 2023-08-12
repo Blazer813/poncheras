@@ -3,26 +3,20 @@
 
     <div>
       <div class="d-flex justify-content-end mb-2">
-        <button type="button" @click="nuevoColaborador" class="btn btn-primary">Nuevo</button>
+        <button type="button" @click="nuevoEstadoPago" class="btn btn-primary">Nuevo</button>
       </div>
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Nombre del Colaborador</th>
-            <th scope="col">Telefono</th>
-            <th scope="col">Correo</th>
-            <th scope="col">Fecha de nacimiento</th>
-            <th scope="col">Acciones</th>
+            <th scope="col" class="col-8">Nombre Estado Pago</th>
+            <th scope="col" class="col-2">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="colaborador in colaboradores" :key="colaborador.idcolaborador">
-            <td>{{ colaborador.nombrecompleto }}</td>
-            <td>{{ colaborador.telefono }}</td>
-            <td>{{ colaborador.correo }}</td>
-            <td>{{ colaborador.fcnacimiento }}</td>
-            <td>
-              <button type="button" @click="editColaborador(colaborador.idcolaborador)" class="btn btn-primary">Editar</button>
+          <tr v-for="estadopago in estadosPagos" :key="estadopago.idestadopago">
+            <td class="col-8">{{ estadopago.nomestado }}</td>
+            <td class="col-2">
+              <button type="button" @click="editEstadosPagos(estadopago.idestadopago)" class="btn btn-primary">Editar</button>
               &nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger">Eliminar</button>
             </td>
           </tr>
@@ -54,15 +48,13 @@
 
 <script>
   export default {
-    
 
     mounted (){
       this.mostrarDatos();
     },
-
     data (){
       return{
-        colaboradores:[],
+        estadosPagos:[],
         it:0,
         currentPage:1,
         lastPage: 1,
@@ -71,18 +63,18 @@
     methods: {
       mostrarDatos(page = 1){
         axios 
-        .get(`/colaborador/list?page=${page}`)
+        .get(`/estadopago/list?page=${page}`)
         .then(response => { 
           this.currentPage = response.data.current_page;
           this.lastPage = response.data.last_page; 
-          this.colaboradores = response.data.data; 
+          this.estadosPagos = response.data.data; 
         });
       },
-      editColaborador(id){
-        let edit = window.open(`/colaborador/edit/${id}`, `emergente`, `width=${screen.width},height=800` );
+      editEstadosPagos(id){
+        let edit =window.open(`/estadopago/edit/${id}`,`emergente`,`widht=${screen.width},height=800`);
       },
-      nuevoColaborador(){
-        let nuevo = window.open(`/colaborador/nuevo`, `emergente`, `width=${screen.width},height=800` );
+      nuevoEstadoPago(){
+        let nuevo = window.open(`/estadopago/nuevo`, `emergente`, `width=${screen.width},height=800`)
       }
     },
 

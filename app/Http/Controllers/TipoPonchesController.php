@@ -35,9 +35,8 @@ class TipoPonchesController extends Controller
 
         try {
             $nuevoPonches = new tiposPonchera();
-            $nuevoPonches -> idponches = $request ->idtipoPonches;
-            $nuevoPonches->nombrePonches = $request ->nombrePonches;   
-            $nuevoPonches->valor = $request ->valor;
+            $nuevoPonches->nombreponche = $request->nombreponche;   
+            $nuevoPonches->valor = $request->valor;
 
             if(!$nuevoPonches->save()) {
                 throw new Exception("error al crear tipo de poncheras", 101);
@@ -86,21 +85,35 @@ class TipoPonchesController extends Controller
                 ]);
                 $coleccionTiposPonchera = $colleccionAux->concat($coleccionTiposPonchera);
             }
-
-        break;
-            default: 
-                $tiposPonchera = tiposPonchera::select($selectCampos)->where('idponches',$id)->first();
-                $coleccionTiposPonchera  = collect([
-                    [
-                        'idponches' => $tiposPonchera->idponches,
-                        'nombrePonches' => $tiposPonchera->nombrePonches,
-                        'valor' => $tiposPonchera->valor
-                    ]
-                ]); 
+            break;
+            
+        default: 
+            $tiposPonchera = tiposPonchera::select($selectCampos)->where('idponches',$id)->first();
+            $coleccionTiposPonchera  = collect([
+                [
+                    'idponches' => $tiposPonchera->idponches,
+                    'nombrePonches' => $tiposPonchera->nombreponche,
+                    'valor' => $tiposPonchera->valor
+                ]
+            ]); 
         }
         return response()->json($coleccionTiposPonchera);
 
-    } 
+    }
+    
+    public function list(){
+
+        $selectCampos = [
+            'idponches',
+            'nombreponche',
+            'valor',            
+        ];
+
+        $tiposPonchera = tiposPonchera::select($selectCampos)->paginate(10);
+        
+
+        return response()->json($tiposPonchera);
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -115,7 +128,28 @@ class TipoPonchesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $response = [];
+        try {
+            $actualizarTipoPonche = tiposPonchera::findOrFail($id);
+            $actualizarTipoPonche->nombreponche = $request->nombreponche;
+            $actualizarTipoPonche->valor = $request->valor;
+            
+            if(!$actualizarTipoPonche->update()){
+                throw new Exception("Error al actualizar el Tipo de Ponchera", 101);
+            }
+            $response['type'] = 'Success';
+            $response['title'] = 'Actualización del Tipo de Ponchera';
+            $response['msg'] = 'Se actualizo el Tipo de Ponchera con exito';
+        } catch (Exception $e) {
+            $response['Linea'] = $e->getLine();
+            $response['archivo'] = $e->getFile();
+            $response['type'] = 'error';
+            $response['title'] = 'Error al actualizar el Tipo de Ponchera';
+            $response['error_code'] = $e->getCode();
+            $response['msg'] = $e->getMessage();
+        }
+
+        return response()->json($response);
     }
 
     /**
@@ -123,7 +157,24 @@ class TipoPonchesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $tiposPonchera = tiposPonchera::findOrFail($id);
+            if(!$tiposPonchera->delete()){
+                throw new Exception("Error al eliminar el Tipo de Ponchera", 101);
+            }
+            $response['type'] = 'Success';
+            $response['title'] = 'ELiminar Tipo de Ponchera';
+            $response['msg'] = 'Se elimino el Tipo de Ponchera con exito';
+        } catch (Exception $e) {
+            $response['Linea'] = $e->getLine();
+            $response['archivo'] = $e->getFile();
+            $response['type'] = 'error';
+            $response['title'] = 'Error al eliminar el Tipo de Ponchera';
+            $response['error_code'] = $e->getCode();
+            $response['msg'] = $e->getMessage();
+        }
+
+        return response()->json($response);
     }
 }
 

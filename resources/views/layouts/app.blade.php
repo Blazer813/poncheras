@@ -72,7 +72,7 @@
         </li>
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-ui-checks"></i><span class="app-menu__label">Colaboradores</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
           <ul class="treeview-menu">
-            <li><a class="treeview-item" href="form-samples.html"><i class="icon bi bi-circle-fill"></i> Nuevo</a></li>
+            <li><a class="treeview-item" onclick="Nuevo('colaborador')"><i class="icon bi bi-circle-fill"></i> Nuevo</a></li>
             <li>
               <a class="treeview-item" href="{{ route('ColaboradorListar') }}">
               <i class="icon bi bi-circle-fill"></i> Listar</a>
@@ -82,10 +82,10 @@
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-ui-checks"></i><span class="app-menu__label">Tipos de Poncheras</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
           <ul class="treeview-menu">
             <li>
-              <a class="treeview-item" href="form-samples.html"><i class="icon bi bi-circle-fill"></i> Nuevo</a>
+              <a class="treeview-item" onclick="Nuevo('tipoponche')"><i class="icon bi bi-circle-fill"></i> Nuevo</a>
             </li>
             <li>
-              <a class="treeview-item" href="form-components.html"><i class="icon bi bi-circle-fill"></i> Listar</a>
+              <a class="treeview-item" href="{{ route('TipoPoncheraListar') }}"><i class="icon bi bi-circle-fill"></i> Listar</a>
             </li>
           </ul>
         </li>
@@ -103,24 +103,21 @@
         </li>
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-file-earmark"></i><span class="app-menu__label">Estados de Pago</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
           <ul class="treeview-menu">
-            <li><a class="treeview-item" href="blank-page.html"><i class="icon bi bi-circle-fill"></i> Nuevo</a></li>
-            <li><a class="treeview-item" href="page-login.html"><i class="icon bi bi-circle-fill"></i> Listar</a></li>
+            <li>
+              <a class="treeview-item" onclick="Nuevo('estadopago')" target="_blank" rel="noopener">
+              <i class="icon bi bi-circle-fill"></i> Nuevo</a>
+            </li>
+            <li>
+              <a class="treeview-item" href="{{ route('EstadoPagoListar') }}">
+              <i class="icon bi bi-circle-fill"></i> Listar</a></li>
           </ul>
         </li>
-        <li><a class="app-menu__item" href="docs.html"><i class="app-menu__icon bi bi-code-square"></i><span class="app-menu__label">Docs</span></a></li>
+        <li><a class="app-menu__item" href="docs.html"><i class="app-menu__icon bi bi-code-square"></i><span class="app-menu__label">Calendario</span></a></li>
       </ul>
     </aside>
     <main class="app-content">
-      <div class="app-title">
-        <div>
-          <h1><i class="bi bi-speedometer"></i> Panel de Control</h1>
-          <p>A free and open source Bootstrap 4 admin template</p>
-        </div>
-        <ul class="app-breadcrumb breadcrumb">
-          <li class="breadcrumb-item"><i class="bi bi-house-door fs-6"></i></li>
-          <li class="breadcrumb-item"><a href="#">Panle de Control</a></li>
-        </ul>
-      </div>
+      @yield('migas')
+
       <div class="row">
         <div class="col-md-12">
           <div class="tile">
@@ -195,12 +192,17 @@
           case 'movimiento':
             url = '/movimiento/nuevo'
             break;
+          case 'colaborador':
+            url = '/colaborador/nuevo'
+            break;
           case 'estado':
             url = '/estados/nuevo'
             break;
           case 'tipoponche':
-            url = ''
+            url = '/tiposPoncheras/nuevo'
             break;
+          case 'estadopago':
+            url = '/estadopago/nuevo'
         
           default:
 

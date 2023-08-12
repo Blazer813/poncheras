@@ -21,7 +21,7 @@ use App\Http\Controllers\TipoPonchesController as Tponches_v1;
 |
 */
 
-Route::get('/dashboard', function () {
+Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -48,10 +48,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/list', [Colaborador_v1::class, 'list']);
         Route::get('/{event}/{id?}', [Vistas_v1::class, 'viewColaborador'])->name('ColaboradorNuevo');
     });
+
+    Route::prefix('tipoponchera')->group(function(){
+        Route::view('/','poncheras.tipoPoncheras.listar')->name('TipoPoncheraListar');
+        Route::get('/list', [Tponches_v1::class, 'list']);
+        Route::get('/{event}/{id?}', [Vistas_v1::class, 'viewTipoPonchera'])->name('TipoPoncheraNuevo');
+    });
     
     Route::prefix('estadopago')->group(function(){
-        Route::view('/','poncheras.estadopago.listar');
-        Route::get('/{event}/{id?}', [Vistas_v1::class, 'viewEstadoPago']);
+        Route::view('/','poncheras.estadosPagos.listar')->name('EstadoPagoListar');
+        Route::get('/list', [EstadoPago_v1::class, 'list']);
+        Route::get('/{event}/{id?}', [Vistas_v1::class, 'viewEstadoPago'])->name('EstadoPagoNuevo');
     });
 
     Route::prefix('estados')->group(function(){

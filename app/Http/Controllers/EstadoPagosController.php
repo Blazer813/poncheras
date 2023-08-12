@@ -35,16 +35,16 @@ class EstadoPagosController extends Controller
             $nuevoestadopago->nomestado = $request->nomestado;
 
             if(!$nuevoestadopago->save()){
-                throw new Exception("Error al crear el colaborador", 101);
+                throw new Exception("Error al crear el estado pago", 101);
             }
             $response['type'] = 'success';
-            $response['title'] = 'Creacion del colaborador';
-            $response['msg'] = 'Se creo el colaborador con exito';
+            $response['title'] = 'Creacion del Estado Pago';
+            $response['msg'] = 'Se creo el estado pago con exito';
         } catch (Exception $e) {
             $response['Linea'] = $e->getLine();
             $response['archivo'] = $e->getFile();
             $response['type'] = 'error';
-            $response['title'] = 'Error al crear el colaborador';
+            $response['title'] = 'Error al crear el estado pago';
             $response['error_code'] = $e->getCode();
             $response['msg'] = $e->getMessage();
         }
@@ -92,6 +92,19 @@ class EstadoPagosController extends Controller
         return response()->json($coleccionEstadosPagos);
     }
 
+    public function list(){
+
+        $selectCampos = [
+            'idestadopago',
+            'nomestado'
+        ];
+
+        $estadopago = estadoPago::select($selectCampos)->paginate(10);
+
+
+        return response()->json($estadopago);
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -105,7 +118,26 @@ class EstadoPagosController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            $actualizarEstadoPago = estadoPago::findOrFail($id);
+            $actualizarEstadoPago -> nomestado = $request -> nomestado;
+
+            if(!$actualizarEstadoPago->update()){
+                throw new Exception("Error al actualizar el estado pago", 101);
+            }
+            $response['type'] = 'Success';
+            $response['title'] = 'Actualización del estado pago';
+            $response['msg'] = 'Se actualizo el estado pago con exito';
+        } catch (Exception $e) {
+            $response['Linea'] = $e->getLine();
+            $response['archivo'] = $e->getFile();
+            $response['type'] = 'error';
+            $response['title'] = 'Error al actualizar el estado pago';
+            $response['error_code'] = $e->getCode();
+            $response['msg'] = $e->getMessage();
+        }
+        
+        return response()->json($response);
     }
 
     /**
@@ -113,6 +145,23 @@ class EstadoPagosController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $estadopago = estadoPago::findOrFail($id);
+            if (!$estadopago->delete()) {
+                throw new Exception("Error al eliminar el estado pago", 101);
+            }
+            $response['type'] = 'Success';
+            $response['title'] = 'Eliminar estado pago';
+            $response['msg'] = 'Se elimino el estado pago con exito';
+        } catch (Exception $e) {
+            $response['Linea'] = $e->getLine();
+            $response['archivo'] = $e->getFile();
+            $response['type'] = 'error';
+            $response['title'] = 'Error al eliminar el estado pago';
+            $response['error_code'] = $e->getCode();
+            $response['msg'] = $e->getMessage();
+        }
+
+        return response()->json($response);
     }
 }

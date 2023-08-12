@@ -3,26 +3,20 @@
 
     <div>
       <div class="d-flex justify-content-end mb-2">
-        <button type="button" @click="nuevoColaborador" class="btn btn-primary">Nuevo</button>
+        <button type="button" @click="nuevoTipoponchera" class="btn btn-primary">Nuevo</button>
       </div>
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Nombre del Colaborador</th>
-            <th scope="col">Telefono</th>
-            <th scope="col">Correo</th>
-            <th scope="col">Fecha de nacimiento</th>
-            <th scope="col">Acciones</th>
+            <th scope="col" class="col-8">Nombre Tipo Ponchera</th>
+            <th scope="col" class="col-2">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="colaborador in colaboradores" :key="colaborador.idcolaborador">
-            <td>{{ colaborador.nombrecompleto }}</td>
-            <td>{{ colaborador.telefono }}</td>
-            <td>{{ colaborador.correo }}</td>
-            <td>{{ colaborador.fcnacimiento }}</td>
-            <td>
-              <button type="button" @click="editColaborador(colaborador.idcolaborador)" class="btn btn-primary">Editar</button>
+          <tr v-for="tipoponchera in tiposPonches" :key="tipoponchera.idponches">
+            <td class="col-8">{{ tipoponchera.nombreponche }}</td>
+            <td class="col-2">
+              <button type="button" @click="editTipoponchera(tipoponchera.idponches)" class="btn btn-primary">Editar</button>
               &nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger">Eliminar</button>
             </td>
           </tr>
@@ -54,15 +48,13 @@
 
 <script>
   export default {
-    
 
     mounted (){
       this.mostrarDatos();
     },
-
     data (){
       return{
-        colaboradores:[],
+        tiposPonches:[],
         it:0,
         currentPage:1,
         lastPage: 1,
@@ -71,18 +63,18 @@
     methods: {
       mostrarDatos(page = 1){
         axios 
-        .get(`/colaborador/list?page=${page}`)
+        .get(`/tipoponchera/list?page=${page}`)
         .then(response => { 
           this.currentPage = response.data.current_page;
           this.lastPage = response.data.last_page; 
-          this.colaboradores = response.data.data; 
+          this.tiposPonches = response.data.data; 
         });
       },
-      editColaborador(id){
-        let edit = window.open(`/colaborador/edit/${id}`, `emergente`, `width=${screen.width},height=800` );
+      editTipoponchera(id){
+        let edit =window.open(`/tipoponchera/edit/${id}`,`emergente`,`widht=${screen.width},height=800`);
       },
-      nuevoColaborador(){
-        let nuevo = window.open(`/colaborador/nuevo`, `emergente`, `width=${screen.width},height=800` );
+      nuevoTipoponchera(){
+        let nuevo = window.open(`/tipoponchera/nuevo`, `emergente`, `width=${screen.width},height=800`)
       }
     },
 

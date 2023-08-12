@@ -120,7 +120,7 @@ class MovimientosController extends Controller
                         ]
                     ]);
                     $coleccionMovimientos = $coleccionAux->concat($coleccionMovimientos);
-                    # code...
+                
                 }
                 break;
             
@@ -176,7 +176,7 @@ class MovimientosController extends Controller
             'estado',
         ];
 
-        $movimientos = movimiento::select($selectCampos)->with($relacionMovimientos)->paginate(8);
+        $movimientos = movimiento::select($selectCampos)->with($relacionMovimientos)->paginate(10);
         
 
         return response()->json($movimientos);

@@ -1,5 +1,8 @@
 <template>
     <div class="row">
+        <div class="d-flex justify-content-end mb-2">
+            <button type="button" @click="nuevoMovimiento" class="btn btn-primary">Nuevo</button>
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -32,11 +35,10 @@
                     <td>{{ movimiento.estado.nomestado }}</td>
                     <td>
                         <button type="button" @click="editMovimiento(movimiento.idmovimiento)" class="btn btn-primary">Editar</button>
-                        <button type="button" class="btn btn-danger">Eliminar</button>
+                        &nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger">Eliminar</button>
                     </td>
                 </tr>
             </tbody>
-            <button type="button" @click="nuevoMovimiento" class="btn btn-primary">Nuevo</button>
             <!-- Agregar los enlaces de paginación -->
             <div class="d-flex justify-content-center">
                 <nav aria-label="Page navigation">
@@ -65,7 +67,7 @@
 <script>
     export default {
         mounted() {
-           
+
         },
         data(){
             return{
@@ -79,6 +81,11 @@
             this.mostrarDatos();
         },
         methods: {
+            windowClose(){
+                alert('djshjd')
+                console.log('jkfdjdfjk');
+                window.location.reload();
+            },
             mostrarDatos(page = 1){ // Agregamos un parámetro para la página
                 axios
                 .get(`/movimiento/list?page=${page}`) // Agregamos el parámetro de página en la URL
@@ -93,8 +100,16 @@
             //     // nuevo.onbeforeunload = this.windowClose;
             // },
             editMovimiento(id) {
+
+                
                 let edit = window.open(`/movimiento/edit/${id}`, `emergente`, `width=${screen.width},height=800`);
-                // edit.onbeforeunload = this.windowClose;
+                edit.addEventListener("beforeunload", function(event) {
+                    window.alert('jsjhd');
+                });
+
+                // edit.onbeforeunload = this.windowClose();
+                // edit.onbeforeunload =                 window.location.reload();
+
             },
             nuevoMovimiento(){
                 let nuevo = window.open(`/movimiento/nuevo`, `emergente`, `width=${screen.width},height=800`);

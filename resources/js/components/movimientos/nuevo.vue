@@ -80,7 +80,8 @@
             </div>
             <div class="tile-footer">
               <button v-if="btn.crear" class="btn btn-primary" @click="guardarDatos" type="button"><i class="bi bi-check-circle-fill me-2"></i>Confirmar</button>
-              &nbsp;&nbsp;&nbsp;<button v-if="btn.actualizar" class="btn btn-primary" @click="actualizarMovimiento" type="button"><i class="bi bi-check-circle-fill me-2"></i>Actualizar</button> &nbsp;&nbsp;&nbsp;   <a class="btn btn-secondary" href="#"><i class="bi bi-x-circle-fill me-2"></i>Cancelar</a>
+              &nbsp;&nbsp;&nbsp;<button v-if="btn.actualizar" class="btn btn-primary" @click="actualizarMovimiento" type="button"><i class="bi bi-check-circle-fill me-2"></i>Actualizar</button> 
+              &nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" @click="actualizarMovimiento"><i class="bi bi-x-circle-fill me-2"></i>Cancelar</a>
             </div>
           </div>
         </div> 
@@ -296,8 +297,10 @@ export default{
       this.data.idestadopago = 2; 
     },
     actualizarMovimiento() {
+      this.validacion.boolean = true;
+      this.validation();
+      if(this.validacion.boolean){
       let movimiento = this.funcFormData(this.data);
-      console.log(movimiento)
       axios
         .post('/v1/movimientos/' + this.idmovimiento, movimiento, { headers: { "Content-Type": "multipart/form-data", },})
         .then(response => {
@@ -322,7 +325,7 @@ export default{
           if (response.type == 'error') {
               this.data.foto1 = null;
               this.imgVieja = null;
-              toast.fire({
+              this.Toast.fire({
                   title: response.title,
                   text: response.msg,
                   icon: 'warning',
@@ -331,6 +334,8 @@ export default{
           }
         })
         .finally(() => this.loading = false);
+      }
+        
       },
     validation(){
       if (this.data.idcolaborador == '' || this.data.idcolaborador == null) {

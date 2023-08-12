@@ -37,7 +37,6 @@ import NuevoMovimiento from './components/movimientos/nuevo.vue';
 app.component('nuevo-movimiento-comoponent', NuevoMovimiento);
 
 import ListarMovimiento from './components/movimientos/listar.vue';
-import { Alert } from 'bootstrap';
 app.component('listar-movimiento-component', ListarMovimiento);
 
 import NuevoEstado from './components/estados/nuevo.vue';
@@ -51,6 +50,18 @@ app.component('nuevo-colaborador-component', NuevoColaborador);
 
 import ListarColaborador from './components/colaboradores/listar.vue';
 app.component('listar-colaborador-component', ListarColaborador);
+
+import NuevoEstadoPago from './components/estadosPagos/nuevo.vue';
+app.component('nuevo-estadopago-component', NuevoEstadoPago);
+
+import ListarEstadoPago from './components/estadosPagos/listar.vue';
+app.component('listar-estadopago-component', ListarEstadoPago)
+
+import NuevoTipoPonchera from './components/tiposPoncheras/nuevo.vue';
+app.component('nuevo-tipoponchera-component', NuevoTipoPonchera);
+
+import ListarTipoPonchera from './components/tiposPoncheras/listar.vue';
+app.component('listar-tipoponchera-component', ListarTipoPonchera)
 
 
 

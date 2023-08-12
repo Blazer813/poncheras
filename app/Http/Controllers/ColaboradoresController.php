@@ -44,7 +44,7 @@ class ColaboradoresController extends Controller
             $response['type'] = 'success';
             $response['title'] = 'Creacion del colaborador';
             $response['msg'] = 'Se creo el colaborador con exito';
-        } catch (\Throwable $th) {
+        } catch (Exception $e) {
             $response['Linea'] = $e->getLine();
             $response['archivo'] = $e->getFile();
             $response['type'] = 'error';
@@ -106,6 +106,23 @@ class ColaboradoresController extends Controller
     
     }
 
+    public function list(){
+
+        $selectCampos = [
+            'idcolaborador',
+            'nombrecompleto',
+            'telefono',
+            'correo',
+            'fcnacimiento',
+        ];
+
+        $colaborador = colaborador::select($selectCampos)->paginate(10);
+        
+
+        return response()->json($colaborador);
+    }
+
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -141,6 +158,8 @@ class ColaboradoresController extends Controller
             $response['error_code'] = $e->getCode();
             $response['msg'] = $e->getMessage();
         }
+
+        return response()->json($response);
     }
 
     /**
@@ -155,7 +174,7 @@ class ColaboradoresController extends Controller
                 throw new Exception("Error al eliminar el colaborador", 101);
             }
             $response['type'] = 'Success';
-            $response['title'] = 'ELiminar colaborador';
+            $response['title'] = 'Eliminar colaborador';
             $response['msg'] = 'Se elimino el colaborador con exito';
         } catch (Exception $e) {
             $response['Linea'] = $e->getLine();
@@ -165,5 +184,7 @@ class ColaboradoresController extends Controller
             $response['error_code'] = $e->getCode();
             $response['msg'] = $e->getMessage();
         }
+
+        return response()->json($response);
     }
 }
