@@ -71,7 +71,10 @@
         });
       },
       editTipoponchera(id){
-        let edit =window.open(`/tipoponchera/edit/${id}`,`emergente`,`widht=${screen.width},height=800`);
+        let edit = window.open(`/tipoponchera/edit/${id}`, `emergente`, `width=${screen.width},height=800`);
+                edit.addEventListener("beforeunload", function(event) {
+                    window.location.reload()
+                });
       },
       nuevoTipoponchera(){
         let nuevo = window.open(`/tipoponchera/nuevo`, `emergente`, `width=${screen.width},height=800`)

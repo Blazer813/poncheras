@@ -147,7 +147,7 @@ class ColaboradoresController extends Controller
             if(!$actualizarColaborador->update()){
                 throw new Exception("Error al actualizar el colaborador", 101);
             }
-            $response['type'] = 'Success';
+            $response['type'] = 'success';
             $response['title'] = 'Actualización del colaborador';
             $response['msg'] = 'Se actualizo el colaborador con exito';
         } catch (Exception $e) {
@@ -173,7 +173,7 @@ class ColaboradoresController extends Controller
             if(!$colaborador->delete()){
                 throw new Exception("Error al eliminar el colaborador", 101);
             }
-            $response['type'] = 'Success';
+            $response['type'] = 'success';
             $response['title'] = 'Eliminar colaborador';
             $response['msg'] = 'Se elimino el colaborador con exito';
         } catch (Exception $e) {

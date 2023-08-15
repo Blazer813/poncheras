@@ -29,13 +29,13 @@
                     <td>{{ movimiento.descripcion }}</td>
                     <td>{{ movimiento.tipo_ponchera.nombreponche }}</td>
                     <td>{{ movimiento.valordeuda }}</td>
-                    <td>{{ movimiento.valorabono }}</td>
+                    <td>{{ movimiento.valorabono == null || movimiento.valorabono == '' ? 'No hay abono': movimiento.valorabono}}</td>
                     <td>{{ movimiento.estado_pago.nomestado }}</td>
-                    <td>{{ movimiento.fcPago }}</td>
+                    <td>{{ movimiento.fcPago == null ? 'No hay fecha' : movimiento.fcPago }}</td>
                     <td>{{ movimiento.estado.nomestado }}</td>
                     <td>
                         <button type="button" @click="editMovimiento(movimiento.idmovimiento)" class="btn btn-primary">Editar</button>
-                        &nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger">Eliminar</button>
+                        &nbsp;&nbsp;&nbsp;<button type="button" @click="eliminarMovimiento(movimiento.idmovimiento)"  class="btn btn-danger">Eliminar</button>
                     </td>
                 </tr>
             </tbody>
@@ -82,8 +82,6 @@
         },
         methods: {
             windowClose(){
-                alert('djshjd')
-                console.log('jkfdjdfjk');
                 window.location.reload();
             },
             mostrarDatos(page = 1){ // Agregamos un parámetro para la página
@@ -95,27 +93,73 @@
                     this.movimientos = response.data.data; // Actualizamos los datos de movimientos
                 });
             },
-            // nuevoAlumno() {
-            //     let nuevo = window.open(`/movimiento/nuevo`, `emergente`, `width=${screen.width},height=800`);
-            //     // nuevo.onbeforeunload = this.windowClose;
-            // },
             editMovimiento(id) {
-
-                
                 let edit = window.open(`/movimiento/edit/${id}`, `emergente`, `width=${screen.width},height=800`);
                 edit.addEventListener("beforeunload", function(event) {
-                    window.alert('jsjhd');
+                    window.location.reload()
                 });
-
-                // edit.onbeforeunload = this.windowClose();
-                // edit.onbeforeunload =                 window.location.reload();
-
             },
             nuevoMovimiento(){
                 let nuevo = window.open(`/movimiento/nuevo`, `emergente`, `width=${screen.width},height=800`);
             },
+            eliminarMovimiento(id) {
+                swal.fire({
+                        title: 'Eliminar Movimiento',
+                        html: `Esta Seguro de que quiere eliminar el movimiento`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Eliminar',
+                        cancelButtonText: 'Cancelar',
+                        allowOutsideClick: false
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            swal.fire({
+                                title: 'Eliminar Movimiento',
+                                html: "Se eliminará el movimiento, esta seguro de continuar: ",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#d33',
+                                cancelButtonColor: '#3085d6',
+                                confirmButtonText: 'Si',
+                                cancelButtonText: 'No',
+                                allowOutsideClick: false
+                            })
+                            .then((result) => {
+                                if (result.isConfirmed) {
+                                   
+                                    axios
+                                        .delete(`/movimiento/${id}`)
+                                        .then(response => {
+                                            if (response.data.status == 400) {
+                                                Swal.fire({
+                                                    icon: response.data.type,
+                                                    title: response.data.title,
+                                                    text: response.data.msg,
+                                                    footer: 'Comuniquese con el adminisitrador para mas información'
+                                                })
+                                            } else {
+                                                this.Toast.fire({
+                                                    icon: response.data.type,
+                                                    title: response.data.title,
+                                                    text: response.data.msg,
+                                                    timmer: 5000
+                                                });
+                                            if(response.status === 200){
+                                                this.mostrarDatos();
+                                            }
+                                            }
+                                        })
+                                       
+                                }
+                            })
+                        }
+                    })
+            }
         },
-    }
+}
 </script>
 
 

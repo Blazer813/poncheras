@@ -92,7 +92,7 @@ class TipoPonchesController extends Controller
             $coleccionTiposPonchera  = collect([
                 [
                     'idponches' => $tiposPonchera->idponches,
-                    'nombrePonches' => $tiposPonchera->nombreponche,
+                    'nombreponche' => $tiposPonchera->nombreponche,
                     'valor' => $tiposPonchera->valor
                 ]
             ]); 
@@ -137,7 +137,7 @@ class TipoPonchesController extends Controller
             if(!$actualizarTipoPonche->update()){
                 throw new Exception("Error al actualizar el Tipo de Ponchera", 101);
             }
-            $response['type'] = 'Success';
+            $response['type'] = 'success';
             $response['title'] = 'Actualización del Tipo de Ponchera';
             $response['msg'] = 'Se actualizo el Tipo de Ponchera con exito';
         } catch (Exception $e) {
@@ -162,7 +162,7 @@ class TipoPonchesController extends Controller
             if(!$tiposPonchera->delete()){
                 throw new Exception("Error al eliminar el Tipo de Ponchera", 101);
             }
-            $response['type'] = 'Success';
+            $response['type'] = 'success';
             $response['title'] = 'ELiminar Tipo de Ponchera';
             $response['msg'] = 'Se elimino el Tipo de Ponchera con exito';
         } catch (Exception $e) {

@@ -125,7 +125,7 @@ class EstadoPagosController extends Controller
             if(!$actualizarEstadoPago->update()){
                 throw new Exception("Error al actualizar el estado pago", 101);
             }
-            $response['type'] = 'Success';
+            $response['type'] = 'success';
             $response['title'] = 'Actualización del estado pago';
             $response['msg'] = 'Se actualizo el estado pago con exito';
         } catch (Exception $e) {
@@ -150,7 +150,7 @@ class EstadoPagosController extends Controller
             if (!$estadopago->delete()) {
                 throw new Exception("Error al eliminar el estado pago", 101);
             }
-            $response['type'] = 'Success';
+            $response['type'] = 'success';
             $response['title'] = 'Eliminar estado pago';
             $response['msg'] = 'Se elimino el estado pago con exito';
         } catch (Exception $e) {

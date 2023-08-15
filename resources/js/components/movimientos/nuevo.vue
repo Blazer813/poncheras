@@ -81,7 +81,7 @@
             <div class="tile-footer">
               <button v-if="btn.crear" class="btn btn-primary" @click="guardarDatos" type="button"><i class="bi bi-check-circle-fill me-2"></i>Confirmar</button>
               &nbsp;&nbsp;&nbsp;<button v-if="btn.actualizar" class="btn btn-primary" @click="actualizarMovimiento" type="button"><i class="bi bi-check-circle-fill me-2"></i>Actualizar</button> 
-              &nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" @click="actualizarMovimiento"><i class="bi bi-x-circle-fill me-2"></i>Cancelar</a>
+              &nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" @click="salirMovimiento"><i class="bi bi-x-circle-fill me-2"></i>Cancelar</a>
             </div>
           </div>
         </div> 
@@ -102,7 +102,7 @@ export default{
         valordeuda: 2500,
         valorabono:'',
         idestadopago: 2,
-        fcpago:'',
+        fcpago: null,
         idestado: 1,
         detanulacion:'',
         fcanulacion:'',
@@ -183,6 +183,7 @@ export default{
             console.log(response);
             this.data.fcmovimiento = response.fcmovimiento;
             this.data.idcolaborador = response.colaborador.idcolaborador;
+            this.data.idponches = response.tipoPonchera.idponches;
             this.data.descripcion = response.descripcion;
             this.data.valordeuda = response.valordeuda;
             this.data.valorabono = response.valorabono;
@@ -231,7 +232,9 @@ export default{
       formData.append("valordeuda", data.valordeuda)
       formData.append("valorabono", data.valorabono)
       formData.append("idestadopago", data.idestadopago)
-      formData.append("fcpago", data.fcpago)
+      if(data.fcpago != null){
+        formData.append("fcpago", data.fcpago)
+      }
       formData.append("idestado", data.idestado)
       formData.append("detanulacion", data.detanulacion)
       formData.append("fcanulacion", data.fcanulacion)
@@ -261,11 +264,7 @@ export default{
                     })
                     .then((result) => {
                         if(result.isConfirmed) {
-                            if (this.event == 'duplicate') {
-                                this.salirMovimiento()
-                            } else {
                                 this.vaciarForm()
-                            }
                         }
                     })
             }
@@ -362,9 +361,6 @@ export default{
             })
             return;
         }
-    },
-    actualizar(){
-      
     },
   }
 }

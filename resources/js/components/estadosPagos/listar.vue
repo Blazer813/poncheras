@@ -71,11 +71,70 @@
         });
       },
       editEstadosPagos(id){
-        let edit =window.open(`/estadopago/edit/${id}`,`emergente`,`widht=${screen.width},height=800`);
+        let edit = window.open(`/estadopago/edit/${id}`, `emergente`, `width=${screen.width},height=800`);
+                edit.addEventListener("beforeunload", function(event) {
+                    window.location.reload()
+                });
       },
       nuevoEstadoPago(){
         let nuevo = window.open(`/estadopago/nuevo`, `emergente`, `width=${screen.width},height=800`)
-      }
+      },
+      eliminarMovimiento(id) {
+        swal.fire({
+                title: 'Eliminar Estado Pago',
+                html: `Esta Seguro de que quiere eliminar el movimiento`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Eliminar',
+                cancelButtonText: 'Cancelar',
+                allowOutsideClick: false
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    swal.fire({
+                        title: 'Eliminar Estado Pago',
+                        html: "Esta acción es irreversible, ¿desea continuar?: ",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Si',
+                        cancelButtonText: 'No',
+                        allowOutsideClick: false
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            
+                            axios
+                                .delete(`/movimiento/${id}`)
+                                .then(response => {
+                                    if (response.data.status == 400) {
+                                        Swal.fire({
+                                            icon: response.data.type,
+                                            title: response.data.title,
+                                            text: response.data.msg,
+                                            footer: 'Comuniquese con el adminisitrador para mas información'
+                                        })
+                                    } else {
+                                        this.Toast.fire({
+                                            icon: response.data.type,
+                                            title: response.data.title,
+                                            text: response.data.msg,
+                                            timmer: 5000
+                                        });
+                                    if(response.status === 200){
+                                        this.mostrarDatos();
+                                    }
+                                    }
+                                })
+                                
+                        }
+                    })
+                }
+            })
+        }
     },
 
   }

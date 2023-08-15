@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
         Route::view('/','poncheras.movimientos.listar')->name('MovimientoListar');
         Route::get('/list', [Movimientos_v1::class, 'list']);
         Route::get('/{event}/{id?}', [Vistas_v1::class, 'viewMovimiento'])->name('MovimientoNuevo');
+        Route::delete('/{id?}',[Movimientos_v1::class, 'destroy']);
        
     });
 

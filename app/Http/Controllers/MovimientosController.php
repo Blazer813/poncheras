@@ -199,6 +199,10 @@ class MovimientosController extends Controller
     {
         $response = [];
         try {
+            $fcpago = $request->input('fcpago');
+            $fcanulacion = $request->input('fcanulacion');
+
+
             $actualizarMovimiento = movimiento::findOrFail($id);
             $actualizarMovimiento->fcmovimiento = $request->fcmovimiento;
             $actualizarMovimiento->idcolaborador = $request->idcolaborador;
@@ -208,15 +212,18 @@ class MovimientosController extends Controller
             $actualizarMovimiento->valordeuda = $request->valordeuda;
             $actualizarMovimiento->valorabono = $request->valorabono;
             $actualizarMovimiento->idestadopago = $request->idestadopago;
-            $actualizarMovimiento->fcpago = $request->fcpago;
+            
+            !empty($fcpago) == true ?  $actualizarMovimiento->fcpago = $fcpago : $actualizarMovimiento->fcpago = null;
+
             $actualizarMovimiento->idestado = $request->idestado;
             $actualizarMovimiento->detanulacion = $request->detanulacion;
-            $actualizarMovimiento->fcanulacion = $request->fcanulacion;
+
+            !empty($fcanulacion) == true ?  $actualizarMovimiento->fcanulacion = $fcanulacion : $actualizarMovimiento->fcanulacion = null;
 
             if(!$actualizarMovimiento->update()){
                 throw new Exception("Error al actualizar el movimiento", 101);
             }
-            $response['type'] = 'Success';
+            $response['type'] = 'success';
             $response['title'] = 'Actualización del movimiento';
             $response['msg'] = 'Se actualizo el movimiento con exito';
         } catch (Exception $e) {
@@ -242,8 +249,8 @@ class MovimientosController extends Controller
             if(!$movimiento->delete()){
                 throw new Exception("Error al eliminar el movimiento", 101);
             };
-            $response['type'] = 'Success';
-            $response['title'] = 'ELiminar movimiento';
+            $response['type'] = 'success';
+            $response['title'] = 'Eliminar movimiento';
             $response['msg'] = 'Se elimino el movimiento con exito';
         } catch (Exception $e) {
             $response['Linea'] = $e->getLine();
