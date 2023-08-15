@@ -66,6 +66,8 @@ Route::middleware('auth')->group(function () {
         Route::view('/','poncheras.estados.listar')->name('EstadosListar');
         Route::get('/list', [Estados_v1::class, 'list']);
         Route::get('/{event}/{id?}',[vistas_v1::class, 'viewEstado'])->name('EstadosNuevo');
+        Route::delete('/{id?}',[Estados_v1::class, 'destroy']);
+       
     
     });
 

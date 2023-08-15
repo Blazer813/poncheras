@@ -16,7 +16,9 @@
               </form>
             </div>
             <div class="tile-footer">
-              <button class="btn btn-primary" @click="guardarDatos" type="button"><i class="bi bi-check-circle-fill me-2"></i>Confirmar</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="#"><i class="bi bi-x-circle-fill me-2"></i>Cancelar</a>
+              <button v-if="btn.crear" class="btn btn-primary" @click="guardarDatos" type="button"><i class="bi bi-check-circle-fill me-2"></i>Confirmar</button>
+              &nbsp;&nbsp;&nbsp;<button v-if="btn.actualizar" class="btn btn-primary" @click="actualizarEstado" type="button"><i class="bi bi-check-circle-fill me-2"></i>Actualizar</button> 
+              &nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" @click="salirEstado"><i class="bi bi-x-circle-fill me-2"></i>Cancelar</a>
             </div>
           </div>
         </div>
@@ -67,13 +69,23 @@
   },
 
     methods: {
-      consultadEstados(){
-        axios
-          .get('/v1/estados/@')
+      consultadEstados(id){
+        if(this.evento == 'edit'){
+          this.btn.crear = false;
+          this.btn.actualizar = true;
+        }
+        if(id != ''){
+          axios
+          .get('/v1/estados/' + id)
           .then(response =>{
-              response = response.data;
-              this.all.estados = response;
+            
+
+              response = response.data[0];
+              this.data.nomestado = response.nomestado;
           });
+
+          }
+        
       },
 
       funFormData(data){
@@ -104,25 +116,79 @@
                   confirmButtonText: 'Continuar',
                   allowOutsideClick: false
                 })
+                .then((result) => {
+                  if(result.isConfirmed) {
+                    if(this.event == 
+                    'duplicate'){
+                      this.
+                      salirEstado()
+
+                      } else {
+                      this.vaciarForm()
+                      }
+                    }
+                  })
               }
               if (response.type == 'Error') {
                 this.data.foto1 = null;
                 this.data.imgVieja = null;
-                toast.fire({
+                this.Toast.fire({
                   title: response.title,
                   text: response.msg,
                   icon: 'warning',
                   time:5000,
-                })
+                });
               }
             })
         }
       },
 
+      vaciarForm(){
+        this.data.nomestado = '';
+      },
+
       actualizarEstado(){
+        this.validacion.boolean = true;
+        this.validation();
+        if (this.validacion.boolean) {
+          axios
+          .put('/v1/estado/' + this.idestado, this.data)
+          .then(response => {
+            response = response.data
+            if (response.type == 'success') {
+              swal.fire({
+                title: response.title,
+                html: response.msg,
+                icon: response.type,
+                confirmButtonColor: '#3085d6',
+                // cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Continuar',
+                // cancelButtonText: 'Cancelar',
+                allowOutsideClick: false
+              })
+              .then((result) => {
+                if(result.isConfirmed){
+                  this.salirEstado()
+
+                }
+              })
+            }
+            if (response.type == 'error') {
+              this.data.foto1 = null;
+              this.imgVieja = null;
+              this.Toast.fire({
+                  title: response.title,
+                  text: response.msg,
+                  icon: 'warning',
+                  timer: 5000,
+              });
+            }
+          })
+          .finally(() => this.loading = false);
+        }
 
 
-        let estado = this.f
+      
       },
       validation(){
         if (this.data.nomestado == '' || this.data.nomestado == null){

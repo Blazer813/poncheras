@@ -271,7 +271,7 @@ export default{
             if (response.type == 'error') {
             this.data.foto1 = null;
             this.imgVieja = null;
-            toast.fire({
+            this.Toast.fire({
                 title: response.title,
                 text: response.msg,
                 icon: 'warning',
