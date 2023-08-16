@@ -8,7 +8,7 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col" class="col-8">Nombre estado</th>
+            <th scope="col" class="col-8">Nombre Del Estado</th>
             <th scope="col" class="col-2">Acciones</th>
           </tr>
         </thead>

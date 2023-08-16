@@ -60,8 +60,40 @@ class EstadosController extends Controller
      */
     public function show(string $id)
     {
-        $estados = estado::all();
-        return $estados;
+        $response = [];
+        $selectCampos = [
+            'idestado',
+            'nomestado',
+        ];
+        $coleccionEstados = collect([]);
+        
+        switch ($id) {
+            case '@':
+                $estado = estado::select($selectCampos)->get();
+                foreach ($estado as $key => $value) {
+                    $coleccionAux = collect([
+                        [
+                            'it' => $key + 1,
+                            'idestado' => $value->idestado,
+                            'nomestado'=>
+                            $value->nomestado,
+                          
+                        ]
+
+                        ]);
+                        $coleccionEstados = $coleccionAux->concat($coleccionEstados);
+                    }
+                    break;
+                default:
+                    $estado = estado::select($selectCampos)->where('idestado',$id)->first();
+                    $coleccionEstados = ([
+                        [
+                            'idestado' => $estado->idestado,
+                            'nomestado' => $estado->nomestado,
+                        ]
+                        ]);
+        }
+        return response()->json($coleccionEstados);
     }
 
     public function list(){

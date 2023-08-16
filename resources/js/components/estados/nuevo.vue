@@ -65,7 +65,7 @@
     }  
   },
   created (){
-     this.consultadEstados();
+     this.consultadEstados(this.idestado);
   },
 
     methods: {
@@ -74,23 +74,19 @@
           this.btn.crear = false;
           this.btn.actualizar = true;
         }
-        if(id != ''){
+        if(id != ''){ 
+          console.log(id);
           axios
           .get('/v1/estados/' + id)
           .then(response =>{
-            
-
               response = response.data[0];
               this.data.nomestado = response.nomestado;
-          });
-
+           });
           }
-        
       },
 
       funFormData(data){
         const formData = new formData();
-        
         if(this.idestado != ''){
           formData.append('_method', 'put')
         }
@@ -101,7 +97,6 @@
         this.validacion.boolean = true;
         this.validation();
         if (this.validacion.boolean){
-          let estado = this.vali
           axios
           .post("/v1/estados/", this.data)
                    
@@ -189,6 +184,10 @@
 
 
       
+      },
+
+      salirEstado(){
+        window.close();
       },
       validation(){
         if (this.data.nomestado == '' || this.data.nomestado == null){

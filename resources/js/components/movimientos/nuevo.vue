@@ -337,6 +337,17 @@ export default{
         
       },
     validation(){
+      if (this.data.detanulacion==''&& this.data.idestado == 2) {
+        this.validacion.title = "Anulacion";
+        this.validacion.texto = "Agregue una descripcion de la anulacion";
+        this.validacion.boolean = false; 
+      }
+      if (this.data.fcanulacion==''&& this.data.idestado == 2) {
+        this.validacion.title = "Anulacion";
+        this.validacion.texto = "Agregue una fecha de la anulacion";
+        this.validacion.boolean = false; 
+      }
+      
       if (this.data.idcolaborador == '' || this.data.idcolaborador == null) {
             this.validacion.title = "Colaborador";
             this.validacion.texto = "No se ha asignado un colaborador";
@@ -352,6 +363,7 @@ export default{
         this.validacion.texto = "Agregue una descripción";
         this.validacion.boolean = false;
         }
+
       if (this.validacion.boolean == false) {
             this.Toast.fire({
                 title: this.validacion.title,
