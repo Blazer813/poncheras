@@ -8,7 +8,7 @@
                 <div class="row mb-2">
                   <div class="col">
                     <label class="form-label">Fecha del movimiento</label>
-                    <input class="form-control" v-model="data.fcmovimiento" readonly type="date" placeholder="Seleccione la fecha">
+                    <input class="form-control" v-model="data.fcmovimiento"  type="date" placeholder="Seleccione la fecha">
                   </div>
                   <div class="col">
                     <label class="form-label">Colaborador</label>
@@ -25,10 +25,7 @@
                       <option v-for="Tponches in all.tponches" :value="Tponches.idponches" :key="Tponches.idponches">{{ Tponches.nombreponche }}</option>
                     </select>
                   </div>
-                  <div class="col">
-                    <label class="form-label">Descripción</label>
-                    <textarea class="form-control" v-model="data.descripcion" rows="4" placeholder=""></textarea>
-                  </div>
+                  
                   <div class="col">
                     <label class="form-label">Evidencia</label>
                     <input class="form-control" type="file">
@@ -63,18 +60,31 @@
                     <label class="form-label">Fecha de la anulación</label>
                     <input class="form-control" v-model="data.fcanulacion" type="date" placeholder="Ingrese la fecha de la anulación">
                   </div>
-                  <div class="col">
+                  <div class="row mb">
+                    <div class="col">
                     <label class="form-label">Detalles de la anulación</label>
                     <textarea class="form-control" v-model="data.detanulacion" rows="4" placeholder=""></textarea>
                   </div>
+
                 </div>
-                <div class="row mb-2">
+                  
+                </div>
+                <div v-if="data.idestado != ''"  class="row mb-2">
                   <div class="col">
                     <label class="form-label">Estado Pago</label>
                     <select class="form-select" v-model="data.idestadopago" id="floatingSelect" aria-label="Floating label select example">
                       <option v-for="estadopago in all.estadospago" :value="estadopago.idestadopago" :key="estadopago.id">{{ estadopago.nomestado }}</option>
                     </select>
                   </div>
+                 
+                  
+                </div>
+                <div class="row mb">
+                  <div class="col">
+                    <label class="form-label">Descripción</label>
+                    <textarea class="form-control" v-model="data.descripcion" rows="4" placeholder=""></textarea>
+                  </div>
+
                 </div>
               </form>
             </div>
@@ -363,6 +373,12 @@ export default{
         this.validacion.texto = "Agregue una descripción";
         this.validacion.boolean = false;
         }
+
+      //   if (this.data.valorabono == '' && this.data.idestado == 2) {
+      //   this.validacion.title = "Anulacion";
+      //   this.validacion.texto = "Agregue una descripcion de la anulacion";
+      //   this.validacion.boolean = false; 
+      // }
 
       if (this.validacion.boolean == false) {
             this.Toast.fire({
