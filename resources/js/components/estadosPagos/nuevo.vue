@@ -104,10 +104,8 @@ methods: {
                         title: response.title,
                         html: response.msg,
                         icon: response.type,
-                        confirmButtonColor: '#3085d6',
-                        // cancelButtonColor: '#3085d6',
+                        confirmButtonColor: '#00695c',
                         confirmButtonText: 'Continuar',
-                        // cancelButtonText: 'Cancelar',
                         allowOutsideClick: false
                     })
                     .then((result) => {

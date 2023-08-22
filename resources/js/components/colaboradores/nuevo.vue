@@ -8,7 +8,7 @@
             <div class="row mb-2">
               <div class="col">
                 <label class="form-label">Nombre</label>
-                <input   class="form-control" v-model="data.nombrecompleto" type="text" placeholder="Ingrese el nombre del Colaborador"> 
+                <input   class="form-control" v-model="data.nombrecompleto" type="text" placeholder="Ingrese el nombre del Colaborador" maxlength="30"> 
               </div>
               <div class="col">
                     <label class="form-label">Telefono</label>

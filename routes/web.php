@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
         Route::view('/','poncheras.colaboradores.listar')->name('ColaboradorListar');
         Route::get('/list', [Colaborador_v1::class, 'list']);
         Route::get('/{event}/{id?}', [Vistas_v1::class, 'viewColaborador'])->name('ColaboradorNuevo');
+        Route::delete('/{id?}', [Colaborador_v1::class, 'destroy']);
     });
 
     Route::prefix('tipoponchera')->group(function(){

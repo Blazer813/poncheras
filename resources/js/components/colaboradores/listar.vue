@@ -23,7 +23,7 @@
             <td>{{ colaborador.fcnacimiento }}</td>
             <td>
               <button type="button" @click="editColaborador(colaborador.idcolaborador)" class="btn btn-primary">Editar</button>
-              &nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger">Eliminar</button>
+              &nbsp;&nbsp;&nbsp;<button type="button" @click="eliminarColaborador(colaborador.idcolaborador)" class="btn btn-danger">Eliminar</button>
             </td>
           </tr>
         </tbody>
@@ -86,9 +86,67 @@
       },
       nuevoColaborador(){
         let nuevo = window.open(`/colaborador/nuevo`, `emergente`, `width=${screen.width},height=800` );
-      }
-    },
-
+      },
+      eliminarColaborador(id) {
+        swal.fire({
+                title: 'Eliminar Colaborador',
+                html: `Esta seguro de que quiere eliminar el colaborador`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#00695c',
+                confirmButtonText: 'Eliminar',
+                cancelButtonText: 'Cancelar',
+                allowOutsideClick: false
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    swal.fire({
+                        title: 'Eliminar colaborador',
+                        html: "Esta acción es irreversible, ¿desea continuar?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#00695c',
+                        confirmButtonText: 'Si',
+                        cancelButtonText: 'No',
+                        allowOutsideClick: false
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            axios
+                                .delete(`/colaborador/${id}`)
+                                .then(response => {
+                                    if (response.data.status == 400) {
+                                        Swal.fire({
+                                            icon: response.data.type,
+                                            title: response.data.title,
+                                            text: response.data.msg,
+                                            footer: 'Comuniquese con el adminisitrador para mas información'
+                                        })
+                                    } else {
+                                        this.Toast.fire({
+                                            icon: response.data.type,
+                                            title: response.data.title,
+                                            text: response.data.msg,
+                                            timmer: 5000
+                                        });
+                                    if(response.status === 200){
+                                        this.mostrarDatos();
+                                    }
+                                    }
+                                })
+                                
+                        }
+                    })
+                }
+            })
+          }
+    }
   }
+
+      
+
+
    
 </script>

@@ -199,7 +199,7 @@
             url = '/estados/nuevo'
             break;
           case 'tipoponche':
-            url = '/tiposPoncheras/nuevo'
+            url = '/tipoponchera/nuevo'
             break;
           case 'estadopago':
             url = '/estadopago/nuevo'

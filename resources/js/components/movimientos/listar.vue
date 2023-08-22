@@ -101,6 +101,9 @@
             },
             nuevoMovimiento(){
                 let nuevo = window.open(`/movimiento/nuevo`, `emergente`, `width=${screen.width},height=800`);
+                nuevo.addEventListener("beforeunload", function(event){
+                    window.location.reload()
+                })
             },
             eliminarMovimiento(id) {
                 swal.fire({
@@ -109,7 +112,7 @@
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
+                        cancelButtonColor: '#00695c',
                         confirmButtonText: 'Eliminar',
                         cancelButtonText: 'Cancelar',
                         allowOutsideClick: false
@@ -118,11 +121,11 @@
                         if (result.isConfirmed) {
                             swal.fire({
                                 title: 'Eliminar Movimiento',
-                                html: "Se eliminará el movimiento, esta seguro de continuar: ",
+                                html: "Esta acción es irreversible, ¿desea continuar?: ",
                                 icon: 'warning',
                                 showCancelButton: true,
                                 confirmButtonColor: '#d33',
-                                cancelButtonColor: '#3085d6',
+                                cancelButtonColor: '#00695c',
                                 confirmButtonText: 'Si',
                                 cancelButtonText: 'No',
                                 allowOutsideClick: false
