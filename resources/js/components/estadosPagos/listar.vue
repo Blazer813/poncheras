@@ -82,11 +82,11 @@
       eliminarMovimiento(id) {
         swal.fire({
                 title: 'Eliminar Estado Pago',
-                html: `Esta Seguro de que quiere eliminar el movimiento`,
+                html: `Esta Seguro de que quiere eliminar el estado pago`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
+                cancelButtonColor: '#00695c',
                 confirmButtonText: 'Eliminar',
                 cancelButtonText: 'Cancelar',
                 allowOutsideClick: false
@@ -99,7 +99,7 @@
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
+                        cancelButtonColor: '#00695c',
                         confirmButtonText: 'Si',
                         cancelButtonText: 'No',
                         allowOutsideClick: false
@@ -108,7 +108,7 @@
                         if (result.isConfirmed) {
                             
                             axios
-                                .delete(`/movimiento/${id}`)
+                                .delete(`/estadopago/${id}`)
                                 .then(response => {
                                     if (response.data.status == 400) {
                                         Swal.fire({

@@ -204,6 +204,9 @@ class MovimientosController extends Controller
 
 
             $actualizarMovimiento = movimiento::findOrFail($id);
+            $valorDeuda = $actualizarMovimiento->valordeuda;
+
+
             $actualizarMovimiento->fcmovimiento = $request->fcmovimiento;
             $actualizarMovimiento->idcolaborador = $request->idcolaborador;
             $actualizarMovimiento->descripcion = $request->descripcion;
@@ -212,13 +215,14 @@ class MovimientosController extends Controller
             $actualizarMovimiento->valordeuda = $request->valordeuda;
             $actualizarMovimiento->valorabono = $request->valorabono;
             $actualizarMovimiento->idestadopago = $request->idestadopago;
-            
+        
             !empty($fcpago) == true ?  $actualizarMovimiento->fcpago = $fcpago : $actualizarMovimiento->fcpago = null;
 
             $actualizarMovimiento->idestado = $request->idestado;
             $actualizarMovimiento->detanulacion = $request->detanulacion;
 
-            !empty($fcanulacion) == true ?  $actualizarMovimiento->fcanulacion = $fcanulacion : $actualizarMovimiento->fcanulacion = null;
+            $request->fcanulacion == 'null' ? $actualizarMovimiento->fcanulacion = null : $actualizarMovimiento->fcanulacion = $request->fcanulacion;
+            // !empty($fcanulacion) == true ?  $actualizarMovimiento->fcanulacion = $fcanulacion : $actualizarMovimiento->fcanulacion = null;
 
             if(!$actualizarMovimiento->update()){
                 throw new Exception("Error al actualizar el movimiento", 101);
