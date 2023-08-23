@@ -171,6 +171,13 @@ class EstadosController extends Controller
             $response['msg'] = $e->getMessage();
             }
 
+            if($e->getCode() == 23000){
+                $response['msg'] = "El Estado se encuentra asociado, no se puede eliminar"
+         ;}
+
             return response()->json($response);
+
+
+             
     }
 }

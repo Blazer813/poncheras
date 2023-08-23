@@ -146,7 +146,7 @@ class MovimientosController extends Controller
                 ]);
                 break;
         }
-        return response()->json($coleccionMovimientos);
+            return response()->json($coleccionMovimientos);
     }
 
 
