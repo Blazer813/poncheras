@@ -39,13 +39,13 @@ class EstadosController extends Controller
             }
             $response['type'] = 'success';
             $response['title'] = 'Creacion del estado';
-            $response['msg'] = 'se creo el colaborador con exito';
+            $response['msg'] = 'se creo el Estado  con exito';
 
         } catch (Exception $e) {
             $response['Linea'] = $e->getLine();
             $response['Archivo'] = $e->getFile();
             $response['type'] = 'Error';
-            $response['title'] = 'Error al crear colaborador'; 
+            $response['title'] = 'Error al crear Estado'; 
             $response['error_code'] = $e->getCode();
             $response['msg'] = $e->getMessage();
 
