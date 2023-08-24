@@ -1,6 +1,7 @@
 
 <template>
 
+  
     <div class="row">
       <div class="d-flex justify-content-end mb-2">
             <button type="button" @click="nuevoEstado" class="btn btn-primary">Nuevo</button>
@@ -9,11 +10,11 @@
         <thead>
           <tr>
             <th scope="col" class="col-8">Nombre Del Estado</th>
-            <th scope="col" class="col-2">Acciones</th>
+            <th scope="col" class="col-2 ">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="estado in estados" :key="estado.idestado">
+          <tr v-for="estado in estados" :key="estado.idestado" style="background-color: red;">
             <td class="col-8">{{ estado.nomestado }}</td>
             <td class="col-2">
               <button type="button" @click="editEstados(estado.idestado)" class="btn btn-primary">Editar</button>
@@ -43,6 +44,22 @@
                     </ul>
                 </nav>
             </div>
+
+          <div class="card">
+            <div class="card-header"> 
+              <h4 class="card-title">Colabodores</h4>
+              <p class="card-category">Poncheras a travez de los meses</p>
+            </div>
+            <div class="card-body">
+              <div id="div_1397441348880" class="ct-chart">
+                <svg xmlns:ct="http://gionkunz.github.com/chartist-js/ct" width="100%" height="245px" class="ct-chart-line" style="width: 100%; height: 245px;">
+                <g class="ct-grids">
+                  <line y1="210" y2="210" x1="50" x2="415.328125" class="ct-grid ct-vertical"  ></line>                                       
+
+                </g>  </svg>
+              </div>
+            </div>
+          </div>
       </table>
 
     </div>      
@@ -146,5 +163,6 @@
   }
   
   } 
+         
 </script>
   

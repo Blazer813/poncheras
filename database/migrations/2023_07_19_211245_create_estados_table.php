@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('estados', function (Blueprint $table) {
             $table->integer('idestado')->autoIncrement()->comment('Llave Primaria');
             $table->text('nomestado')->comment('Nombre del Estado');
+            $table->text('color_fondo')->comment('Color del Fondo');
+            $table->text('color_letras')->comment('Color de la letra');
             $table->timestamps();
+            
         });
     }
 

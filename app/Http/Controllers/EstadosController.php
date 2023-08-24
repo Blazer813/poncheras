@@ -5,6 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\estado;
 use Exception;
+
+
+$anulado = array(
+    'anulado' => 'red' 
+     
+);
+
 class EstadosController extends Controller
 {
     /**
