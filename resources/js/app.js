@@ -63,6 +63,9 @@ app.component('nuevo-tipoponchera-component', NuevoTipoPonchera);
 import ListarTipoPonchera from './components/tiposPoncheras/listar.vue';
 app.component('listar-tipoponchera-component', ListarTipoPonchera)
 
+import ListarContabilidad from './components/contabilidad/listar.vue';
+app.component('listar-contabilidad-component', ListarContabilidad)
+
 
 
 

@@ -8,7 +8,7 @@
                 <div class="row mb-2">
                   <div class="col">
                     <label class="form-label">Fecha del movimiento</label>
-                    <input class="form-control" v-model="data.fcmovimiento"  type="date" placeholder="Seleccione la fecha">
+                    <input class="form-control" v-model="data.fcmovimiento"  :min="minDate" type="date" placeholder="Seleccione la fecha">
                   </div>
                   <div class="col">
                     <label class="form-label">Colaborador</label>
@@ -101,18 +101,19 @@
 
 <script>
 export default{
+
   data() {
     return {
       data:{
-        fcmovimiento: new Date().toISOString().substr(0, 10),
+        fcmovimiento: this.obtenerFechaActual(),
         idcolaborador:'',
         descripcion:'',
         evidencia: null,
         idponches:'',
         valordeuda: 2500,
-        valorabono:'',
+        valorabono: 0,
         idestadopago: 2,
-        fcpago: null,
+        fcpago: '',
         idestado: 1,
         detanulacion:'',
         fcanulacion:'',
@@ -132,9 +133,10 @@ export default{
       btn:{
         crear: 1,
         actualizar: 0,
+        }
       }
-    }
   },
+
   props:{
     idmovimiento: {
       type: String,
@@ -150,6 +152,12 @@ export default{
     }
   },
 
+  computed:{
+    minDate() {
+      return this.obtenerFechaActual(); 
+    }
+  },
+
   created(){
     this.consultaTPonches();
     this.consultaEstados();
@@ -159,6 +167,14 @@ export default{
   },
 
   methods: {
+    obtenerFechaActual(){
+      const hoy = new Date();
+      const anio = hoy.getFullYear();
+      const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+      const dia = String(hoy.getDate()).padStart(2, '0');
+      console.log(this.obtenerFechaActual);
+      return `${anio}-${mes}-${dia}`;
+    },
     consultaEstados(){
       axios
         .get('/v1/estados/@')
@@ -197,11 +213,11 @@ export default{
             this.data.descripcion = response.descripcion;
             this.data.valordeuda = response.valordeuda;
             this.data.valorabono = response.valorabono;
-            this.data.fcpago = response.fcpago;
+            this.data.fcpago = response.fcPago;
             this.data.idestado = response.estado.idestado;
             this.data.fcanulacion = response.fcanulacion;
             this.data.detanulacion = response.detanulacion;
-            this.data.idestadopago = response.estadopago.idestadopago;
+            this.data.idestadopago = response.estadoPago.idestadopago;
         });
 
       }
@@ -375,6 +391,14 @@ export default{
       //   this.validacion.texto = "Agregue una descripcion de la anulacion";
       //   this.validacion.boolean = false; 
       // }
+
+      if(this.data.valorabono >= 1){
+        if (this.data.fcpago == '' || this.data.fcpago == null) {
+          this.validacion.title = "Fecha Pago";
+          this.validacion.texto = "Agregue una fecha pago";
+          this.validacion.boolean = false;
+        }
+      }
 
       if (this.validacion.boolean == false) {
             this.Toast.fire({

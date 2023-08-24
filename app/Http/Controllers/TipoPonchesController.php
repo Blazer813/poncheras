@@ -163,7 +163,7 @@ class TipoPonchesController extends Controller
                 throw new Exception("Error al eliminar el Tipo de Ponchera", 101);
             }
             $response['type'] = 'success';
-            $response['title'] = 'ELiminar Tipo de Ponchera';
+            $response['title'] = 'Eliminar Tipo de Ponchera';
             $response['msg'] = 'Se elimino el Tipo de Ponchera con exito';
         } catch (Exception $e) {
             $response['Linea'] = $e->getLine();
@@ -172,6 +172,9 @@ class TipoPonchesController extends Controller
             $response['title'] = 'Error al eliminar el Tipo de Ponchera';
             $response['error_code'] = $e->getCode();
             $response['msg'] = $e->getMessage();
+        }
+        if ($e->getCode() == 23000) {
+            $response['msg'] = "El Tipo de Ponchera se encuentra asociado, no se puede eliminar.";
         }
 
         return response()->json($response);

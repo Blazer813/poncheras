@@ -17,7 +17,7 @@
             <td class="col-8">{{ tipoponchera.nombreponche }}</td>
             <td class="col-2">
               <button type="button" @click="editTipoponchera(tipoponchera.idponches)" class="btn btn-primary">Editar</button>
-              &nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger">Eliminar</button>
+              &nbsp;&nbsp;&nbsp;<button type="button" @click="eliminarPonchera(tipoponchera.idponches)" class="btn btn-danger">Eliminar</button>
             </td>
           </tr>
         </tbody>
@@ -78,8 +78,11 @@
       },
       nuevoTipoponchera(){
         let nuevo = window.open(`/tipoponchera/nuevo`, `emergente`, `width=${screen.width},height=800`)
+        nuevo.addEventListener("beforeunload", function(event){
+                    window.location.reload()
+                })
       },
-      eliminarMovimiento(id) {
+      eliminarPonchera(id) {
         swal.fire({
                 title: 'Eliminar Ponchera',
                 html: `Esta Seguro de que quiere eliminar la Ponchera`,

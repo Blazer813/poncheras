@@ -31,7 +31,7 @@
                     <td>{{ movimiento.valordeuda }}</td>
                     <td>{{ movimiento.valorabono == null || movimiento.valorabono == '' ? 'No hay abono': movimiento.valorabono}}</td>
                     <td>{{ movimiento.estado_pago.nomestado }}</td>
-                    <td>{{ movimiento.fcPago == null ? 'No hay fecha' : movimiento.fcPago }}</td>
+                    <td>{{ movimiento.fcpago == null ? 'No hay fecha' : movimiento.fcpago }}</td>
                     <td>{{ movimiento.estado.nomestado }}</td>
                     <td>
                         <button type="button" @click="editMovimiento(movimiento.idmovimiento)" class="btn btn-primary">Editar</button>

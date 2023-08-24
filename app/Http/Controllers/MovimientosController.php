@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\movimiento;
+use App\Models\estadoPago;
 use Exception;
 
 class MovimientosController extends Controller
@@ -205,6 +206,7 @@ class MovimientosController extends Controller
 
             $actualizarMovimiento = movimiento::findOrFail($id);
             $valorDeuda = $actualizarMovimiento->valordeuda;
+            $valorAbono = $actualizarMovimiento->valorabono;
 
 
             $actualizarMovimiento->fcmovimiento = $request->fcmovimiento;
@@ -214,8 +216,19 @@ class MovimientosController extends Controller
             $actualizarMovimiento->idponches = $request->idponches;
             $actualizarMovimiento->valordeuda = $request->valordeuda;
             $actualizarMovimiento->valorabono = $request->valorabono;
-            $actualizarMovimiento->idestadopago = $request->idestadopago;
-        
+
+
+            $estadoPago = estadoPago::where('nomestado', 'Abonado')->first();
+
+            if ($valorAbono < $valorDeuda && $valorAbono >= 1) {
+                    $actualizarMovimiento->idestadopago = $estadoPago->idestadopago;
+            } elseif ($valorAbono === $valorDeuda) {
+                $actualizarMovimiento->idestadopago = 3;
+            } else{
+                $actualizarMovimiento->idestadopago = 1;
+            }
+    
+            
             !empty($fcpago) == true ?  $actualizarMovimiento->fcpago = $fcpago : $actualizarMovimiento->fcpago = null;
 
             $actualizarMovimiento->idestado = $request->idestado;

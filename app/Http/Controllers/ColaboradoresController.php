@@ -184,6 +184,9 @@ class ColaboradoresController extends Controller
             $response['error_code'] = $e->getCode();
             $response['msg'] = $e->getMessage();
         }
+        if ($e->getCode() == 23000) {
+            $response['msg'] = "El Colaborador se encuentra asociado, no se puede eliminar";
+        }
 
         return response()->json($response);
     }

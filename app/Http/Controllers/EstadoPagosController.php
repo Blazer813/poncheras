@@ -161,6 +161,9 @@ class EstadoPagosController extends Controller
             $response['error_code'] = $e->getCode();
             $response['msg'] = $e->getMessage();
         }
+        if ($e->getCode() == 23000) {
+            $response['msg'] = "El Estado Pago se encuentra asociado, no se puede eliminar";
+        }
 
         return response()->json($response);
     }

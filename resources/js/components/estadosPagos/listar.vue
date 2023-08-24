@@ -17,7 +17,7 @@
             <td class="col-8">{{ estadopago.nomestado }}</td>
             <td class="col-2">
               <button type="button" @click="editEstadosPagos(estadopago.idestadopago)" class="btn btn-primary">Editar</button>
-              &nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger">Eliminar</button>
+              &nbsp;&nbsp;&nbsp;<button type="button" @click="eliminarEstadoPago(estadopago.idestadopago)" class="btn btn-danger">Eliminar</button>
             </td>
           </tr>
         </tbody>
@@ -78,8 +78,11 @@
       },
       nuevoEstadoPago(){
         let nuevo = window.open(`/estadopago/nuevo`, `emergente`, `width=${screen.width},height=800`)
+        nuevo.addEventListener("beforeunload", function(event){
+                    window.location.reload()
+                })
       },
-      eliminarMovimiento(id) {
+      eliminarEstadoPago(id) {
         swal.fire({
                 title: 'Eliminar Estado Pago',
                 html: `Esta Seguro de que quiere eliminar el estado pago`,
