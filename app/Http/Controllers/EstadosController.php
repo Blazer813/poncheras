@@ -7,10 +7,6 @@ use App\Models\estado;
 use Exception;
 
 
-$anulado = array(
-    'anulado' => 'red' 
-     
-);
 
 class EstadosController extends Controller
 {
@@ -40,6 +36,8 @@ class EstadosController extends Controller
         try {
             $nuevoestado = new estado();
             $nuevoestado->nomestado = $request->nomestado;
+            $nuevoestado->color_fondo = $request->color_fondo;
+            $nuevoestado->color_letras = $request->color_letras;
 
             if (!$nuevoestado->save()) {
                 throw new Exception("error al crear estado", 101);
@@ -71,6 +69,8 @@ class EstadosController extends Controller
         $selectCampos = [
             'idestado',
             'nomestado',
+            'color_fondo',
+            'color_letras'
         ];
         $coleccionEstados = collect([]);
         
@@ -82,11 +82,11 @@ class EstadosController extends Controller
                         [
                             'it' => $key + 1,
                             'idestado' => $value->idestado,
-                            'nomestado'=>
-                            $value->nomestado,
-                          
-                        ]
+                            'nomestado' => $value->nomestado,
+                            'color_fondo' => $value->color_fondo,
+                            'color_letras' => $value->color_letras
 
+                        ]
                         ]);
                         $coleccionEstados = $coleccionAux->concat($coleccionEstados);
                     }
@@ -97,6 +97,8 @@ class EstadosController extends Controller
                         [
                             'idestado' => $estado->idestado,
                             'nomestado' => $estado->nomestado,
+                            'color_fondo' => $estado->color_fondo,
+                            'color_letras' => $estado->color_letras,
                         ]
                         ]);
         }
@@ -107,6 +109,8 @@ class EstadosController extends Controller
         $selectCampos =[
          'idestado',
          'nomestado',
+         'color_fondo',
+         'color_letras'
         ];
 
         $estados = estado::select($selectCampos)->paginate(8);
@@ -132,6 +136,8 @@ class EstadosController extends Controller
         try {
             $actualizarEstado = estado::findOrFail($id);
             $actualizarEstado->nomestado = $request->nomestado;
+            $actualizarEstado->color_fondo = $request->color_fondo;
+            $actualizarEstado->color_letras = $request->color_letras;
 
             if(!$actualizarEstado->update()){
                 throw new Exception("Error al actualizar estado", 101);
@@ -158,7 +164,7 @@ class EstadosController extends Controller
      */
     public function destroy(string $id)
     {
-      $response = [];
+    
       try{
         $estado = estado::findOrFail($id);
       if(!$estado->delete()){
@@ -173,15 +179,17 @@ class EstadosController extends Controller
             $response['Linea'] = $e->getLine();
             $response['Archivo'] = $e->getFile();
             $response['type'] = 'error';
-            $response['title'] = 'error al actualizar estado';
+            $response['title'] = 'error al eliminar el estado';
             $response['error_code'] = $e->getCode();
             $response['msg'] = $e->getMessage();
-            }
 
             if($e->getCode() == 23000){
                 $response['msg'] = "El Estado se encuentra asociado, no se puede eliminar"
          ;}
 
+            }
+
+           
             return response()->json($response);
 
 

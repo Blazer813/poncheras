@@ -7,11 +7,17 @@
               <form>
                 <div class="row mb-2">
                   <div class="col">
-                    <label class="form-label">Nombre estado</label>
-                    <input   class="form-control" v-model="data.nomestado" type="text" placeholder="Ingrese el nombre del Estado">
-                   
+                      <label class="form-label">Nombre de estado</label>
+                      <input   class="form-control" v-model="data.nomestado" type="text" placeholder="Ingrese el nombre del Estado">
                   </div>
-
+                 <div class="col"> 
+                    <label class="form-label">Color de Fondo</label>
+                    <input   class="form-control" v-model="data.color_fondo" type="color" placeholder="Ingrese el color del Fondo de Estado">
+                  </div>
+                  <div class="col"> 
+                    <label class="form-label">Color de Letra</label>
+                    <input class="form-control" v-model="data.color_letras" type="color" placeholder="Ingrese el Color de letra del Estado">
+                  </div>
                 </div>
               </form>
             </div>
@@ -34,6 +40,8 @@
           data: {
             idestado: '',
             nomestado: '',
+            color_fondo: '#000000',
+            color_letras: '#FFFFFF',
       },
       validacion: {
         texto: '',
@@ -69,6 +77,10 @@
   },
 
     methods: {
+
+      windowClose() {
+              window.location.reload();
+          },
       consultadEstados(id){
         if(this.evento == 'edit'){
           this.btn.crear = false;
@@ -81,6 +93,8 @@
           .then(response =>{
               response = response.data[0];
               this.data.nomestado = response.nomestado;
+              this.data.color_fondo = response.color_fondo;
+              this.data.color_letras = response.color_letras;
            });
           }
       },
@@ -135,11 +149,25 @@
                 });
               }
             })
+            .finally(() => this.loading = false);
+
+            nuevo.addEventListener("beforeunload", function(event) {
+                    window.location.reload()
+                });
         }
+
+        
+        
       },
+      salirEstado(){
+        window.close();
+      },
+      
 
       vaciarForm(){
         this.data.nomestado = '';
+        this.data.color_fondo = '#000000';
+        this.data.color_letras = '#FFFFFF';
       },
 
       actualizarEstado(){
@@ -147,7 +175,7 @@
         this.validation();
         if (this.validacion.boolean) {
           axios
-          .put('/v1/estado/' + this.idestado, this.data)
+          .put('/v1/estados/' + this.idestado, this.data)
           .then(response => {
             response = response.data
             if (response.type == 'success') {

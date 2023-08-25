@@ -12,6 +12,6 @@ class estado extends Model
     protected $table = 'estados';
     protected $primaryKey = 'idestado';
     protected $fillable = [
-        'nomestado',
+        'nomestado','color_fondo','color_letras',
     ]; 
 }

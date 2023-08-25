@@ -9,13 +9,38 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col" class="col-8">Nombre Del Estado</th>
-            <th scope="col" class="col-2 ">Acciones</th>
+            <th scope="col" class="col-4">Nombre Del Estado</th>
+            <th scope="col" class="col-3">Color del Fondo</th>
+            <th scope="col" class="col-3">Color de la Letra</th>
+            <th scope="col" class="col-2 ">Acciones</th>           
           </tr>
         </thead>
         <tbody>
-          <tr v-for="estado in estados" :key="estado.idestado" style="background-color: red;">
-            <td class="col-8">{{ estado.nomestado }}</td>
+          <tr v-for="estado in estados" :key="estado.idestado">
+            <td class="col-4">{{ estado.nomestado }}</td>
+            <td class="col-2">
+            
+                <div :style="{
+                  backgroundColor: estado.color_fondo,
+                  width: '100px',
+                  height: '20px',
+                  border: '1px solid #ccc',
+                  borderRadius: '8px',
+                  boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)'
+                }">
+                </div>
+              
+              </td>
+            <td class="col-3">
+              <div :style="{
+                  backgroundColor: estado.color_letras,
+                  width: '100px',
+                  height: '20px',
+                  border: '1px solid #ccc',
+                  borderRadius: '8px',
+                  boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)'
+                }">
+            </div></td>
             <td class="col-2">
               <button type="button" @click="editEstados(estado.idestado)" class="btn btn-primary">Editar</button>
               &nbsp;&nbsp;&nbsp;<button type="button" @click="eliminarEstado(estado.idestado)"  class="btn btn-danger">Eliminar</button>
@@ -45,7 +70,7 @@
                 </nav>
             </div>
 
-          <div class="card">
+          <!-- <div class="card">
             <div class="card-header"> 
               <h4 class="card-title">Colabodores</h4>
               <p class="card-category">Poncheras a travez de los meses</p>
@@ -59,7 +84,7 @@
                 </g>  </svg>
               </div>
             </div>
-          </div>
+          </div> -->
       </table>
 
     </div>      
@@ -80,19 +105,25 @@
         it:0,
         currentPage:1,
         lastPage: 1,
-      }
+        }
+    },
+    created(){
+        this.mostrarDatos(); 
     },
     methods: {
-      mostrarDatos(page = 1){
-        axios 
-        .get(`/estados/list?page=${page}`)
-        .then(response => { 
-          console.log(response)
-          this.currentPage = response.data.current_page; // Actualizamos la página actual
-          this.lastPage = response.data.last_page; // Actualizamos la última página
-          this.estados = response.data.data; // Actualizamos los datos de estados
-        });
-      },
+          windowClose() {
+              window.location.reload();
+          },
+                mostrarDatos(page = 1){
+                  axios 
+                  .get(`/estados/list?page=${page}`)
+                  .then(response => { 
+                    console.log(response)
+                    this.currentPage = response.data.current_page; // Actualizamos la página actual
+                    this.lastPage = response.data.last_page; // Actualizamos la última página
+                    this.estados = response.data.data; // Actualizamos los datos de estados
+                  });
+                },
       editEstados(id){
         let edit =window.open(`/estados/edit/${id}`,`emergente`,`widht=${screen.width},height=800`);
                 edit.addEventListener("beforeunload", function(event) {
@@ -102,6 +133,9 @@
 
       nuevoEstado(){
         let nuevo = window.open(`/estados/nuevo`, `emergente`,`widht=${screen.width},height=800`);
+        nuevo.addEventListener("beforeunload",function(event){
+          window.location.reload();
+        })
       },
       eliminarEstado(id) {
                 swal.fire({
@@ -160,7 +194,12 @@
             }
 
 
+
+           
+
+
   }
+     
   
   } 
          
