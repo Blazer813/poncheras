@@ -109,6 +109,7 @@ methods: {
 
   salirColaborador(){
     window.close();
+    window.location.reload();
   },
 
   guardarDatos(){

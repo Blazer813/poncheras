@@ -73,8 +73,9 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{id?}',[Estados_v1::class, 'destroy']);
     });
 
-    Route::prefix('paneldecontrol')->group(function(){
-        Route::view('/','poncheras.contabilidad.listar')->name('PaneldeControl');
+    Route::prefix('contabilidad')->group(function(){
+        Route::view('/','poncheras.contabilidad.listar')->name('Contabilidad');
+        Route::get('/list', [Contabilidad_v1::class, 'list']);
     });
 
 

@@ -34,9 +34,28 @@
                     <td>{{ movimiento.fcpago == null ? 'No hay fecha' : movimiento.fcpago }}</td>
                     <td>{{ movimiento.estado.nomestado }}</td>
                     <td>
-                        <button type="button" @click="editMovimiento(movimiento.idmovimiento)" class="btn btn-primary">Editar</button>
-                        &nbsp;&nbsp;&nbsp;<button type="button" @click="eliminarMovimiento(movimiento.idmovimiento)"  class="btn btn-danger">Eliminar</button>
-                    </td>
+    <!-- <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Opciones
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <button type="button" class="dropdown-item" @click="editMovimiento(movimiento.idmovimiento)">Editar</button>
+            <button type="button" class="dropdown-item" @click="abonarMovimiento(movimiento.idmovimiento)">Abonar</button>
+            <button type="button" class="dropdown-item" @click="eliminarMovimiento(movimiento.idmovimiento)">Eliminar</button>
+        </div>
+    </div> -->
+    <div class="btn-group btn-group-default">
+    <button class="btn btn-default" type="button"><i class="fa fa-bars" aria-hidden="true"></i></button>
+    <button style="height: 28px;" data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button"><span class="caret"></span></button>
+    <ul class="dropdown-menu" style="margin-left: -70px;">
+        <li class="btn-warning" data-toggle="tooltip" title="Editar"><a class="edit"><i class="fa fa-edit" style="color:#000000;cursor: pointer;"></i> Editar</a></li>
+        <li class="btn-primary" data-toggle="tooltip" title="Ver"><a class="ver"><i class="fa fa-print" style="color:#000000;cursor: pointer;"></i> Ver</a></li>
+        <li class="btn-danger" data-toggle="tooltip" title="Eliminar"><a class="delete"><i class="fa fa-trash" style="color:#ffffff;cursor: pointer;"></i> Eliminar</a></li>
+    </ul>
+</div>
+
+</td>
+
                 </tr>
             </tbody>
             <!-- Agregar los enlaces de paginación -->
@@ -95,6 +114,12 @@
             },
             editMovimiento(id) {
                 let edit = window.open(`/movimiento/edit/${id}`, `emergente`, `width=${screen.width},height=800`);
+                edit.addEventListener("beforeunload", function(event) {
+                    window.location.reload()
+                });
+            },
+            abonarMovimiento(id) {
+                let edit = window.open(`/movimiento/abonar/${id}`, `emergente`, `width=${screen.width},height=800`);
                 edit.addEventListener("beforeunload", function(event) {
                     window.location.reload()
                 });

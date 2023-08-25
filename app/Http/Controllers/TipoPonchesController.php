@@ -158,13 +158,14 @@ class TipoPonchesController extends Controller
     public function destroy(string $id)
     {
         try {
-            $tiposPonchera = tiposPonchera::findOrFail($id);
-            if(!$tiposPonchera->delete()){
+            $tiposPonchera = TiposPonchera::findOrFail($id);
+            if (!$tiposPonchera->delete()) {
                 throw new Exception("Error al eliminar el Tipo de Ponchera", 101);
             }
+        
             $response['type'] = 'success';
             $response['title'] = 'Eliminar Tipo de Ponchera';
-            $response['msg'] = 'Se elimino el Tipo de Ponchera con exito';
+            $response['msg'] = 'Se eliminó el Tipo de Ponchera con éxito';
         } catch (Exception $e) {
             $response['Linea'] = $e->getLine();
             $response['archivo'] = $e->getFile();
@@ -172,12 +173,13 @@ class TipoPonchesController extends Controller
             $response['title'] = 'Error al eliminar el Tipo de Ponchera';
             $response['error_code'] = $e->getCode();
             $response['msg'] = $e->getMessage();
+        
+            if ($e->getCode() == 23000) {
+                $response['msg'] = "El Tipo de Ponchera se encuentra asociado, no se puede eliminar.";
+            }
         }
-        if ($e->getCode() == 23000) {
-            $response['msg'] = "El Tipo de Ponchera se encuentra asociado, no se puede eliminar.";
-        }
-
+        
         return response()->json($response);
+        
     }
 }
-

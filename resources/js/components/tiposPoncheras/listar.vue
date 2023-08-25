@@ -82,61 +82,61 @@
                     window.location.reload()
                 })
       },
-      eliminarPonchera(id) {
+    eliminarPonchera(id) {
         swal.fire({
-                title: 'Eliminar Ponchera',
-                html: `Esta Seguro de que quiere eliminar la Ponchera`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#00695c',
-                confirmButtonText: 'Eliminar',
-                cancelButtonText: 'Cancelar',
-                allowOutsideClick: false
+          title: 'Eliminar Ponchera',
+          html: `Esta Seguro de que quiere eliminar la Ponchera`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#00695c',
+          confirmButtonText: 'Eliminar',
+          cancelButtonText: 'Cancelar',
+          allowOutsideClick: false
+        })
+    .then((result) => {
+        if (result.isConfirmed) {
+          swal.fire({
+          title: 'Eliminar Ponchera',
+          html: "Esta acción es irreversible, ¿desea continuar? ",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#00695c',
+          confirmButtonText: 'Si',
+          cancelButtonText: 'No',
+          allowOutsideClick: false
           })
-            .then((result) => {
-                if (result.isConfirmed) {
-                    swal.fire({
-                        title: 'Eliminar Ponchera',
-                        html: "Esta acción es irreversible, ¿desea continuar?: ",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#00695c',
-                        confirmButtonText: 'Si',
-                        cancelButtonText: 'No',
-                        allowOutsideClick: false
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            axios
-                            .delete(`/tipoponchera/${id}`)
-                            .then(response => {
-                                if (response.data.status == 400) {
-                                    Swal.fire({
-                                        icon: response.data.type,
-                                        title: response.data.title,
-                                        text: response.data.msg,
-                                        footer: 'Comuniquese con el adminisitrador para mas información'
-                                    })
-                                } else {
-                                    this.Toast.fire({
-                                        icon: response.data.type,
-                                        title: response.data.title,
-                                        text: response.data.msg,
-                                        timmer: 5000
-                                    });
-                                if(response.status === 200){
-                                    this.mostrarDatos();
-                                }
-                                }
-                            })   
-                        }
-                    })
-                }
-            })
-        }
-    },
+              .then((result) => {
+                  if (result.isConfirmed) {
+                      axios.delete(`/tipoponchera/${id}`)
+                      .then(response => {
+                          if (response.data.status == 400) {
+                            swal.fire({
+                              icon: response.data.type,
+                              title: response.data.title,
+                              text: response.data.msg,
+                              footer: 'Comuniquese con el adminisitrador para mas información'
+                          })
+                          } else {
+                            this.Toast.fire({
+                                          icon: response.data.type,
+                                          title: response.data.title,
+                                          text: response.data.msg,
+                                          timmer: 5000
+                                      });
+                              if (response.status === 200) {
+                                  this.mostrarDatos();
+                              }
+                          }
+                      })   
+                  }
+              })
+          }
+    })
+  }
+}
+
 
   }
    

@@ -3,22 +3,22 @@
 
     <div class="row">
       <div class="d-flex justify-content-end mb-2">
-            <button type="button" @click="nuevoEstado" class="btn btn-primary">Nuevo</button>
         </div>
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col" class="col-8">Nombre Del Estado</th>
-            <th scope="col" class="col-2">Acciones</th>
+            <th scope="col" class="col-3">Colaborador</th>
+            <th scope="col" class="col-3">Valor Deuda</th>
+            <th scope="col" class="col-2">Valor Abono</th>
+            <th scope="col" class="col-2">Total</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="estado in estados" :key="estado.idestado">
-            <td class="col-8">{{ estado.nomestado }}</td>
-            <td class="col-2">
-              <button type="button" @click="editEstados(estado.idestado)" class="btn btn-primary">Editar</button>
-              &nbsp;&nbsp;&nbsp;<button type="button" @click="eliminarEstado(estado.idestado)"  class="btn btn-danger">Eliminar</button>
-            </td>
+          <tr v-for="movimiento in movimientos" :key="movimiento.idmovimientos">
+            <td class="col-3">{{ movimiento.nombrecompleto }}</td>
+            <td class="col-3">{{ movimiento.total_deuda }}</td>
+            <td class="col-2">{{ movimiento.total_abono }}</td>
+            <td class="col-2">{{ movimiento.saldo }}</td>
           </tr>
         </tbody>
 
@@ -59,90 +59,22 @@
     },
     data (){
       return{
-        estados:[],
+        movimientos:[],
         it:0,
         currentPage:1,
         lastPage: 1,
       }
     },
     methods: {
-      mostrarDatos(page = 1){
-        axios 
-        .get(`/estados/list?page=${page}`)
-        .then(response => { 
-          console.log(response)
-          this.currentPage = response.data.current_page; // Actualizamos la página actual
-          this.lastPage = response.data.last_page; // Actualizamos la última página
-          this.estados = response.data.data; // Actualizamos los datos de estados
-        });
-      },
-      editEstados(id){
-        let edit =window.open(`/estados/edit/${id}`,`emergente`,`widht=${screen.width},height=800`);
-                edit.addEventListener("beforeunload", function(event) {
-                    window.location.reload()
+       mostrarDatos(page = 1){ // Agregamos un parámetro para la página
+                axios
+                .get(`/contabilidad/list?page=${page}`) // Agregamos el parámetro de página en la URL
+                .then(response => {
+                    this.currentPage = response.data.current_page; // Actualizamos la página actual
+                    this.lastPage = response.data.last_page; // Actualizamos la última página
+                    this.movimientos = response.data.data; // Actualizamos los datos de movimientos
                 });
-      },
-
-      nuevoEstado(){
-        let nuevo = window.open(`/estados/nuevo`, `emergente`,`widht=${screen.width},height=800`);
-      },
-      eliminarEstado(id) {
-                swal.fire({
-                        title: 'Eliminar Estado',
-                        html: `Esta Seguro de que quiere eliminar el estado`,
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Eliminar',
-                        cancelButtonText: 'Cancelar',
-                        allowOutsideClick: false
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            swal.fire({
-                                title: 'Eliminar Estado',
-                                html: "Se eliminará el estado, esta seguro de continuar: ",
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonColor: '#d33',
-                                cancelButtonColor: '#3085d6',
-                                confirmButtonText: 'Si',
-                                cancelButtonText: 'No',
-                                allowOutsideClick: false
-                            })
-                            .then((result) => {
-                                if (result.isConfirmed) {
-                                    axios
-                                        .delete(`/estados/${id}`)
-                                        .then(response => {
-                                            if (response.data.status == 400) {
-                                                Swal.fire({
-                                                    icon: response.data.type,
-                                                    title: response.data.title,
-                                                    text: response.data.msg,
-                                                    footer: 'Comuniquese con el adminisitrador para mas información'
-                                                })
-                                            } else {
-                                                this.Toast.fire({
-                                                    icon: response.data.type,
-                                                    title: response.data.title,
-                                                    text: response.data.msg,
-                                                    timmer: 5000
-                                                });
-                                            if(response.status === 200){
-                                                this.mostrarDatos();
-                                            }
-                                            }
-                                        })
-                                    
-                                }
-                            })
-                        }
-                    })
-            }
-
-
+            },
   }
   
   } 

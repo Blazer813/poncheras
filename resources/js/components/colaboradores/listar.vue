@@ -86,6 +86,9 @@
       },
       nuevoColaborador(){
         let nuevo = window.open(`/colaborador/nuevo`, `emergente`, `width=${screen.width},height=800` );
+        edit.addEventListener("beforeunload", function(event) {
+                    window.location.reload()
+                });
       },
       eliminarColaborador(id) {
         swal.fire({

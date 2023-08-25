@@ -10,7 +10,7 @@
                 <label class="form-label">Nombre Tipo de Ponchera</label>
                 <input   class="form-control" v-model="data.nombreponche" type="text" placeholder="Ingrese el nombre del Tipo de Ponchera">
                 <label class="form-label">Valor</label>
-                <input   class="form-control" v-model="data.valor" type="number" readonly placeholder="Ingrese el valor de la ponchera">
+                <input   class="form-control" v-model="data.valor" type="number" placeholder="Ingrese el valor de la ponchera" disabled>
               </div>
 
             </div>
@@ -91,6 +91,7 @@ methods: {
 
     salirTipoPonchera(){
         window.close();
+        window.location.reload()
     },
 
   guardarDatos(){
@@ -139,7 +140,6 @@ methods: {
 
   vaciarForm(){
     this.data.nombreponche = '';
-    this.data.valor = '';
   },
 
   actulizarTipoPonchera(){

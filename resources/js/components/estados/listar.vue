@@ -133,9 +133,9 @@
 
       nuevoEstado(){
         let nuevo = window.open(`/estados/nuevo`, `emergente`,`widht=${screen.width},height=800`);
-        nuevo.addEventListener("beforeunload",function(event){
-          window.location.reload();
-        })
+        edit.addEventListener("beforeunload", function(event) {
+                    window.location.reload()
+                });
       },
       eliminarEstado(id) {
                 swal.fire({

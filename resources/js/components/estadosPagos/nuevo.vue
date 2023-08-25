@@ -87,6 +87,7 @@ methods: {
     },
 
     salirEstadoPago(){
+        window.location.reload();
         window.close();
     },
 

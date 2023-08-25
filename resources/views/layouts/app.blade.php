@@ -29,6 +29,16 @@
     <header class="app-header"><a class="app-header__logo" href="index.html">Poncheras</a>
       <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       <!-- Navbar Right Menu-->
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          Dropdown button
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li><a class="dropdown-item" href="#">Action</a></li>
+          <li><a class="dropdown-item" href="#">Another action</a></li>
+          <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+      </div>
       <ul class="app-nav">
         <li class="app-search">
           <input class="app-search__input" type="search" placeholder="Search">
@@ -43,6 +53,7 @@
           </ul>
         </li>
       </ul>
+
     </header>
     <!-- Sidebar menu-->
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
@@ -115,7 +126,7 @@
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-file-earmark"></i><span class="app-menu__label">Contabilidad</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
           <ul class="treeview-menu">
             <li>
-              <a class="treeview-item" href="{{ route('PaneldeControl') }}">
+              <a class="treeview-item" href="{{ route('Contabilidad') }}">
               <i class="icon bi bi-circle-fill"></i> Listar</a>
             </li>
           </ul>

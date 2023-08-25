@@ -6,11 +6,11 @@
             <div class="tile-body">
               <form>
                 <div class="row mb-2">
-                  <div class="col">
+                  <div v-if="evento != 'abonar'" class="col">
                     <label class="form-label">Fecha del movimiento</label>
                     <input class="form-control" v-model="data.fcmovimiento"  :min="minDate" type="date" placeholder="Seleccione la fecha">
                   </div>
-                  <div class="col">
+                  <div v-if="evento != 'abonar'" class="col">
                     <label class="form-label">Colaborador</label>
                     <select class="form-select" v-model="data.idcolaborador" id="floatingSelect" aria-label="Floating label select example">
                       <option v-for="colaborador in all.colaboradores" :value="colaborador.idcolaborador" :key="colaborador.id">{{ colaborador.nombrecompleto }}</option>
@@ -18,7 +18,7 @@
                   </div>
                 </div>
                 <div class="row mb-2">
-                  <div class="col">
+                  <div v-if="evento != 'abonar'" class="col">
                     <label class="form-label">Tipo Ponchera</label>
                     <select class="form-select" v-model="data.idponches" id="floatingSelect" aria-label="Floating label select example">
                       <option selected value="">Seleccione un tipo de ponchera</option>
@@ -26,31 +26,31 @@
                     </select>
                   </div>
                   
-                  <div class="col">
+                  <div v-if="evento != 'abonar'" class="col">
                     <label class="form-label">Evidencia</label>
                     <input class="form-control" type="file">
                   </div>
                 </div>
                 <div class="row mb-2">
-                  <div class="col">
+                  <div v-if="evento != 'abonar'" class="col">
                     <label class="form-label">Valor a pagar</label>
                     <input class="form-control" v-model="data.valordeuda" type="number" placeholder="Ingrese el monto">
                   </div>
-                  <div class="col">
+                  <div v-if="evento == 'abonar'" class="col">
                     <label class="form-label">Abono a la deuda</label>
                     <input class="form-control" v-model="data.valorabono" type="number" placeholder="Abono a la deuda">
                   </div>
                 </div>
                 <div  class="row mb-2">
-                  <div v-if="data.valorabono != 0 && data.valorabono != 0 " class="col">
+                  <div v-if="(data.valorabono != 0 && data.valorabono > 0) && evento == 'abonar'" class="col">
                     <label class="form-label">Fecha del pago</label>
                     <input class="form-control" v-model="data.fcpago" type="date" placeholder="Ingrese la fecha del pago">
                   </div>
-                  <div class="col">
+                  <div v-if="evento != 'abonar'" class="col">
                     <label class="form-label">Estado</label>
-                    <select class="form-select" v-model="data.idestado" id="floatingSelect" aria-label="Floating label select example">
+                    <select class="form-select" v-model="data.idestado" id="floatingSelect" onlyread aria-label="Floating label select example" disabled>
                       <option selected value="">Seleccione un estado</option>
-                      <option v-for="estado in all.estados" :value="estado.idestado" :key="estado.id">{{ estado.nomestado }}</option>
+                      <option v-for="estado in all.estados" :value="estado.idestado" :key="estado.id" >{{ estado.nomestado }}</option>
                     </select>
                   </div>
                  
@@ -69,7 +69,7 @@
                 </div>
                   
                 </div>
-                <div v-if="data.idestado != ''"  class="row mb-2">
+                <div v-if="data.idestado == '%'"  class="row mb-2">
                   <div class="col">
                     <label class="form-label">Estado Pago</label>
                     <select class="form-select" v-model="data.idestadopago" id="floatingSelect" aria-label="Floating label select example">
@@ -80,7 +80,7 @@
                   
                 </div>
                 <div class="row mb">
-                  <div class="col">
+                  <div v-if="evento != 'abonar'" class="col">
                     <label class="form-label">Descripción</label>
                     <textarea class="form-control" v-model="data.descripcion" rows="4" placeholder=""></textarea>
                   </div>
@@ -112,7 +112,7 @@ export default{
         idponches:'',
         valordeuda: 2500,
         valorabono: 0,
-        idestadopago: 2,
+        idestadopago: 1,
         fcpago: '',
         idestado: 1,
         detanulacion:'',
@@ -172,7 +172,6 @@ export default{
       const anio = hoy.getFullYear();
       const mes = String(hoy.getMonth() + 1).padStart(2, '0');
       const dia = String(hoy.getDate()).padStart(2, '0');
-      console.log(this.obtenerFechaActual);
       return `${anio}-${mes}-${dia}`;
     },
     consultaEstados(){
@@ -185,6 +184,7 @@ export default{
     },
     salirMovimiento(){
       window.close();
+      window.location.reload()
     },
 
     consultaTPonches(){
@@ -197,7 +197,7 @@ export default{
     },
 
     consultaMovimiento(id){
-      if (this.evento == 'edit') {
+      if (this.evento == 'edit' || this.evento == 'abonar') {
           this.btn.crear = false;
           this.btn.actualizar = true;
       }
@@ -312,7 +312,6 @@ export default{
       this.data.idponches = '';
       this.data.descripcion = '';
       this.data.valordeuda = 2500;
-      this.data.valorabono = '';
       this.data.fcpago = '';
       this.data.idestado = 1;
       this.data.fcanulacion = '';

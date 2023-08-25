@@ -32,6 +32,11 @@ return new class extends Migration
             $table->integer('idcolaborador')->nullable()->after('id')->comment('Llave Foranea de Colaborador');
             $table->foreign('idcolaborador')->references('idcolaborador')->on('colaboradors');
         });
+
+        Schema::table('colaboradors', function (Blueprint $table){
+            $table->integer('idestado')->nullable()->after('id')->comment('Llave Foranea de Estado');
+            $table->foreign('idestado')->references('idestado')->on('estados');
+        });
     }
 
     /**

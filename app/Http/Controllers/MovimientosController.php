@@ -218,7 +218,7 @@ class MovimientosController extends Controller
             $actualizarMovimiento->valorabono = $request->valorabono;
 
 
-            $estadoPago = estadoPago::where('nomestado', 'Abonado')->first();
+            $estadoPago = estadoPago::where('nomestado', 'Con Abonos')->first();
 
             if ($valorAbono < $valorDeuda && $valorAbono >= 1) {
                     $actualizarMovimiento->idestadopago = $estadoPago->idestadopago;

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\movimiento;
+use Exception;
+use DB;
 
 class ContabilidadController extends Controller
 {
@@ -117,6 +120,35 @@ class ContabilidadController extends Controller
 
     public function list(){
 
+        $response = [];
+        try {
+            $consulta = DB::table('movimientos as m')
+            ->select(
+                'm.idcolaborador', 
+                'c.nombrecompleto', 
+                DB::raw('SUM(m.valordeuda) AS total_deuda'), 
+                DB::raw('SUM(m.valorabono) AS total_abono'),
+                DB::raw('SUM(m.valordeuda - m.valorabono) AS saldo')
+            )
+            ->join('colaboradors as c', 'm.idcolaborador', '=', 'c.idcolaborador')
+            ->groupBy('m.idcolaborador', 'c.nombrecompleto')
+            ->paginate(10);
+
+        return $consulta;
+        
+
+        } catch (Exception $e) {
+            $response['Linea'] = $e->getLine();
+            $response['archivo'] = $e->getFile();
+            $response['type'] = 'error';
+            $response['title'] = 'Error al crear el colaborador';
+            $response['error_code'] = $e->getCode();
+            $response['msg'] = $e->getMessage();
+
+            return response()->json($response);
+        }
+
+
         $selectCampos = [
             'idmovimiento',
             'fcmovimiento',
@@ -171,3 +203,5 @@ class ContabilidadController extends Controller
         //
     }
 }
+
+
