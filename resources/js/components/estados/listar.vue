@@ -132,10 +132,13 @@
       },
 
       nuevoEstado(){
-        let nuevo = window.open(`/estados/nuevo`, `emergente`,`widht=${screen.width},height=800`);
-        edit.addEventListener("beforeunload", function(event) {
-                    window.location.reload()
-                });
+        let nuevo =window.open(`/estados/nuevo`,`emergente`,`widht=${screen.width},height=800`);
+        const interval = setInterval(()=>{
+            if(nuevo.closed) {
+              clearInterval(interval);
+              window.location.reload();
+            }
+          }, 1000);
       },
       eliminarEstado(id) {
                 swal.fire({

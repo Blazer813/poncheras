@@ -134,7 +134,7 @@ methods: {
                     .then((result) => {
                         if(result.isConfirmed) {
                             if (this.event == 'duplicate') {
-                                this.salirMovimiento()
+                                this.salirColaborador()
                             } else {
                                 this.vaciarForm()
                             }

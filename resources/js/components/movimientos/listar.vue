@@ -126,9 +126,12 @@
             },
             nuevoMovimiento(){
                 let nuevo = window.open(`/movimiento/nuevo`, `emergente`, `width=${screen.width},height=800`);
-                nuevo.addEventListener("beforeunload", function(event){
-                    window.location.reload()
-                })
+                 const interval = setInterval(()=>{
+                     if(nuevo.closed) {
+                         clearInterval(interval);
+                        window.location.reload();
+            }
+          }, 1000);
             },
             eliminarMovimiento(id) {
                 swal.fire({

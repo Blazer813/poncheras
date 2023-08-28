@@ -78,9 +78,7 @@
 
     methods: {
 
-      windowClose() {
-              window.location.reload();
-          },
+    
       consultadEstados(id){
         if(this.evento == 'edit'){
           this.btn.crear = false;
@@ -106,6 +104,11 @@
         }
       },
 
+
+      salirEstados(){
+        window.location.reload();
+        window.close();
+    },
 
       guardarDatos(){
         this.validacion.boolean = true;
@@ -215,7 +218,11 @@
       },
 
       salirEstado(){
-        window.close();
+        let nuevo = window.close(`/estados/nuevo`, `emergente`,`widht=${screen.width},height=800`);
+        nuevo.addEventListener("beforeunload", function(event) {
+                    window.location.reload();
+                });
+      
       },
       validation(){
         if (this.data.nomestado == '' || this.data.nomestado == null){

@@ -69,6 +69,11 @@
       }
     },
     methods: {
+
+      salirColaborador(){
+    window.close();
+    window.location.reload();
+  },
       mostrarDatos(page = 1){
         axios 
         .get(`/colaborador/list?page=${page}`)
@@ -86,9 +91,12 @@
       },
       nuevoColaborador(){
         let nuevo = window.open(`/colaborador/nuevo`, `emergente`, `width=${screen.width},height=800` );
-        edit.addEventListener("beforeunload", function(event) {
-                    window.location.reload()
-                });
+        const interval = setInterval(()=>{
+            if(nuevo.closed) {
+              clearInterval(interval);
+              window.location.reload();
+            }
+          }, 1000);
       },
       eliminarColaborador(id) {
         swal.fire({
