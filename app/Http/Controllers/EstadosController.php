@@ -146,7 +146,7 @@ class EstadosController extends Controller
 
             $response['type'] = 'success';
             $response['title'] = 'Actualizacion del estado';
-            $response['msg'] = 'Se actualizado el estado con exito';
+            $response['msg'] = 'El estado ha sido actualizado con exito';
         } catch (Exception $e) {
             $response['type'] = $e->getLine();
             $response['Archivo'] = $e->getFile();

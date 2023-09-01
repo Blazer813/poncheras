@@ -55,8 +55,13 @@
         </div>
       </div>
       <ul class="app-menu">
+<<<<<<< HEAD
         <li><a class="app-menu__item active" href="{{ route('PanelControlListar') }}"><i class="app-menu__icon bi bi-speedometer"></i><span class="app-menu__label">Panel de Control</span></a></li>
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-laptop"></i><span class="app-menu__label">Movimientos</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
+=======
+        <li><a class="app-menu__item active" href="#"><i class="app-menu__icon bi bi-speedometer"></i><span class="app-menu__label">Panel de Control</span></a></li>
+        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-0-circle"></i><span class="app-menu__label">Movimientos</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
+>>>>>>> refs/remotes/origin/dev
           <ul class="treeview-menu">
              <li>
               <a class="treeview-item" onclick="Nuevo('movimiento')" target="_blank" rel="noopener">
@@ -71,7 +76,7 @@
             </li>
           </ul>
         </li>
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-ui-checks"></i><span class="app-menu__label">Colaboradores</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
+        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-people-fill"></i><span class="app-menu__label">Colaboradores</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" onclick="Nuevo('colaborador')"><i class="icon bi bi-circle-fill"></i> Nuevo</a></li>
             <li>
@@ -80,7 +85,7 @@
             </li>
           </ul>
         </li>
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-ui-checks"></i><span class="app-menu__label">Tipos de Poncheras</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
+        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-files"></i><span class="app-menu__label">Tipos de Poncheras</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
           <ul class="treeview-menu">
             <li>
               <a class="treeview-item" onclick="Nuevo('tipoponche')"><i class="icon bi bi-circle-fill"></i> Nuevo</a>
@@ -90,7 +95,7 @@
             </li>
           </ul>
         </li>
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-table"></i><span class="app-menu__label">Estados</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
+        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-file-earmark-person"></i><span class="app-menu__label">Estados</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
           <ul class="treeview-menu">
             <li>
               <a class="treeview-item" onclick="Nuevo('estado')" target="_blank" rel="noopener">
@@ -102,7 +107,7 @@
             </li>
           </ul>
         </li>
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-file-earmark"></i><span class="app-menu__label">Estados de Pago</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
+        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-wallet2"></i><span class="app-menu__label">Estados de Pago</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
           <ul class="treeview-menu">
             <li>
               <a class="treeview-item" onclick="Nuevo('estadopago')" target="_blank" rel="noopener">
@@ -113,7 +118,7 @@
               <i class="icon bi bi-circle-fill"></i> Listar</a></li>
           </ul>
         </li>
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-file-earmark"></i><span class="app-menu__label">Contabilidad</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
+        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-person-check-fill"></i><span class="app-menu__label">Contabilidad</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
           <ul class="treeview-menu">
             <li>
               <a class="treeview-item" href="{{ route('Contabilidad') }}">
