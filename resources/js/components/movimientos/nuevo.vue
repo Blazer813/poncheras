@@ -313,10 +313,8 @@ export default{
       this.data.descripcion = '';
       this.data.valordeuda = 2500;
       this.data.fcpago = '';
-      this.data.idestado = 1;
       this.data.fcanulacion = '';
       this.data.detanulacion = '';
-      this.data.idestadopago = 2; 
     },
     actualizarMovimiento() {
       this.validacion.boolean = true;

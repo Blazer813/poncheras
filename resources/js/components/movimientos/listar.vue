@@ -34,17 +34,17 @@
                     <td>{{ movimiento.fcpago == null ? 'No hay fecha' : movimiento.fcpago }}</td>
                     <td>{{ movimiento.estado.nomestado }}</td>
                     <td>
-    <!-- <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Opciones
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <button type="button" class="dropdown-item" @click="editMovimiento(movimiento.idmovimiento)">Editar</button>
-            <button type="button" class="dropdown-item" @click="abonarMovimiento(movimiento.idmovimiento)">Abonar</button>
-            <button type="button" class="dropdown-item" @click="eliminarMovimiento(movimiento.idmovimiento)">Eliminar</button>
-        </div>
-    </div> -->
-    <div class="btn-group btn-group-default">
+                        <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                        <li><button type="button" style="width: 100%;" class="btn btn-success" @click="editMovimiento(movimiento.idmovimiento)">Editar</button></li>
+                        <li><button type="button" style="width: 100%;" class="btn btn-warning" @click="abonarMovimiento(movimiento.idmovimiento)">Abonar</button></li>
+                        <li><button type="button" style="width: 100%;" class="btn btn-danger" @click="eliminarMovimiento(movimiento.idmovimiento)">Eliminar</button></li>
+                    </ul>
+                    </div>
+    <!-- <div class="btn-group btn-group-default">
     <button class="btn btn-default" type="button"><i class="fa fa-bars" aria-hidden="true"></i></button>
     <button style="height: 28px;" data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button"><span class="caret"></span></button>
     <ul class="dropdown-menu" style="margin-left: -70px;">
@@ -52,7 +52,7 @@
         <li class="btn-primary" data-toggle="tooltip" title="Ver"><a class="ver"><i class="fa fa-print" style="color:#000000;cursor: pointer;"></i> Ver</a></li>
         <li class="btn-danger" data-toggle="tooltip" title="Eliminar"><a class="delete"><i class="fa fa-trash" style="color:#ffffff;cursor: pointer;"></i> Eliminar</a></li>
     </ul>
-</div>
+</div> -->
 
 </td>
 
@@ -80,13 +80,16 @@
             </div>
 
         </table>
+        <template>
+  <Calendar v-model:checkIn="checkIn" v-model:checkOut="checkOut" />
+</template>
     </div>
 </template>
 
 <script>
+import { Calendar } from "vue-calendar-3";
     export default {
         mounted() {
-
         },
         data(){
             return{
@@ -94,11 +97,17 @@
                 it:0,
                 currentPage: 1,
                 lastPage: 1,
+                checkIn: null,
+                checkOut: null,
             }
         },
         created(){
             this.mostrarDatos();
         },
+        components: {
+    Calendar,
+  },
+
         methods: {
             windowClose(){
                 window.location.reload();

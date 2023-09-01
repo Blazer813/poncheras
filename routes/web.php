@@ -9,6 +9,7 @@ use App\Http\Controllers\ColaboradoresController as Colaborador_v1;
 use App\Http\Controllers\EstadoPagosController as EstadoPago_v1;
 use App\Http\Controllers\TipoPonchesController as Tponches_v1;
 use App\Http\Controllers\ContabilidadController as Contabilidad_v1;
+use App\Http\Controllers\PanelControlController as PanelControl_v1;
 
 
 /*
@@ -27,15 +28,20 @@ Route::get('/', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::get('/emergente', function () {
-    return view('layouts.emergente');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/emergente', function () {
+//     return view('layouts.emergente');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+
+    Route::prefix('panelcontrol')->group(function(){
+        Route::view('/','poncheras.panelControl.listar')->name('PanelControlListar');
+        Route::get('/list', [PanelControl_v1::class, 'list']); 
+    });
 
     Route::prefix('movimiento')->group(function(){
         Route::view('/','poncheras.movimientos.listar')->name('MovimientoListar');
@@ -81,6 +87,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('v1')->group(function(){
         Route::apiResources([
+            'panelcontrol' => PanelControl_v1::class,
             'movimientos' => Movimientos_v1::class,
             'estados' => Estados_v1::class,
             'colaborador' => Colaborador_v1::class,

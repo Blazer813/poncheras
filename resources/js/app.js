@@ -6,6 +6,7 @@ import { createApp } from 'vue';
 
 
 
+
 window.Alpine = Alpine;
 
 Alpine.start();
@@ -28,6 +29,9 @@ app.config.globalProperties.Toast = Swal.mixin({
     }
   });
 
+  // import 'bootstrap/dist/css/bootstrap.min.css';
+  import 'bootstrap/dist/js/bootstrap.min.js';
+  
 
 //Componentes
 import ExampleComponent from './components/ExampleComponent.vue';
@@ -55,16 +59,19 @@ import NuevoEstadoPago from './components/estadosPagos/nuevo.vue';
 app.component('nuevo-estadopago-component', NuevoEstadoPago);
 
 import ListarEstadoPago from './components/estadosPagos/listar.vue';
-app.component('listar-estadopago-component', ListarEstadoPago)
+app.component('listar-estadopago-component', ListarEstadoPago);
 
 import NuevoTipoPonchera from './components/tiposPoncheras/nuevo.vue';
 app.component('nuevo-tipoponchera-component', NuevoTipoPonchera);
 
 import ListarTipoPonchera from './components/tiposPoncheras/listar.vue';
-app.component('listar-tipoponchera-component', ListarTipoPonchera)
+app.component('listar-tipoponchera-component', ListarTipoPonchera);
 
 import ListarContabilidad from './components/contabilidad/listar.vue';
-app.component('listar-contabilidad-component', ListarContabilidad)
+app.component('listar-contabilidad-component', ListarContabilidad);
+
+import ListarPanelControl from './components/panelControl/listar.vue';
+app.component('listar-panelcontrol-component', ListarPanelControl)
 
 
 

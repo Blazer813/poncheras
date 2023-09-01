@@ -126,12 +126,13 @@ class ContabilidadController extends Controller
             ->select(
                 'm.idcolaborador', 
                 'c.nombrecompleto', 
+                'c.fcnacimiento',
                 DB::raw('SUM(m.valordeuda) AS total_deuda'), 
                 DB::raw('SUM(m.valorabono) AS total_abono'),
                 DB::raw('SUM(m.valordeuda - m.valorabono) AS saldo')
             )
             ->join('colaboradors as c', 'm.idcolaborador', '=', 'c.idcolaborador')
-            ->groupBy('m.idcolaborador', 'c.nombrecompleto')
+            ->groupBy('m.idcolaborador', 'c.nombrecompleto', 'c.fcnacimiento')
             ->paginate(10);
 
         return $consulta;
