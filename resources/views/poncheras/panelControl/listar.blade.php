@@ -2,12 +2,6 @@
 
 @section('styles')
 
- <!-- Swiper CSS -->
- <link rel="stylesheet" href="/swiper/css/cdn.jsdelivr.net_npm_swiper@10.2.0_swiper-bundle.min.css">
-
- <!-- CSS -->
- <link rel="stylesheet" href="/swiper/css/style.css">
-
 @endsection
 
 
@@ -35,11 +29,5 @@
 
 
 @section('js')
-
-<!-- Swiper JS -->
-<script src="/swiper/js/cdn.jsdelivr.net_npm_swiper@10.2.0_swiper-bundle.min.js"></script>
-
-<!-- JavaScript -->
-<script src="/swiper/js/script.js"></script>
 
 @endsection

@@ -6,7 +6,6 @@ import { createApp } from 'vue';
 
 
 
-
 window.Alpine = Alpine;
 
 Alpine.start();
@@ -74,7 +73,9 @@ import ListarPanelControl from './components/panelControl/listar.vue';
 app.component('listar-panelcontrol-component', ListarPanelControl)
 
 
+import HighchartsVue from "highcharts-vue";
 
-
+// Use the HighchartsVue plugin, register <highcharts> component
+app.use(HighchartsVue);
 
 app.mount('#app');

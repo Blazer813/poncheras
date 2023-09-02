@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { Calendar } from "vue-calendar-3";
+// import { Calendar } from "vue-calendar-3";
     export default {
         mounted() {
         },
@@ -104,9 +104,9 @@ import { Calendar } from "vue-calendar-3";
         created(){
             this.mostrarDatos();
         },
-        components: {
-    Calendar,
-  },
+//         components: {
+//     Calendar,
+//   },
 
         methods: {
             windowClose(){
