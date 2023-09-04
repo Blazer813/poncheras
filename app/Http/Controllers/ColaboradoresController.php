@@ -193,4 +193,8 @@ class ColaboradoresController extends Controller
 
         return response()->json($response);
     }
+
+    public function torta(){
+        $colaboradorestorta = colaborador::select('nombrecompleto')
+    }
 }
