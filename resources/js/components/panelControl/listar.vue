@@ -206,7 +206,7 @@ const chartOptions = ref({
            }
          },
         series: [{
-          name: 'Brands',
+          name: 'Cantidad de poncheras',
         colorByPoint: true,
         data: []
         }]
