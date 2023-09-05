@@ -135,10 +135,11 @@
 
 
   <highcharts :options="chartOptions" />
+  <highcharts :options="chartOptions2" />
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 const meses = [];
 for (let i = 0; i < 12; i++) {
   const date = new Date(0, i);
@@ -170,9 +171,60 @@ const chartOptions = ref({
             name: 'Poncheras por mes',
             data: []
         }]
+
+
+        
     });
 
+    const chartOptions2 = ref({
+        chart: {
+          plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+        },
+        title: {
+            text: 'Poncheras Grafica',
+            align: 'left'
+        
+        },
+        tooltoip: {
+          pointFormat: '{series.name}: <b> {point.percentage:.1f}% </b>'
+        },
+        accesibility: {
+          point: {valueSuffix: '%'
+          }
+        },
+        plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+              }
+           }
+         },
+        series: [{
+          name: 'Brands',
+        colorByPoint: true,
+        data: []
+        }]
+     });
+     onMounted(async () => {
+      axios
+        .get(`/colaborador/getDataGrafica`)
+        .then(response => {
+          response = response.data;
+          chartOptions2.value.series[0].data = response;
+        })
+        .catch(error => {
+          console.error('Error al cargar datos:', error);
+        });
+     })
+
 </script>
+
 <script>
 import { defineComponent } from 'vue'
 import { Carousel, Navigation, Slide, Pagination } from 'vue3-carousel'
@@ -193,6 +245,7 @@ export default defineComponent({
         it:0,
         currentPage:1,
         lastPage: 1,
+        DataGraficaCake: [],
       
     // carousel settings
     settings: {
@@ -216,6 +269,7 @@ export default defineComponent({
   }),
   mounted (){
     this.mostrarDatos();
+   
   },
     methods: {
           mostrarDatos(page = 1) {
@@ -234,3 +288,5 @@ export default defineComponent({
 })
 
 </script>
+
+

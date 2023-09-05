@@ -14,7 +14,6 @@ class MovimientosController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -121,10 +120,9 @@ class MovimientosController extends Controller
                         ]
                     ]);
                     $coleccionMovimientos = $coleccionAux->concat($coleccionMovimientos);
-                
                 }
                 break;
-            
+
             default:
                 $movimientos = movimiento::select($selectCampos)->where('idmovimiento', $id)->with($relacionMovimientos)->first();
                 $coleccionMovimientos = collect([
@@ -147,11 +145,12 @@ class MovimientosController extends Controller
                 ]);
                 break;
         }
-            return response()->json($coleccionMovimientos);
+        return response()->json($coleccionMovimientos);
     }
 
 
-    public function list(){
+    public function list()
+    {
 
         $selectCampos = [
             'idmovimiento',
@@ -178,7 +177,7 @@ class MovimientosController extends Controller
         ];
 
         $movimientos = movimiento::select($selectCampos)->with($relacionMovimientos)->paginate(10);
-        
+
 
         return response()->json($movimientos);
     }
@@ -221,14 +220,14 @@ class MovimientosController extends Controller
             $estadoPago = estadoPago::where('nomestado', 'Con Abonos')->first();
 
             if ($valorAbono < $valorDeuda && $valorAbono >= 1) {
-                    $actualizarMovimiento->idestadopago = $estadoPago->idestadopago;
+                $actualizarMovimiento->idestadopago = $estadoPago->idestadopago;
             } elseif ($valorAbono === $valorDeuda) {
                 $actualizarMovimiento->idestadopago = 3;
-            } else{
+            } else {
                 $actualizarMovimiento->idestadopago = 1;
             }
-    
-            
+
+
             !empty($fcpago) == true ?  $actualizarMovimiento->fcpago = $fcpago : $actualizarMovimiento->fcpago = null;
 
             $actualizarMovimiento->idestado = $request->idestado;
@@ -237,7 +236,7 @@ class MovimientosController extends Controller
             $request->fcanulacion == 'null' ? $actualizarMovimiento->fcanulacion = null : $actualizarMovimiento->fcanulacion = $request->fcanulacion;
             // !empty($fcanulacion) == true ?  $actualizarMovimiento->fcanulacion = $fcanulacion : $actualizarMovimiento->fcanulacion = null;
 
-            if(!$actualizarMovimiento->update()){
+            if (!$actualizarMovimiento->update()) {
                 throw new Exception("Error al actualizar el movimiento", 101);
             }
             $response['type'] = 'success';
@@ -263,7 +262,7 @@ class MovimientosController extends Controller
         $response = [];
         try {
             $movimiento = movimiento::findOrFail($id);
-            if(!$movimiento->delete()){
+            if (!$movimiento->delete()) {
                 throw new Exception("Error al eliminar el movimiento", 101);
             };
             $response['type'] = 'success';
