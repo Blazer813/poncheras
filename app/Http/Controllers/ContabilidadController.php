@@ -118,6 +118,26 @@ class ContabilidadController extends Controller
         return response()->json($coleccionMovimientos);
     }
 
+    public function obtenerDatos(){
+        $consultaFechas = "
+        SELECT
+            YEAR(fcmovimiento) AS año,
+            MONTH(fcmovimiento) AS mes,
+            COUNT(*) AS total_registros
+        FROM movimientos
+        WHERE YEAR(fcmovimiento) = YEAR(CURDATE())
+        GROUP BY
+            YEAR(fcmovimiento), MONTH(fcmovimiento)
+        ORDER BY
+            YEAR(fcmovimiento), MONTH(fcmovimiento);
+        ";
+
+        $resultados = DB::select($consultaFechas);
+
+        return response()->json($resultados);
+    }
+    
+
     public function list(){
 
         $response = [];

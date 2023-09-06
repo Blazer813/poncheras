@@ -89,12 +89,40 @@
 .button:hover{
     background: #265DF2;
 }
+.slide {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background: #00695c;
+}
 
+.texto-id {
+    color: #FFF;
+    white-space: nowrap;
+    animation: scrollText 100s linear infinite; 
+    display: inline-block;
+    padding-right: 100%;
+    text-align: center;
+}
+
+@keyframes scrollText {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%); /* Ajusta según el ancho del texto o el contenedor */
+    }
+}
 
 </style>
 
 <template>
-  <Carousel v-bind="settings" :breakpoints="breakpoints">
+   <div class="slide">
+      <p class="texto-id" aria-current="page" v-if="movimientos.length > 0">Proximo Cumpleaños: {{ agruparCumpleaños(movimientos[0].fcnacimiento) }} - {{ movimientos[1].nombrecompleto }} <br> Deuda Total de los Movimientos: <br> Abono Total de los Movimientos </p>
+   </div>
+   <div class="row">
+      <div class="col-6 col-xs-12">
+        <Carousel v-bind="settings" :breakpoints="breakpoints">
     <Slide v-for="movimiento in movimientos" :key="movimiento">
       <div class="slide-container swiper">
         <div class="slide-content">
@@ -114,7 +142,8 @@
                       <p><i class="bi bi-coin"></i> Valor deuda: ${{ movimiento.total_deuda }}</p>
                       <p><i class="bi bi-cash"></i> Valor abono: ${{ movimiento.total_abono }}</p>
                       <p><i class="bi bi-wallet2"></i> Saldo: ${{ movimiento.saldo }}</p>
-                      <p><i class="bi bi-balloon"></i> Cumpleaños: {{ movimiento.fcnacimiento }}</p>
+                      <p><i class="bi bi-balloon"></i> Cumpleaños: {{ buscarMes(movimiento.fcnacimiento) }} {{ movimiento.fcnacimiento.slice(8, 10) }} </p>
+                     
                         <button class="button">Ver más</button>
                     </div>
 
@@ -133,12 +162,17 @@
     </template>
   </Carousel>
 
+      </div>
+      <div class="col-6"></div>
+   </div>
+
+
 
   <highcharts :options="chartOptions" />
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 const meses = [];
 for (let i = 0; i < 12; i++) {
   const date = new Date(0, i);
@@ -171,6 +205,48 @@ const chartOptions = ref({
             data: []
         }]
     });
+    onMounted(async () => {
+        try {
+          const respuesta = await axios.get(`/panelcontrol/obtenerDatos`); 
+          const datos = respuesta.data;
+
+          const poncherasPorMes = datos.map((fila) => fila.total_registros);
+        
+
+
+              // Crear un objeto para almacenar los datos completos
+          let datosCompletos = [];
+
+          // Crear un arreglo de todos los meses posibles (1 al 12)
+          let mesesPosibles = Array.from({ length: 12 }, (_, i) => i + 1);
+
+          // Recorrer todos los meses posibles
+          mesesPosibles.forEach(mes => {
+              // Verificar si hay datos para el mes actual en el objeto original
+              let datosMes = datos.find(dato => dato.mes === mes);
+
+              // Si no hay datos para el mes, agregar un objeto con total_registros = 0
+              if (!datosMes) {
+                  datosCompletos.push({
+                      "año": 2023,
+                      "mes": mes,
+                      "total_registros": 0
+                  });
+              } else {
+                  // Si hay datos para el mes, agregarlos tal como están
+                  datosCompletos.push(datosMes);
+              }
+             
+          });
+
+          const totales = datosCompletos.map(item => item.total_registros);
+
+          chartOptions.value.series[0].data = totales;
+        } catch (error) {
+          console.error("Error al obtener los datos del servidor: " + error.message);
+        }
+    });
+
 
 </script>
 <script>
@@ -193,6 +269,9 @@ export default defineComponent({
         it:0,
         currentPage:1,
         lastPage: 1,
+        meses: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+        proxCumpleaños: [],
+
       
     // carousel settings
     settings: {
@@ -204,12 +283,12 @@ export default defineComponent({
     breakpoints: {
       // 700px and up
       700: {
-        itemsToShow: 3.5,
+        itemsToShow: 1,
         snapAlign: 'center',
       },
       // 1024 and up
-      1024: {
-        itemsToShow: 5,
+      1450: {
+        itemsToShow: 2,
         snapAlign: 'start',
       },
     },
@@ -218,6 +297,23 @@ export default defineComponent({
     this.mostrarDatos();
   },
     methods: {
+          buscarMes(mes) {
+            mes = mes.slice(5, 7)
+              let mesTexto = this.meses[mes - 1]
+              return mesTexto;
+          },
+        //   agruparCumpleaños(cumpleaños) {
+        //     const cumpleañosAgrupados = {};
+        //     const fechaActual = new Date();
+
+        //     for (const fcnacimiento of cumpleaños) {
+        //       const cumpleañosLetra = fcnacimiento.split("-");
+        //       const cumpleañosNumero = parseInt(cumpleañosLetra[1], 10); // Convertir a número base 10
+
+        //       console.log(cumpleañosNumero);
+                        
+        //   }
+        // },
           mostrarDatos(page = 1) {
             axios
               .get(`/contabilidad/list?page=${page}`)
@@ -230,6 +326,7 @@ export default defineComponent({
                 console.error('Error al cargar datos:', error);
               });
           },
+
         }
 })
 

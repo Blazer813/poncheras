@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('panelcontrol')->group(function(){
         Route::view('/','poncheras.panelControl.listar')->name('PanelControlListar');
         Route::get('/list', [PanelControl_v1::class, 'list']); 
+        Route::get('/obtenerDatos', [Contabilidad_v1::class, 'obtenerDatos']); 
     });
 
     Route::prefix('movimiento')->group(function(){
