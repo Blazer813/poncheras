@@ -42,8 +42,15 @@
                 }">
             </div></td>
             <td class="col-2">
-              <button type="button" @click="editEstados(estado.idestado)" class="btn btn-primary">Editar</button>
-              &nbsp;&nbsp;&nbsp;<button type="button" @click="eliminarEstado(estado.idestado)"  class="btn btn-danger">Eliminar</button>
+              <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                        <li><button type="button" style="width: 100%;" class="btn btn-success" @click="editEstados(estado.idestado)">Editar</button></li>
+                        <li><button type="button" style="width: 100%;" class="btn btn-danger" @click="eliminarEstado(estado.idestado)">Eliminar</button></li>
+                    </ul>
+              </div>
             </td>
           </tr>
         </tbody>

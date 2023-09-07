@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('colaboradors', function (Blueprint $table) {
             $table->integer('idcolaborador')->autoIncrement()->comment('Llave primaria');
             $table->string('nombrecompleto', 50)->comment('Nombre Completo');
+            $table->bigInteger('documentoid')->comment('Documento de Identificacicón');
             $table->bigInteger('telefono')->comment('Numero Telefono');
             $table->string('correo', 50)->comment('Correo Electronico');
             $table->date('fcnacimiento')->comment('Fecha de nacimiento');

@@ -31,16 +31,14 @@
       <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       <!-- Navbar Right Menu-->
       <ul class="app-nav">
-        <li class="app-search">
-          <input class="app-search__input" type="search" placeholder="Search">
-          <button class="app-search__button"><i class="bi bi-search"></i></button>
-        </li>
         <!-- User Menu-->
         <li class="dropdown"><a class="app-nav__item" href="#" data-bs-toggle="dropdown" aria-label="Open Profile Menu"><i class="bi bi-person fs-4"></i></a>
           <ul class="dropdown-menu settings-menu dropdown-menu-right">
-            <li><a class="dropdown-item" href="page-user.html"><i class="bi bi-gear me-2 fs-5"></i> Configuración</a></li>
             <li><a class="dropdown-item" href="page-user.html"><i class="bi bi-person me-2 fs-5"></i> Perfil</a></li>
-            <li><a class="dropdown-item" href="page-login.html"><i class="bi bi-box-arrow-right me-2 fs-5"></i> Cerrar Sesión</a></li>
+            <form action="{{ route('logout') }}" method="POST">
+              @csrf
+              <li><button class="dropdown-item" type="submit"><i class="bi bi-box-arrow-right me-2 fs-5"></i> Cerrar Sesión</button></li>
+            </form>
           </ul>
         </li>
       </ul>
@@ -52,7 +50,7 @@
       <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://randomuser.me/api/portraits/men/1.jpg" alt="User Image">
         <div>
 
-          <a href=""><p class="app-sidebar__user-name"> {{ auth()->user()->name }}</p></a>
+          <p class="app-sidebar__user-name"> {{ auth()->user()->name }}</p>
           <p class="app-sidebar__user-designation">Frontend Developer</p>
         </div>
       </div>

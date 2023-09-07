@@ -114,11 +114,15 @@
     }
 }
 
+#torta{
+  padding-top: 40px;
+}
+
 </style>
 
 <template>
    <div class="slide">
-      <p class="texto-id" aria-current="page" v-if="movimientos.length > 0">Proximo Cumpleaños: {{ agruparCumpleaños(movimientos[0].fcnacimiento) }} - {{ movimientos[1].nombrecompleto }} <br> Deuda Total de los Movimientos: <br> Abono Total de los Movimientos </p>
+      <p class="texto-id" aria-current="page" v-if="movimientos.length > 0">Proximo Cumpleaños: {{ buscarMes(movimientos[0].fcnacimiento) }}<br> Deuda Total de los Movimientos:  <br> Abono Total de los Movimientos: </p>
    </div>
    <div class="row">
       <div class="col-6 col-xs-12">
@@ -163,12 +167,15 @@
   </Carousel>
 
       </div>
-      <div class="col-6"></div>
+      <div class="col-6" id="torta">
+        <highcharts :options="chartOptions2" />
+      </div>
    </div>
 
 
 
   <highcharts :options="chartOptions" />
+  
 </template>
 
 <script setup>
@@ -185,7 +192,7 @@ const chartOptions = ref({
             type: 'line'
         },
         title: {
-            text: 'Poncheras'
+            text: 'Poncheras por Meses'
         },
         xAxis: {
             categories: meses,
@@ -204,6 +211,9 @@ const chartOptions = ref({
             name: 'Poncheras por mes',
             data: []
         }]
+
+
+        
     });
     onMounted(async () => {
         try {
@@ -248,7 +258,55 @@ const chartOptions = ref({
     });
 
 
+    const chartOptions2 = ref({
+        chart: {
+          plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+        },
+        title: {
+            text: 'Poncheras Grafica Individual',
+            align: 'center'
+        
+        },
+        tooltoip: {
+          pointFormat: '{series.name}: <b> {point.percentage:.1f}% </b>'
+        },
+        accesibility: {
+          point: {valueSuffix: '%'
+          }
+        },
+        plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+              }
+           }
+         },
+        series: [{
+          name: 'Cantidad de poncheras',
+        colorByPoint: true,
+        data: []
+        }]
+     });
+     onMounted(async () => {
+      axios
+        .get(`/colaborador/getDataGrafica`)
+        .then(response => {
+          response = response.data;
+          chartOptions2.value.series[0].data = response;
+        })
+        .catch(error => {
+          console.error('Error al cargar datos:', error);
+        });
+     })
+
 </script>
+
 <script>
 import { defineComponent } from 'vue'
 import { Carousel, Navigation, Slide, Pagination } from 'vue3-carousel'
@@ -264,15 +322,15 @@ export default defineComponent({
     Navigation,
   },
   data: () => ({
-    
+      
         movimientos:[],
         it:0,
         currentPage:1,
         lastPage: 1,
         meses: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
         proxCumpleaños: [],
+        DataGraficaCake: [],
 
-      
     // carousel settings
     settings: {
       itemsToShow: 1,
@@ -321,6 +379,8 @@ export default defineComponent({
                 this.currentPage = response.data.current_page;
                 this.lastPage = response.data.last_page;
                 this.movimientos = response.data.data;
+
+               
               })
               .catch(error => {
                 console.error('Error al cargar datos:', error);
@@ -331,3 +391,5 @@ export default defineComponent({
 })
 
 </script>
+
+

@@ -28,7 +28,7 @@
                   
                   <div v-if="evento != 'abonar'" class="col">
                     <label class="form-label">Evidencia</label>
-                    <input class="form-control" type="file">
+                    <input class="form-control" type="file" @change="convertirImagen" accept="image/*">
                   </div>
                 </div>
                 <div class="row mb-2">
@@ -133,8 +133,10 @@ export default{
       btn:{
         crear: 1,
         actualizar: 0,
-        }
-      }
+      },
+      imagenBase64: null,
+      archivo: null
+    }
   },
 
   props:{
@@ -167,6 +169,25 @@ export default{
   },
 
   methods: {
+    convertirImagen(event) {
+      this.archivo = event.target.files[0];
+      console.log(this.archivo)
+
+      this.mostrarImagen();
+      console.log(this.imagenBase64);
+    },
+    mostrarImagen() {
+      if (this.archivo) {
+        const lector = new FileReader();
+        console.log(lector);
+        lector.onload = () => {
+          this.imagenBase64 = lector.result;
+          console.log(this.imagenBase64);
+        };
+        lector.readAsDataURL(this.archivo);
+      } 
+    },
+    
     obtenerFechaActual(){
       const hoy = new Date();
       const anio = hoy.getFullYear();

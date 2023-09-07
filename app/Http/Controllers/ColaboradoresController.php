@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\colaborador;
+use App\Models\movimiento;
+use DB;
 use Exception;
 
 
@@ -14,7 +16,6 @@ class ColaboradoresController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -25,6 +26,28 @@ class ColaboradoresController extends Controller
         //
     }
 
+
+    public function DataGrafica()
+    {
+        $consulta = DB::select(
+            "SELECT c.*, COUNT(m.idcolaborador) AS conteo
+            FROM colaboradors c
+            LEFT JOIN movimientos m ON c.idcolaborador = m.idcolaborador
+            GROUP BY c.idcolaborador;"
+        );
+        $coleccionColaboradores = collect([]);
+
+        foreach ($consulta as $key => $value) {
+            $coleccionAux = collect([
+                [
+                    'name' => $value->nombrecompleto,
+                    'y' => $value->conteo,
+                ]
+            ]);
+            $coleccionColaboradores = $coleccionAux->concat($coleccionColaboradores);
+        }
+        return $coleccionColaboradores;
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -38,7 +61,7 @@ class ColaboradoresController extends Controller
             $nuevocolaborador->correo = $request->correo;
             $nuevocolaborador->fcnacimiento = $request->fcnacimiento;
 
-            if(!$nuevocolaborador->save()){
+            if (!$nuevocolaborador->save()) {
                 throw new Exception("Error al crear el colaborador", 101);
             }
             $response['type'] = 'success';
@@ -71,10 +94,10 @@ class ColaboradoresController extends Controller
 
         $coleccionColaboradores = collect([]);
 
-        switch($id) {
+        switch ($id) {
             case '@':
                 $colaboradores = colaborador::select($selecCampos)->get();
-                foreach ($colaboradores as $key => $value){
+                foreach ($colaboradores as $key => $value) {
                     $coleccionAux = collect([
                         [
                             'it' => $key + 1,
@@ -90,23 +113,23 @@ class ColaboradoresController extends Controller
                 break;
 
             default:
-            $colaboradores = colaborador::select($selecCampos)->where('idcolaborador', $id)->first();   
-            $coleccionColaboradores = collect([
-                [
-                    'idcolaborador' => $colaboradores->idcolaborador,
-                    'nombrecompleto' => $colaboradores->nombrecompleto,
-                    'telefono' => $colaboradores->telefono,
-                    'correo' => $colaboradores->correo,
-                    'fcnacimiento' => $colaboradores->fcnacimiento
-                ]
-            ]);
-            break;
+                $colaboradores = colaborador::select($selecCampos)->where('idcolaborador', $id)->first();
+                $coleccionColaboradores = collect([
+                    [
+                        'idcolaborador' => $colaboradores->idcolaborador,
+                        'nombrecompleto' => $colaboradores->nombrecompleto,
+                        'telefono' => $colaboradores->telefono,
+                        'correo' => $colaboradores->correo,
+                        'fcnacimiento' => $colaboradores->fcnacimiento
+                    ]
+                ]);
+                break;
         }
         return response()->json($coleccionColaboradores);
-    
     }
 
-    public function list(){
+    public function list()
+    {
 
         $selectCampos = [
             'idcolaborador',
@@ -117,7 +140,7 @@ class ColaboradoresController extends Controller
         ];
 
         $colaborador = colaborador::select($selectCampos)->paginate(10);
-        
+
 
         return response()->json($colaborador);
     }
@@ -144,7 +167,7 @@ class ColaboradoresController extends Controller
             $actualizarColaborador->correo = $request->correo;
             $actualizarColaborador->fcnacimiento = $request->fcnacimiento;
 
-            if(!$actualizarColaborador->update()){
+            if (!$actualizarColaborador->update()) {
                 throw new Exception("Error al actualizar el colaborador", 101);
             }
             $response['type'] = 'success';
@@ -170,7 +193,7 @@ class ColaboradoresController extends Controller
         $response = [];
         try {
             $colaborador = colaborador::findOrFail($id);
-            if(!$colaborador->delete()){
+            if (!$colaborador->delete()) {
                 throw new Exception("Error al eliminar el colaborador", 101);
             }
             $response['type'] = 'success';
@@ -187,9 +210,8 @@ class ColaboradoresController extends Controller
             if ($e->getCode() == 23000) {
                 $response['msg'] = "El Colaborador se encuentra asociado, no se puede eliminar";
             }
-
         }
-        
+
 
         return response()->json($response);
     }

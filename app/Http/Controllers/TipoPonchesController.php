@@ -39,19 +39,19 @@ class TipoPonchesController extends Controller
             $nuevoPonches->valor = $request->valor;
 
             if(!$nuevoPonches->save()) {
-                throw new Exception("error al crear tipo de poncheras", 101);
+                throw new Exception("Error al crear tipo de poncheras", 101);
 
             }
                 $response['type'] = 'success';
-                $response['title'] = 'creacion del tipo de poncheras';
-                $response['msg'] = 'se creo el tipo de poncheras con exito';
+                $response['title'] = 'Creación del tipo de poncheras';
+                $response['msg'] = 'Se creó el tipo de poncheras con exito';
 
 
     } catch (Exception $e) {
         $response['Linea'] = $e->getLine();
         $response['archivo'] = $e->getFile();
         $response['type'] = 'error';
-        $response['title'] = 'error al crear tipo de poncheras';
+        $response['title'] = 'Error al crear tipo de poncheras';
         $response['error_code']-> $e->getMessage();
 
     

@@ -1,4 +1,8 @@
+<style>
 
+
+
+</style>
 <template>
 
     <div class="row">
@@ -19,6 +23,12 @@
             <td class="col-3">{{ movimiento.total_deuda }}</td>
             <td class="col-2">{{ movimiento.total_abono }}</td>
             <td class="col-2">{{ movimiento.saldo }}</td>
+          </tr>
+          <tr>
+            <td>Total: </td>
+            <td>Deuda Total: {{ totalDeuda }} </td>
+            <td>Abono Total: {{ totalAbono }}</td>
+            <td>Saldo Total: {{ totalSaldo }}</td>
           </tr>
         </tbody>
 
@@ -51,11 +61,12 @@
 <script>
   export default {
 
+    created(){
+      this.mostrarDatos();
+    },
     mounted (){
 
-      this.mostrarDatos();
-
-
+      
     },
     data (){
       return{
@@ -63,16 +74,37 @@
         it:0,
         currentPage:1,
         lastPage: 1,
+        totalDeuda: 0,
+        totalAbono: 0,
+        totalSaldo: 0
       }
     },
     methods: {
-       mostrarDatos(page = 1){ // Agregamos un parámetro para la página
+      calcularTotales(){
+        console.log(this.movimientos)
+        let acumuladorDeuda = 0; 
+        let acumuladorAbono = 0;
+        let acumuladorSaldo = 0;
+        for (let i = 0; i < this.movimientos.length; i++) { 
+          acumuladorDeuda += parseInt(this.movimientos[i].total_deuda);
+          acumuladorAbono += parseInt(this.movimientos[i].total_abono);
+          acumuladorSaldo += parseInt(this.movimientos[i].saldo);
+         
+        }
+        this.totalDeuda = acumuladorDeuda;
+        this.totalAbono = acumuladorAbono;
+        this.totalSaldo = acumuladorSaldo;
+      },
+
+      mostrarDatos(page = 1){ // Agregamos un parámetro para la página
                 axios
                 .get(`/contabilidad/list?page=${page}`) // Agregamos el parámetro de página en la URL
                 .then(response => {
                     this.currentPage = response.data.current_page; // Actualizamos la página actual
                     this.lastPage = response.data.last_page; // Actualizamos la última página
                     this.movimientos = response.data.data; // Actualizamos los datos de movimientos
+
+                    this.calcularTotales();
                 });
             },
   }

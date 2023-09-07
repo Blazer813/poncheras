@@ -34,7 +34,7 @@ return new class extends Migration
         });
 
         Schema::table('colaboradors', function (Blueprint $table){
-            $table->integer('idestado')->nullable()->after('id')->comment('Llave Foranea de Estado');
+            $table->integer('idestado')->nullable()->after('fcnacimiento')->comment('Llave Foranea de Estado');
             $table->foreign('idestado')->references('idestado')->on('estados');
         });
     }

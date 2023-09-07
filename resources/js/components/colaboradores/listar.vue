@@ -22,8 +22,15 @@
             <td>{{ colaborador.correo }}</td>
             <td>{{ colaborador.fcnacimiento }}</td>
             <td>
-              <button type="button" @click="editColaborador(colaborador.idcolaborador)" class="btn btn-primary">Editar</button>
-              &nbsp;&nbsp;&nbsp;<button type="button" @click="eliminarColaborador(colaborador.idcolaborador)" class="btn btn-danger">Eliminar</button>
+              <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                        <li><button type="button" style="width: 100%;" class="btn btn-success" @click="editColaborador(colaborador.idcolaborador)">Editar</button></li>
+                        <li><button type="button" style="width: 100%;" class="btn btn-danger" @click="eliminarColaborador(colaborador.idcolaborador)">Eliminar</button></li>
+                    </ul>
+              </div>
             </td>
           </tr>
         </tbody>

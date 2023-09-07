@@ -16,8 +16,15 @@
           <tr v-for="tipoponchera in tiposPonches" :key="tipoponchera.idponches">
             <td class="col-8">{{ tipoponchera.nombreponche }}</td>
             <td class="col-2">
-              <button type="button" @click="editTipoponchera(tipoponchera.idponches)" class="btn btn-primary">Editar</button>
-              &nbsp;&nbsp;&nbsp;<button type="button" @click="eliminarPonchera(tipoponchera.idponches)" class="btn btn-danger">Eliminar</button>
+              <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                        <li><button type="button" style="width: 100%;" class="btn btn-success" @click="editTipoponchera(tipoponchera.idponches)">Editar</button></li>
+                        <li><button type="button" style="width: 100%;" class="btn btn-danger" @click="eliminarPonchera(tipoponchera.idponches)">Eliminar</button></li>
+                    </ul>
+              </div>
             </td>
           </tr>
         </tbody>

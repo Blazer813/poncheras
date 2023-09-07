@@ -16,8 +16,15 @@
           <tr v-for="estadopago in estadosPagos" :key="estadopago.idestadopago">
             <td class="col-8">{{ estadopago.nomestado }}</td>
             <td class="col-2">
-              <button type="button" @click="editEstadosPagos(estadopago.idestadopago)" class="btn btn-primary">Editar</button>
-              &nbsp;&nbsp;&nbsp;<button type="button" @click="eliminarEstadoPago(estadopago.idestadopago)" class="btn btn-danger">Eliminar</button>
+              <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                        <li><button type="button" style="width: 100%;" class="btn btn-success" @click="editEstadosPagos(estadopago.idestadopago)">Editar</button></li>
+                        <li><button type="button" style="width: 100%;" class="btn btn-danger" @click="eliminarEstadoPago(estadopago.idestadopago)">Eliminar</button></li>
+                    </ul>
+              </div>
             </td>
           </tr>
         </tbody>

@@ -14609,7 +14609,7 @@ textarea.form-control-lg {
   margin-bottom: 0;
 }
 .login-content .login-box .login-form, .login-content .login-box .forget-form {
-  position: absolute;
+  position: relative;
   top: 0;
   bottom: 0;
   left: 0;
