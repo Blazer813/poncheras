@@ -14,6 +14,11 @@ class CrearUsuario
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public function handle()
+    {
+        // Lógica que se ejecutará cuando se dispare el evento
+    }
+
     /**
      * Create a new event instance.
      */

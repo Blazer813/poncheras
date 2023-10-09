@@ -13,7 +13,9 @@ class colaborador extends Model
     protected $primaryKey = 'idcolaborador';
     protected $fillable = [
         'nombrecompleto',
+        'documentoid',
         'telefono',
+        'fotoperfil',
         'correo',
         'fcnacimiento',
     ]; 

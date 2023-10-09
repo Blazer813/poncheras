@@ -28,7 +28,7 @@
                   
                   <div v-if="evento != 'abonar'" class="col">
                     <label class="form-label">Evidencia</label>
-                    <input class="form-control" type="file" @change="convertirImagen" accept="image/*">
+                    <input class="form-control" type="file" @change="handleFileChange">
                   </div>
                 </div>
                 <div class="row mb-2">
@@ -117,6 +117,7 @@ export default{
         idestado: 1,
         detanulacion:'',
         fcanulacion:'',
+        almacenArchivo: '',
       },
       all: {
         colaboradores:[],
@@ -169,6 +170,20 @@ export default{
   },
 
   methods: {
+    
+    handleFileChange(event) {
+      const selectedFile = event.target.files[0];
+      if (selectedFile) {
+        console.log(selectedFile);
+        this.data.evidencia = selectedFile;
+        // Aquí puedes realizar más acciones con el archivo si es necesario
+      } else {
+        this.data.evidencia = ''; // Si el usuario cancela la selección
+      }
+      this.mostrarImagen();
+    },
+  
+     
     convertirImagen(event) {
       this.archivo = event.target.files[0];
       console.log(this.archivo)
@@ -181,8 +196,7 @@ export default{
         const lector = new FileReader();
         console.log(lector);
         lector.onload = () => {
-          this.imagenBase64 = lector.result;
-          console.log(this.imagenBase64);
+          this.data.evidencia = lector.result;
         };
         lector.readAsDataURL(this.archivo);
       } 
@@ -430,8 +444,6 @@ export default{
         
     },
   }
-      
-
 }
-    
+
 </script>

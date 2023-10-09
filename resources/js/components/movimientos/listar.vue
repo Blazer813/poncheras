@@ -1,3 +1,12 @@
+<style>
+img{
+    height: 40px;
+    width: 45px;
+    
+}
+
+
+</style>
 <template>
     <div class="row">
         <div class="d-flex justify-content-end mb-2">
@@ -11,6 +20,7 @@
                 <th scope="col">Responsable</th>
                 <th scope="col">Causante</th>
                 <th scope="col">Descripción</th>
+                <th scope="col">Evidencia</th>
                 <th scope="col">Tipo de Ponchera</th>
                 <th scope="col">Valor Deuda</th>
                 <th scope="col">Valor Abono</th>
@@ -27,6 +37,11 @@
                     <td>{{ movimiento.colaborador.nombrecompleto }}</td>
                     <td>{{ movimiento.user.name }}</td>
                     <td>{{ movimiento.descripcion }}</td>
+                    <td><!-- Button trigger modal -->
+                        <button @click="abrirModalImagen(movimiento)" type="button" class="btn btn-primary">
+                            <img src="require('@/img/evidencia.png')" alt="">
+                        </button>
+                    </td>
                     <td>{{ movimiento.tipo_ponchera.nombreponche }}</td>
                     <td>{{ movimiento.valordeuda }}</td>
                     <td>{{ movimiento.valorabono == null || movimiento.valorabono == '' ? 'No hay abono': movimiento.valorabono}}</td>
@@ -35,26 +50,16 @@
                     <td>{{ movimiento.estado.nomestado }}</td>
                     <td>
                         <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-list"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li><button type="button" style="width: 100%;" class="btn btn-success" @click="editMovimiento(movimiento.idmovimiento)">Editar</button></li>
-                        <li><button type="button" style="width: 100%;" class="btn btn-warning" @click="abonarMovimiento(movimiento.idmovimiento)">Abonar</button></li>
-                        <li><button type="button" style="width: 100%;" class="btn btn-danger" @click="eliminarMovimiento(movimiento.idmovimiento)">Eliminar</button></li>
-                    </ul>
-                    </div>
-    <!-- <div class="btn-group btn-group-default">
-    <button class="btn btn-default" type="button"><i class="fa fa-bars" aria-hidden="true"></i></button>
-    <button style="height: 28px;" data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button"><span class="caret"></span></button>
-    <ul class="dropdown-menu" style="margin-left: -70px;">
-        <li class="btn-warning" data-toggle="tooltip" title="Editar"><a class="edit"><i class="fa fa-edit" style="color:#000000;cursor: pointer;"></i> Editar</a></li>
-        <li class="btn-primary" data-toggle="tooltip" title="Ver"><a class="ver"><i class="fa fa-print" style="color:#000000;cursor: pointer;"></i> Ver</a></li>
-        <li class="btn-danger" data-toggle="tooltip" title="Eliminar"><a class="delete"><i class="fa fa-trash" style="color:#ffffff;cursor: pointer;"></i> Eliminar</a></li>
-    </ul>
-</div> -->
-
-</td>
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-list"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                                <li><button type="button" style="width: 100%;" class="btn btn-success" @click="editMovimiento(movimiento.idmovimiento)">Editar</button></li>
+                                <li><button type="button" style="width: 100%;" class="btn btn-warning" @click="abonarMovimiento(movimiento.idmovimiento)">Abonar</button></li>
+                                <li><button type="button" style="width: 100%;" class="btn btn-danger" @click="eliminarMovimiento(movimiento.idmovimiento)">Eliminar</button></li>
+                            </ul>
+                        </div>
+                    </td>
 
                 </tr>
             </tbody>
@@ -78,16 +83,39 @@
                     </ul>
                 </nav>
             </div>
-
         </table>
-        <template>
-  <Calendar v-model:checkIn="checkIn" v-model:checkOut="checkOut" />
-</template>
+       <!-- Modal -->
+       <div class="col-6"></div>
+       <div  class="col-6">    
+           <div v-if="modalVisible" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"  aria-hidden="true">
+            
+            <!-- <div class="modal-dialog" role="document"> Antiguo <DIV >-->
+                <div  class="modal-dialog modal-dialog-centered"> <!-- Nuevo <DIV> con el selector modal-dialog-Center -->
+                
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button  @click="mostrarDatos(cerrarModalImagen)" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 </template>
 
 <script>
-// import { Calendar } from "vue-calendar-3";
+    import evidencia from './evidencia.vue'
     export default {
         mounted() {
         },
@@ -99,16 +127,27 @@
                 lastPage: 1,
                 checkIn: null,
                 checkOut: null,
+                isModalOpen: false,
+                evidenciaSeleccionada: null,
+                modalVisible: false,
             }
         },
         created(){
             this.mostrarDatos();
         },
-//         components: {
-//     Calendar,
-//   },
+        components: {
+            evidencia,
+
+        },
 
         methods: {
+            abrirModalImagen(movimiento) {
+                this.modalVisible = true;
+                $('#exampleModal').modal('show');
+            },
+            cerrarModalImagen(){
+                this.modalVisible = false;
+            },
             windowClose(){
                 window.location.reload();
             },

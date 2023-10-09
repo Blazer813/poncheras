@@ -11,11 +11,19 @@
                 <input   class="form-control" v-model="data.nombrecompleto" type="text" placeholder="Ingrese el nombre del Colaborador" maxlength="30"> 
               </div>
               <div class="col">
-                    <label class="form-label">Telefono</label>
-                    <input   class="form-control" v-model="data.telefono" type="number" placeholder="Ingrese el numero de telefono"> 
-                  </div>
+                <label class="form-label">Telefono</label>
+                <input   class="form-control" v-model="data.telefono" type="number" placeholder="Ingrese el numero de telefono"> 
+              </div>
+              <div class="col">
+                <label class="form-label">Numero de documento</label>
+                <input   class="form-control" v-model="data.documentoid" type="number" placeholder="Ingrese el numero de identificación"> 
+              </div>
             </div>
             <div class="row mb-2">
+              <div class="col">
+                <label class="form-label">Foto de Perfil</label>
+                <input class="form-control" type="file" name="file" @change="convertirImagen" accept="image/*">
+              </div>
               <div class="col">
                 <label class="form-label">Correo</label>
                 <input   class="form-control" v-model="data.correo" type="email" placeholder="Ingrese el correo electronico"> 
@@ -46,7 +54,9 @@ export default {
       data: {
         idcolaborador: '',
         nombrecompleto: '',
+        documentoid: '',
         telefono: '',
+        fotoperfil: '',
         correo: '',
         fcnacimiento: '',
       },
@@ -60,9 +70,11 @@ export default {
         crear: 1,
         actualizar: 0,
       },
-        mounted() {
-            console.log('Component mounted.')
-        }
+      imagenBase64: null,
+      archivo: null
+        // mounted() {
+        //     console.log('Component mounted.')
+        // }
 }
 
 },
@@ -85,7 +97,24 @@ created (){
 },
 
 methods: {
+  convertirImagen(event) {
+      this.archivo = event.target.files[0];
+      console.log(this.archivo)
 
+      this.mostrarImagen();
+      console.log(this.imagenBase64);
+    },
+    mostrarImagen() {
+      if (this.archivo) {
+        const lector = new FileReader();
+        console.log(lector);
+        lector.onload = () => {
+          this.data.fotoperfil = lector.result;
+          console.log(this.imagenBase64);
+        };
+        lector.readAsDataURL(this.archivo);
+      } 
+    },
   consultaColaborador(id){
     if (this.evento == 'edit'){
       this.btn.crear = false;
@@ -157,6 +186,7 @@ methods: {
   vaciarForm(){
     this.data.nombrecompleto = '';
     this.data.telefono = '';
+    this.data.fotoperfil = '';
     this.data.correo = '';
     this.data.fcnacimiento = '';
   },
@@ -209,11 +239,15 @@ methods: {
       this.validacion.boolean = false;
 
     }
+    if (this.data.documentoid == '' || this.data.documentoid == null){
+      this.validacion.title = "Documento de identificación";
+      this.validacion.texto = "No se ha asignado un numero de documento";
+      this.validacion.boolean = false;
+    }
     if (this.data.correo == '' || this.data.correo == null){
       this.validacion.title = "Correo";
       this.validacion.texto = "No se ha asignado un correo";
       this.validacion.boolean = false;
-
     }
     if (this.data.fcnacimiento == '' || this.data.fcnacimiento == null){
       this.validacion.title = "Fecha de nacimiento";

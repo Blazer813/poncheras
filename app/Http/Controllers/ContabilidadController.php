@@ -56,7 +56,7 @@ class ContabilidadController extends Controller
             'fcanulacion',
         ];
         $relacionMovimientos = [
-            'colaborador:idcolaborador,nombrecompleto',
+            'colaborador:idcolaborador,nombrecompleto,fotoperfil',
             'User:id,name',
             'tipoPonchera:idponches,nombreponche,valor',
             'estadoPago',
@@ -147,12 +147,13 @@ class ContabilidadController extends Controller
                 'm.idcolaborador', 
                 'c.nombrecompleto', 
                 'c.fcnacimiento',
+                'c.fotoperfil',
                 DB::raw('SUM(m.valordeuda) AS total_deuda'), 
                 DB::raw('SUM(m.valorabono) AS total_abono'),
                 DB::raw('SUM(m.valordeuda - m.valorabono) AS saldo')
             )
             ->join('colaboradors as c', 'm.idcolaborador', '=', 'c.idcolaborador')
-            ->groupBy('m.idcolaborador', 'c.nombrecompleto', 'c.fcnacimiento')
+            ->groupBy('m.idcolaborador', 'c.nombrecompleto', 'c.fcnacimiento', 'c.fotoperfil')
             ->paginate(10);
 
         return $consulta;

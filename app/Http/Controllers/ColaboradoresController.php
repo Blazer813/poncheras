@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\colaborador;
 use App\Models\movimiento;
+use App\Models\User;
 use DB;
 use Exception;
 
@@ -57,13 +58,25 @@ class ColaboradoresController extends Controller
         try {
             $nuevocolaborador = new colaborador();
             $nuevocolaborador->nombrecompleto = $request->nombrecompleto;
+            $nuevocolaborador->documentoid = $request->documentoid;
             $nuevocolaborador->telefono = $request->telefono;
+            $nuevocolaborador->fotoperfil = $request->fotoperfil;
             $nuevocolaborador->correo = $request->correo;
             $nuevocolaborador->fcnacimiento = $request->fcnacimiento;
 
             if (!$nuevocolaborador->save()) {
                 throw new Exception("Error al crear el colaborador", 101);
             }
+            $nuevousuario = new User();
+            $nuevousuario->name = $request->nombrecompleto;
+            $nuevousuario->email = $request->documentoid;
+
+            $ultimos4Digitos = substr($request->documentoid, -4);
+            $passwordGenerada = bcrypt($ultimos4Digitos);
+
+            $nuevousuario->password = $passwordGenerada;
+
+            $nuevousuario->save();
             $response['type'] = 'success';
             $response['title'] = 'Creacion del colaborador';
             $response['msg'] = 'Se creo el colaborador con exito';
@@ -88,6 +101,7 @@ class ColaboradoresController extends Controller
             'idcolaborador',
             'nombrecompleto',
             'telefono',
+            'fotoperfil',
             'correo',
             'fcnacimiento'
         ];
@@ -104,6 +118,7 @@ class ColaboradoresController extends Controller
                             'idcolaborador' => $value->idcolaborador,
                             'nombrecompleto' => $value->nombrecompleto,
                             'telefono' => $value->telefono,
+                            'fotoperfil' => $value->fotoperfil,
                             'correo' => $value->correo,
                             'fcnacimiento' => $value->fcnacimiento,
                         ]
@@ -119,6 +134,7 @@ class ColaboradoresController extends Controller
                         'idcolaborador' => $colaboradores->idcolaborador,
                         'nombrecompleto' => $colaboradores->nombrecompleto,
                         'telefono' => $colaboradores->telefono,
+                        'fotoperfil' => $colaborador->fotoperfil,
                         'correo' => $colaboradores->correo,
                         'fcnacimiento' => $colaboradores->fcnacimiento
                     ]
@@ -135,6 +151,7 @@ class ColaboradoresController extends Controller
             'idcolaborador',
             'nombrecompleto',
             'telefono',
+            'fotoperfil',
             'correo',
             'fcnacimiento',
         ];
@@ -164,6 +181,7 @@ class ColaboradoresController extends Controller
             $actualizarColaborador = colaborador::findOrFail($id);
             $actualizarColaborador->nombrecompleto = $request->nombrecompleto;
             $actualizarColaborador->telefono = $request->telefono;
+            $actualizarColaborador->fotoperfil = $request->fotoperfil;
             $actualizarColaborador->correo = $request->correo;
             $actualizarColaborador->fcnacimiento = $request->fcnacimiento;
 

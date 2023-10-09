@@ -9,7 +9,7 @@ use App\Http\Controllers\ColaboradoresController as Colaborador_v1;
 use App\Http\Controllers\EstadoPagosController as EstadoPago_v1;
 use App\Http\Controllers\TipoPonchesController as Tponches_v1;
 use App\Http\Controllers\ContabilidadController as Contabilidad_v1;
-use App\Http\Controllers\PanelControlController as PanelControl_v1;
+
 
 
 /*
@@ -40,7 +40,6 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('panelcontrol')->group(function(){
         Route::view('/','poncheras.panelControl.listar')->name('PanelControlListar');
-        Route::get('/list', [PanelControl_v1::class, 'list']); 
         Route::get('/obtenerDatos', [Contabilidad_v1::class, 'obtenerDatos']); 
     });
 
@@ -90,7 +89,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('v1')->group(function () {
         Route::apiResources([
-            'panelcontrol' => PanelControl_v1::class,
+            // 'panelcontrol' => PanelControl_v1::class,
             'movimientos' => Movimientos_v1::class,
             'estados' => Estados_v1::class,
             'colaborador' => Colaborador_v1::class,

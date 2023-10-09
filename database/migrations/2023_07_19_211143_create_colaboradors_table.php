@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nombrecompleto', 50)->comment('Nombre Completo');
             $table->bigInteger('documentoid')->comment('Documento de Identificacicón');
             $table->bigInteger('telefono')->comment('Numero Telefono');
+            $table->longText('fotoperfil')->nullable()->comment('Foto de Perfil');
             $table->string('correo', 50)->comment('Correo Electronico');
             $table->date('fcnacimiento')->comment('Fecha de nacimiento');
             $table->timestamps();

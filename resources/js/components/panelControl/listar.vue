@@ -136,7 +136,7 @@
                         <span class="overlay1"></span>
 
                         <div class="card-image">
-                            <img src="img/Wilmer.png" alt="" class="card-img">
+                            <img :src="movimiento.fotoperfil" alt="" class="card-img">
                         </div>
 
                     </div>

@@ -56,6 +56,15 @@ return [
             'throw' => false,
         ],
 
+        'public2' => [
+            'driver' => 'local',
+            'root' => public_path('/evidencias'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
+
     ],
 
     /*
@@ -68,7 +77,7 @@ return [
     | the locations of the links and the values should be their targets.
     |
     */
-
+    
     'links' => [
         public_path('storage') => storage_path('app/public'),
     ],
